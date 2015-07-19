@@ -18,8 +18,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    public void openSecondActivity(View view) {
-        Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+    public void gotoSecond(View view) {
+        Intent intent = new Intent(this, MainActivity2.class);
         startActivity(intent);
     }
 
@@ -38,15 +38,15 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_about) {
-            openAbout();
+        if (id == R.id.action_signIn) {
+            openSignIn();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void openAbout() {
+    public void openSignIn() {
         Intent intent = new Intent(this, MainActivity2.class);
         startActivity(intent);
     }
