@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,6 +16,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main); // load the main activity layout
         backgroundImage(findViewById(R.id.draw)); // set the background image
+        XmlReader reader = new XmlReader();
+        reader.print();
+
     }
 
     /** Set the background image depends on portrait or landscape */
