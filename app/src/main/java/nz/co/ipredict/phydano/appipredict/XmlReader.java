@@ -40,7 +40,7 @@ public class XmlReader {
             Document doc = builder.parse(conn.getInputStream());
 
             /** Read the XML by the tag name and read each of the items and create an object */
-            NodeList nodes = doc.getElementsByTagName("claims");
+            NodeList nodes = doc.getElementsByTagName("claim");
             for(int i=0; i<nodes.getLength(); i++){
                 Element element = (Element) nodes.item(i);
 
@@ -60,14 +60,25 @@ public class XmlReader {
         }catch(Exception e){
             e.printStackTrace();
         }
-
     }
 
+    /** For testing to see if the values obtain correctly from the XML */
     public void print(){
         readCurrentPrice();
         CurrentPrice p = allCurrentPrice.get(0);
-        System.out.println(p.getAttr() + p.getLast());
+        System.out.println("The attribute is " + p.getAttr());
+        System.out.println("The last is " + p.getLast());
+        System.out.println("The bid is " + p.getBid());
+        System.out.println("The ask is " + p.getAsk());
     }
+
+    /** To run the file by itself for testing purpose */
+    public static void main(String[] args) {
+        XmlReader reader = new XmlReader();
+        reader.print();
+    }
+
+    //Todo: Note that this Xml reader has not yet deal with null values.
 
 
 }

@@ -7,10 +7,10 @@ package nz.co.ipredict.phydano.appipredict;
  */
 public class CurrentPrice {
 
-    private String attr;
-    private String last;
-    private String bid;
-    private String ask;
+    private String attr; // get the stock name and date
+    private String last; // is the last trade price
+    private String bid; // is the offer price
+    private String ask; //
 
     /** A constructor taking in the stock name, last, bid and ask */
     public CurrentPrice(String attr, String last, String bid, String ask){
