@@ -16,9 +16,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main); // load the main activity layout
         backgroundImage(findViewById(R.id.draw)); // set the background image
-        XmlReader reader = new XmlReader();
-        reader.print();
-
     }
 
     /** Set the background image depends on portrait or landscape */

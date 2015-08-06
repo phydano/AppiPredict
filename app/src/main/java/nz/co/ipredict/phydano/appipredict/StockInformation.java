@@ -10,18 +10,19 @@ public class StockInformation {
     //Todo: Will need to turn 'lastTrade', 'dateCreated', and 'dateDue' into date and time format
     private String attr; // The name of the stock
     private String todaysVol; // Today's Volume
-    private String todaysChange; //
+    private String todaysChange;
     private String lastTrade; // Last trade price
     private String status; // Status whether Active or Inactive
     private String dateCreated; // Date that the stock is created
     private String dateDue; // Date that the stock is closed
     private String shortDes; // A short description of the stock
     private String longDes; // A long description of the stock
+    private String judgeStatement;
 
     /** A constructor creating stock information */
     public StockInformation(String attr, String todaysVol, String todaysChange, String lastTrade,
                             String status, String dateCreated, String dateDue, String shortDes,
-                            String longDes){
+                            String longDes, String judgeStatement){
         this.attr = attr;
         this.todaysVol = todaysVol;
         this.todaysChange = todaysChange;
@@ -31,6 +32,7 @@ public class StockInformation {
         this.dateDue = dateDue;
         this.shortDes = shortDes;
         this.longDes = longDes;
+        this.judgeStatement = judgeStatement;
     }
 
     /** Get the attribute value */
@@ -59,5 +61,8 @@ public class StockInformation {
 
     /** Get a long description of the stock */
     public String getLongDes(){return longDes;}
+
+    /** Get a judge statement of the stock */
+    public String getJudgeStatement(){return judgeStatement;}
 
 }
