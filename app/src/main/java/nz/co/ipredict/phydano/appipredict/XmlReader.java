@@ -333,7 +333,7 @@ public class XmlReader {
 
     //Todo: Note that this Xml reader has not yet deal with null values.
     //Todo: Note the short and long description import from XML has the Apostrophe error shown as &#039;
-    //Todo: Under the trade history there is no API for the price changes. 
+    //Todo: Under the trade history there is no API for the price changes.
 
 
 }
