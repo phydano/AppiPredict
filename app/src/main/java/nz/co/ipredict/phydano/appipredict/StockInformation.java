@@ -9,6 +9,9 @@ public class StockInformation {
 
     //Todo: Will need to turn 'lastTrade', 'dateCreated', and 'dateDue' into date and time format
     private String attr; // The name of the stock
+    private String last; // is the last trade price
+    private String bid; // is the offer price
+    private String ask; //
     private String todaysVol; // Today's Volume
     private String todaysChange;
     private String lastTrade; // Last trade price
@@ -20,10 +23,13 @@ public class StockInformation {
     private String judgeStatement;
 
     /** A constructor creating stock information */
-    public StockInformation(String attr, String todaysVol, String todaysChange, String lastTrade,
-                            String status, String dateCreated, String dateDue, String shortDes,
-                            String longDes, String judgeStatement){
+    public StockInformation(String attr, String last, String bid, String ask, String todaysVol,
+                            String todaysChange, String lastTrade, String status, String dateCreated,
+                            String dateDue, String shortDes, String longDes, String judgeStatement){
         this.attr = attr;
+        this.last = last;
+        this.bid = bid;
+        this.ask = ask;
         this.todaysVol = todaysVol;
         this.todaysChange = todaysChange;
         this.lastTrade = lastTrade;
@@ -37,6 +43,21 @@ public class StockInformation {
 
     /** Get the attribute value */
     public String getAttr(){return attr;}
+
+    /** Get the last value from the Current Price */
+    public String getLast(){
+        return this.last;
+    }
+
+    /** Get the bid value from the Current Price */
+    public String getBid(){
+        return this.bid;
+    }
+
+    /** Get the ask value from the Current Price */
+    public String getAsk(){
+        return this.ask;
+    }
 
     /** Get Today's volume */
     public String getTodaysVol(){return todaysVol;}
