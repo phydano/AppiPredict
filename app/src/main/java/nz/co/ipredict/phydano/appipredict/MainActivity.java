@@ -55,12 +55,22 @@ public class MainActivity extends AppCompatActivity {
             openSignIn();
             return true;
         }
+        else if(id == R.id.action_browse) {
+            openPrediction();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
     /** Load the log in page */
     public void openSignIn() {
         Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
+
+    /** Load the Browse Prediction Page */
+    public void openPrediction() {
+        Intent intent = new Intent(this, BrowsePrediction.class);
         startActivity(intent);
     }
 }

@@ -25,11 +25,12 @@ public class XmlReader {
     ArrayList<StockInformation> stockInfo = new ArrayList<StockInformation>();
     ArrayList<TradeHistory> tradeHistory = new ArrayList<TradeHistory>();
     ArrayList<TradeHistory> stockHistory = new ArrayList<TradeHistory>();
+    ArrayList<BookAndStock> book = new ArrayList<BookAndStock>();
 
     public XmlReader(){} /** No arguments in the constructor */
 
     /** Read the XML file from the website on the Current Price
-     * Code is from:
+     * Tutorial code is from:
      * http://stackoverflow.com/questions/8897459/parsing-xml-from-website-to-an-android-device
      * */
     public void readCurrentPrice(String info){
@@ -71,9 +72,8 @@ public class XmlReader {
         }
     }
 
-    /** Read the XML file from the website on the Current Price
-     * Code is from:
-     * http://stackoverflow.com/questions/8897459/parsing-xml-from-website-to-an-android-device
+    /** Read the XML file from the website on the Stock Information
+     *
      * */
     public void readStockInfo(String info){
 
@@ -150,9 +150,8 @@ public class XmlReader {
         }
     }
 
-    /** Read the XML file from the website on the Current Price
-     * Code is from:
-     * http://stackoverflow.com/questions/8897459/parsing-xml-from-website-to-an-android-device
+    /** Read the XML file from the website on Trade History
+     * It takes into 2 arguments, one is the number of days and the other is the stock name
      * */
     public void readTradeHistory(int day, String info){
 
@@ -241,18 +240,59 @@ public class XmlReader {
         }
     }
 
+    public void readBookAndStock(String info){
+        NodeList quantityN, priceN, stockN;
+        Element quantityE, priceE, stockE;
+        String orderType;
+
+        try{
+            /** Open the connection to the XML online */
+            URL url = new URL("https://www.ipredict.co.nz/app.php?do=api&action=book&stock=" + info);
+            URLConnection conn = url.openConnection();
+
+            /** Build the document */
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document doc = builder.parse(conn.getInputStream());
+
+            /** Read the XML by the tag name and read each of the items and create an object */
+            NodeList nodes = doc.getElementsByTagName("order");
+            stockN = doc.getElementsByTagName("stock");
+            stockE = (Element) stockN.item(0);
+
+            for(int i=0; i<nodes.getLength(); i++){
+                Element element = (Element) nodes.item(i);
+
+                orderType = element.getAttribute("type");
+                quantityN = element.getElementsByTagName("quantity");
+                priceN = element.getElementsByTagName("price");
+
+                quantityE = (Element) quantityN.item(0);
+                priceE = (Element) priceN.item(0);
+
+                BookAndStock b = new BookAndStock(stockE.getTextContent(), orderType,
+                        quantityE.getTextContent(), priceE.getTextContent());
+                book.add(b); // add into the array list
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
     /** Read the XML by providing the stock information */
     public void print(){
         readCurrentPrice("OCR.10DEC15.D25");
-        readCurrentPrice("OCR.10DEC15.D50");
+        readCurrentPrice("OCR.10SEP15.D25");
         readStockInfo("OCR.10DEC15.D25");
-        readStockInfo("OCR.10DEC15.D50");
-        readTradeHistory(2, "91.21AUG15.HIGH");
+        readStockInfo("OCR.10SEP15.D25");
+        readTradeHistory(1, "OCR.10SEP15.D25");
+        readBookAndStock("OCR.10SEP15.D25");
         /** Below is just print statement to test the code */
         System.out.println("The Current Price size is " + allCurrentPrice.size());
         System.out.println("The Stock info size is " + stockInfo.size());
         System.out.println("The Trade History size is " + tradeHistory.size());
         System.out.println("The Stock History size is " + stockHistory.size());
+        System.out.println("The book size is " + book.size());
 
         /** Loop through all the current price items in the array list and print */
         for(CurrentPrice p: allCurrentPrice) {
@@ -310,19 +350,43 @@ public class XmlReader {
             }
         }
 
+        /**Find total stocks trade */
+        int totalStocks = 0;
+        for(TradeHistory t: tradeHistory){
+            int temp = Integer.parseInt(t.getQuantity());
+            totalStocks += temp;
+        }
+
         /** Add all the stocks price together */
         double sum = 0;
         DecimalFormat newFormat = new DecimalFormat("#.####");
         for(TradeHistory t : tradeHistory){
-            sum += Double.parseDouble(t.getPrice());
+            int temp = Integer.parseInt(t.getQuantity());
+            sum += Double.parseDouble(t.getPrice()) * temp;
         }
         double sumPrice =  Double.valueOf(newFormat.format(sum));
 
         /** Print statement for testing */
-        System.out.println("Number of stocks: " + tradeHistory.size());
+        System.out.println("Number of stocks: " + totalStocks);
         System.out.println("The max price of the stock is: " + max);
         System.out.println("The min price of the stock is: " + min);
         System.out.println("The total price of stock is: " + sumPrice);
+
+        /** Loop through the buy and sell of the stock */
+        for(BookAndStock b: book){
+            if(b.getOrderType().equals("sell")) {
+                System.out.println("The Attribute is: " + b.getAttr());
+                System.out.println("Sell Order Type: " + b.getOrderType());
+                System.out.println("Quantity: " + b.getQuantiity());
+                System.out.println("Price: " + b.getPrice() + "\n");
+            }
+            else{
+                System.out.println("The Attribute is: " + b.getAttr());
+                System.out.println("Buy Order Type: " + b.getOrderType());
+                System.out.println("Quantity: " + b.getQuantiity());
+                System.out.println("Price: " + b.getPrice() + "\n");
+            }
+        }
     }
 
     /** To run the file by itself for testing purpose */
@@ -334,6 +398,8 @@ public class XmlReader {
     //Todo: Note that this Xml reader has not yet deal with null values.
     //Todo: Note the short and long description import from XML has the Apostrophe error shown as &#039;
     //Todo: Under the trade history there is no API for the price changes.
+    //Todo: The rankings and the order book API not working (502 Bad Gateway)
+    // Note: The App supports from Sdk 11 which is HoneyComb onwards.
 
 
 }

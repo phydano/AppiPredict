@@ -4,22 +4,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class MainActivity2 extends MainActivity {
+public class BrowsePrediction extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_activity2);
+        setContentView(R.layout.activity_browse_prediction);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main_activity2, menu);
+        getMenuInflater().inflate(R.menu.menu_browse_prediction, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
