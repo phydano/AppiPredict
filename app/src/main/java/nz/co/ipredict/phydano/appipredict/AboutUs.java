@@ -24,7 +24,7 @@ public class AboutUs extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_about_us, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
