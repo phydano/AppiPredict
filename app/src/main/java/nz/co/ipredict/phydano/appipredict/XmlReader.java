@@ -9,8 +9,8 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -21,15 +21,18 @@ import javax.xml.parsers.DocumentBuilderFactory;
  */
 public class XmlReader {
 
-    ArrayList<CurrentPrice> allCurrentPrice = new ArrayList<CurrentPrice>();
-    ArrayList<StockInformation> stockInfo = new ArrayList<StockInformation>();
-    ArrayList<TradeHistory> tradeHistory = new ArrayList<TradeHistory>();
-    ArrayList<TradeHistory> stockHistory = new ArrayList<TradeHistory>();
-    ArrayList<BookAndStock> book = new ArrayList<BookAndStock>();
+    ArrayList<CurrentPrice> allCurrentPrice = new ArrayList<CurrentPrice>(); // store the current price of the stock
+    ArrayList<StockInformation> stockInfo = new ArrayList<StockInformation>(); // store stock information
+    ArrayList<TradeHistory> tradeHistory = new ArrayList<TradeHistory>(); // store trade history
+    ArrayList<TradeHistory> stockHistory = new ArrayList<TradeHistory>(); // store stock history
+    ArrayList<BookAndStock> book = new ArrayList<BookAndStock>(); // store book on sell and buy
+    Pattern br = Pattern.compile("\\[br]"); // the newline pattern in HTML
+    Pattern apostrophe = Pattern.compile("&#039;"); // the apostrophe in HTML
 
     public XmlReader(){} /** No arguments in the constructor */
 
-    /** Read the XML file from the website on the Current Price
+    /**
+     * Read the XML file from the website on the Current Price
      * Tutorial code is from:
      * http://stackoverflow.com/questions/8897459/parsing-xml-from-website-to-an-android-device
      * */
@@ -72,8 +75,8 @@ public class XmlReader {
         }
     }
 
-    /** Read the XML file from the website on the Stock Information
-     *
+    /**
+     * Read the XML file from the website on the Stock Information
      * */
     public void readStockInfo(String info){
 
@@ -125,9 +128,11 @@ public class XmlReader {
                 longDes = (Element) stringLongDes.item(0);
                 judgeStatement = (Element) stringJudgeSta.item(0);
 
-                /** Turn the String of the date and time to a proper format before display
+                /**
+                 * Turn the String of the date and time to a proper format before display
                  * The API given time is in 00:00:00 so I ignored the time for now
-                 * But the date is correct */
+                 * But the date is correct
+                 * */
                 SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
                 SimpleDateFormat output = new SimpleDateFormat("dd-MMM-yyyy");
                 Date d = input.parse(dateCreated.getTextContent());
@@ -137,11 +142,21 @@ public class XmlReader {
                 d = input.parse(lastTrade.getTextContent());
                 String lastTradereformat = output.format(d);
 
+                /** Changes the breaking [br] and apostrophe in a correct format */
+                Matcher matcher = br.matcher(judgeStatement.getTextContent());
+                String judgeS = matcher.replaceAll("\n");
+                matcher = apostrophe.matcher(judgeS);
+                String correctJudgeStatement = matcher.replaceAll("'");
+                matcher = apostrophe.matcher(longDes.getTextContent());
+                String correctLongDes = matcher.replaceAll("'");
+                matcher = apostrophe.matcher(shortDes.getTextContent());
+                String correctShortDes = matcher.replaceAll("'");
+
                 StockInformation p = new StockInformation(stringClaim, valueLast.getTextContent(),
                         valueBid.getTextContent(), valueAsk.getTextContent(), todayVol.getTextContent(),
                         todayChange.getTextContent(), lastTradereformat, status.getTextContent(),
-                        dateCreatedreformat, dateDuereformat, shortDes.getTextContent(),
-                        longDes.getTextContent(), judgeStatement.getTextContent());
+                        dateCreatedreformat, dateDuereformat, correctShortDes,
+                        correctLongDes, correctJudgeStatement);
                 stockInfo.add(p); // add into the array list
                 //  System.out.println(dateDuereformat);
             }
@@ -150,7 +165,8 @@ public class XmlReader {
         }
     }
 
-    /** Read the XML file from the website on Trade History
+    /**
+     * Read the XML file from the website on Trade History
      * It takes into 2 arguments, one is the number of days and the other is the stock name
      * */
     public void readTradeHistory(int day, String info){
@@ -178,8 +194,10 @@ public class XmlReader {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
             SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss a");
 
-            /** Read the XML by the tag name and read each of the items and create an object */
-            /** Read the trade history */
+            /**
+             * Read the XML by the tag name and read each of the items and create an object
+             * Read the trade history
+             * */
             NodeList nodes = doc.getElementsByTagName("trade");
             for(int i=0; i<nodes.getLength(); i++){
                 Element element = (Element) nodes.item(i);
@@ -240,6 +258,9 @@ public class XmlReader {
         }
     }
 
+    /**
+     * Read the order book which contains sell and buy of the stock
+     * */
     public void readBookAndStock(String info){
         NodeList quantityN, priceN, stockN;
         Element quantityE, priceE, stockE;
@@ -279,127 +300,190 @@ public class XmlReader {
         }
     }
 
-    /** Read the XML by providing the stock information */
-    public void print(){
+    public void printWithExceptionCheck(){
+        try {
+            readCurrentPrice("OCR.10DEC15.D25");
+            System.out.println(allCurrentPrice.get(0).getLast());
+        }catch (Exception e){
+            System.out.println("The stock appears to be no longer available");
+        }
+    }
+
+    /** Loop through all the current price items in the array list and print */
+    public void printCurrentprice(){
+        if(allCurrentPrice.size() > 0) {
+            for (CurrentPrice p : allCurrentPrice) {
+                System.out.println("The attribute is " + p.getAttr());
+                System.out.println("The last is " + p.getLast());
+                System.out.println("The bid is " + p.getBid());
+                System.out.println("The ask is " + p.getAsk() + "\n");
+            }
+        }
+        else System.out.println("The stock appears to be no longer available");
+    }
+
+    /** Loop through all the stock information in the array list and print */
+    public void printStockInformation(){
+        if(stockInfo.size() > 0){
+            for(StockInformation s: stockInfo){
+                System.out.println("The attribute is " + s.getAttr());
+                System.out.println("The last is " + s.getLast());
+                System.out.println("The bid is " + s.getBid());
+                System.out.println("The ask is " + s.getAsk());
+                System.out.println("The volume is " + s.getTodaysVol());
+                System.out.println("The Change is " + s.getTodaysChange());
+                System.out.println("The last trade is " + s.getLastTrade());
+                System.out.println("The status is " + s.getStatus());
+                System.out.println("The date created is " + s.getDateCreated());
+                System.out.println("The date closed is " + s.getDateDue());
+                System.out.println("Short Description: " + s.getShortDes());
+                System.out.println("Long Description: " + s.getLongDes());
+                System.out.println("Judge Statment: " + s.getJudgeStatement());
+            }
+        }
+        else System.out.println("The stock appears to be no longer available");
+    }
+
+    /** Loop through all the trade history for a particular stock and print it */
+    public void printTradeHistory(){
+        if(tradeHistory.size() > 0) {
+            for (TradeHistory t : tradeHistory) {
+                System.out.println("The attribute is " + t.getAttr());
+                System.out.println("The price is " + t.getPrice());
+                System.out.println("The date is " + t.getDate());
+                System.out.println("The time is " + t.getTime());
+                System.out.println("The quantity is " + t.getQuantity() + "\n");
+            }
+
+            /** Loop through the trade history to get the stock information */
+            for (TradeHistory s : stockHistory) {
+                System.out.println("The current time is " + s.getCurrentTime());
+                System.out.println("The start time is " + s.getStartTime());
+                System.out.println("The end time is " + s.getEndTime() + "\n");
+            }
+        }
+        else System.out.println("The stock appears to be no longer available");
+    }
+
+    /** Loop through the buy and sell of the stock */
+    public void booking(){
+        if(book.size() > 0){
+            for(BookAndStock b: book){
+                if(b.getOrderType().equals("sell")) {
+                    System.out.println("The Attribute is: " + b.getAttr());
+                    System.out.println("Sell Order Type: " + b.getOrderType());
+                    System.out.println("Quantity: " + b.getQuantiity());
+                    System.out.println("Price: " + b.getPrice() + "\n");
+                }
+                else{
+                    System.out.println("The Attribute is: " + b.getAttr());
+                    System.out.println("Buy Order Type: " + b.getOrderType());
+                    System.out.println("Quantity: " + b.getQuantiity());
+                    System.out.println("Price: " + b.getPrice() + "\n");
+                }
+            }
+        }
+        else System.out.println("The stock appears to be no longer available");
+    }
+
+    /** Find the maximum stock trade price */
+    public double maxStockPrice(){
+        double max = 0;
+        if(tradeHistory.size() > 0){
+            max = Double.parseDouble(tradeHistory.get(0).getPrice());
+            for (int i = 1; i < tradeHistory.size(); i++) {
+                if (Double.parseDouble(tradeHistory.get(i).getPrice()) > max) {
+                    max = Double.parseDouble(tradeHistory.get(i).getPrice());
+                }
+            }
+            System.out.println("The max price of the stock is: " + max);
+            return max;
+        }
+        else System.out.println("The stock appears to be no longer available");
+        return max;
+    }
+
+    /** Find the minimum stock trade price */
+    public double minStockPrice(){
+        double min = 0;
+        if(tradeHistory.size() > 0) {
+            min = Double.parseDouble(tradeHistory.get(0).getPrice());
+            for (int i = 1; i < tradeHistory.size(); i++) {
+                if (Double.parseDouble(tradeHistory.get(i).getPrice()) < min) {
+                    min = Double.parseDouble(tradeHistory.get(i).getPrice());
+                }
+            }
+            System.out.println("The min price of the stock is: " + min);
+            return min;
+        }
+        else System.out.println("The stock appears to be no longer available");
+        return min;
+    }
+
+    /**Find total stocks trade */
+    public int totalStocks(){
+        int totalStocks = 0;
+        if(tradeHistory.size() > 0) {
+            for (TradeHistory t : tradeHistory) {
+                int temp = Integer.parseInt(t.getQuantity());
+                totalStocks += temp;
+            }
+            System.out.println("Number of stocks: " + totalStocks);
+            return totalStocks;
+        }
+        else System.out.println("The stock appears to be no longer available");
+        return totalStocks;
+    }
+
+    /** Add all the stocks price together */
+    public double sumStockPrice(){
+        double sum = 0;
+        if(tradeHistory.size() > 0){
+            DecimalFormat newFormat = new DecimalFormat("#.####");
+            for(TradeHistory t : tradeHistory){
+                int temp = Integer.parseInt(t.getQuantity());
+                sum += Double.parseDouble(t.getPrice()) * temp;
+            }
+            double sumPrice =  Double.valueOf(newFormat.format(sum));
+            System.out.println("The total price of stock is: " + sumPrice);
+            return sumPrice;
+        }
+        else System.out.println("The stock appears to be no longer available");
+        return sum;
+    }
+
+    /** Check the size of the arrays */
+    public void arraySize(){
+        System.out.println("The Current Price size is " + allCurrentPrice.size());
+        System.out.println("The Stock info size is " + stockInfo.size());
+        System.out.println("The Trade History size is " + tradeHistory.size());
+        System.out.println("The Stock History size is " + stockHistory.size());
+        System.out.println("The book size is " + book.size());
+    }
+
+    /**
+     * Read the XML by providing the stock information
+     * This should list all of the stocks
+     * */
+    public void readXML(){
         readCurrentPrice("OCR.10DEC15.D25");
         readCurrentPrice("OCR.10SEP15.D25");
         readStockInfo("OCR.10DEC15.D25");
         readStockInfo("OCR.10SEP15.D25");
         readTradeHistory(1, "OCR.10SEP15.D25");
         readBookAndStock("OCR.10SEP15.D25");
-        /** Below is just print statement to test the code */
-        System.out.println("The Current Price size is " + allCurrentPrice.size());
-        System.out.println("The Stock info size is " + stockInfo.size());
-        System.out.println("The Trade History size is " + tradeHistory.size());
-        System.out.println("The Stock History size is " + stockHistory.size());
-        System.out.println("The book size is " + book.size());
-
-        /** Loop through all the current price items in the array list and print */
-        for(CurrentPrice p: allCurrentPrice) {
-            //CurrentPrice p = allCurrentPrice.get(0);
-            System.out.println("The attribute is " + p.getAttr());
-            System.out.println("The last is " + p.getLast());
-            System.out.println("The bid is " + p.getBid());
-            System.out.println("The ask is " + p.getAsk() + "\n");
-        }
-
-        /** Loop through all the stock information in the array list and print */
-        for(StockInformation s: stockInfo){
-            System.out.println("The attribute is " + s.getAttr());
-            System.out.println("The last is " + s.getLast());
-            System.out.println("The bid is " + s.getBid());
-            System.out.println("The ask is " + s.getAsk());
-            System.out.println("The volume is " + s.getTodaysVol());
-            System.out.println("The Change is " + s.getTodaysChange());
-            System.out.println("The last trade is " + s.getLastTrade());
-            System.out.println("The status is " + s.getStatus());
-            System.out.println("The date created is " + s.getDateCreated());
-            System.out.println("The date closed is " + s.getDateDue());
-            System.out.println("Short Description: " + s.getShortDes());
-            System.out.println("Long Description: " + s.getLongDes());
-            System.out.println("Judge Statment: " + s.getJudgeStatement() + "\n");
-        }
-
-        /** Loop through all the trade history for a particular stock and print it */
-        for(TradeHistory t: tradeHistory){
-            System.out.println("The attribute is " + t.getAttr());
-            System.out.println("The price is " + t.getPrice());
-            System.out.println("The date is " + t.getDate());
-            System.out.println("The time is " + t.getTime());
-            System.out.println("The quantity is " + t.getQuantity() + "\n");
-        }
-        for(TradeHistory s: stockHistory){
-            System.out.println("The current time is " + s.getCurrentTime());
-            System.out.println("The start time is " + s.getStartTime());
-            System.out.println("The end time is " + s.getEndTime() + "\n");
-        }
-
-        /** Find the maximum stock trade price */
-        double max = Double.parseDouble(tradeHistory.get(0).getPrice());
-        for (int i = 1; i < tradeHistory.size(); i++) {
-            if (Double.parseDouble(tradeHistory.get(i).getPrice()) > max) {
-                max = Double.parseDouble(tradeHistory.get(i).getPrice());
-            }
-        }
-
-        /** Find the minimum stock trade price */
-        double min = Double.parseDouble(tradeHistory.get(0).getPrice());
-        for (int i = 1; i < tradeHistory.size(); i++) {
-            if (Double.parseDouble(tradeHistory.get(i).getPrice()) < min) {
-                min = Double.parseDouble(tradeHistory.get(i).getPrice());
-            }
-        }
-
-        /**Find total stocks trade */
-        int totalStocks = 0;
-        for(TradeHistory t: tradeHistory){
-            int temp = Integer.parseInt(t.getQuantity());
-            totalStocks += temp;
-        }
-
-        /** Add all the stocks price together */
-        double sum = 0;
-        DecimalFormat newFormat = new DecimalFormat("#.####");
-        for(TradeHistory t : tradeHistory){
-            int temp = Integer.parseInt(t.getQuantity());
-            sum += Double.parseDouble(t.getPrice()) * temp;
-        }
-        double sumPrice =  Double.valueOf(newFormat.format(sum));
-
-        /** Print statement for testing */
-        System.out.println("Number of stocks: " + totalStocks);
-        System.out.println("The max price of the stock is: " + max);
-        System.out.println("The min price of the stock is: " + min);
-        System.out.println("The total price of stock is: " + sumPrice);
-
-        /** Loop through the buy and sell of the stock */
-        for(BookAndStock b: book){
-            if(b.getOrderType().equals("sell")) {
-                System.out.println("The Attribute is: " + b.getAttr());
-                System.out.println("Sell Order Type: " + b.getOrderType());
-                System.out.println("Quantity: " + b.getQuantiity());
-                System.out.println("Price: " + b.getPrice() + "\n");
-            }
-            else{
-                System.out.println("The Attribute is: " + b.getAttr());
-                System.out.println("Buy Order Type: " + b.getOrderType());
-                System.out.println("Quantity: " + b.getQuantiity());
-                System.out.println("Price: " + b.getPrice() + "\n");
-            }
-        }
     }
 
     /** To run the file by itself for testing purpose */
     public static void main(String[] args) {
         XmlReader reader = new XmlReader();
-        reader.print();
+        //reader.print();
+        reader.printWithExceptionCheck();
     }
 
     //Todo: Note that this Xml reader has not yet deal with null values.
-    //Todo: Note the short and long description import from XML has the Apostrophe error shown as &#039;
     //Todo: Under the trade history there is no API for the price changes.
-    //Todo: The rankings and the order book API not working (502 Bad Gateway)
+    //Todo: The rankings not working (502 Bad Gateway) - waiting for the new API
+    //Todo: Set a connection timeout as there are times when website is down
     // Note: The App supports from Sdk 11 which is HoneyComb onwards.
-
-
 }

@@ -59,6 +59,10 @@ public class MainActivity extends AppCompatActivity {
             openPrediction();
             return true;
         }
+        else if(id == R.id.action_about) {
+            openAboutUs();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -71,6 +75,12 @@ public class MainActivity extends AppCompatActivity {
     /** Load the Browse Prediction Page */
     public void openPrediction() {
         Intent intent = new Intent(this, BrowsePrediction.class);
+        startActivity(intent);
+    }
+
+    /** Load the about us page */
+    public void openAboutUs() {
+        Intent intent = new Intent(this, AboutUs.class);
         startActivity(intent);
     }
 }

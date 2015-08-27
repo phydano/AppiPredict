@@ -46,6 +46,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="nz.co.ipredict.phydano.appipredict.MainActivity" />
         </activity>
+        <activity
+            android:name=".AboutUs"
+            android:label="@string/title_activity_about_us"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="nz.co.ipredict.phydano.appipredict.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

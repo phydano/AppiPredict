@@ -16,4 +16,15 @@
     <string name="content">Coming Soon...?</string>
     <string name="second">Go To Second Activity</string>
     <string name="title_activity_browse_prediction">BrowsePrediction</string>
+    <string name="title_activity_about_us">AboutUs</string>
+    <string name="about_us_description">
+        Established in 2008, iPredict ran as a political prediction market during the eight weeks
+        prior to the election that year. It proved more accurate than three quarters of all
+        political polls published in the run up to the election, confirming the effectiveness of
+        money prediction markets.\n\n Since then, iPredict has accumulated over 4000 traders and
+        has launched more than 7000 contracts, covering a wide variety of topics, from monthly gold
+        prices, to the discovery of extraterrestrial life. \n\n So, put your money where your mouth
+        is and begin trading today!
+
+    </string>
 </resources>
