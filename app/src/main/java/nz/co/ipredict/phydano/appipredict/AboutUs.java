@@ -23,7 +23,7 @@ public class AboutUs extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_about_us, menu);
         return super.onCreateOptionsMenu(menu);
-        
+
     }
 
     @Override
