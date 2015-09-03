@@ -9,12 +9,12 @@
     tools:context="nz.co.ipredict.phydano.appipredict.AboutUs">
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:stretchColumns="1">
 
             <ImageView
@@ -24,49 +24,129 @@
                 android:src="@drawable/blueportrait" />
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/textViewAboutUs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:paddingTop="@dimen/activity_vertical_margin"
-                android:text="@string/action_about"
+                android:text="ABOUT US"
                 android:textColor="#ffffff"
-                android:textSize="40sp"
+                android:textSize="35sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentTop="true"
+                android:id="@+id/textViewAboutUsContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewAboutUs"
                 android:layout_gravity="fill_horizontal"
                 android:gravity="center_horizontal"
                 android:lineSpacingExtra="2.5dp"
+                android:paddingTop="15dp"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="80dp"
                 android:text="@string/about_us_description"
                 android:textColor="#ffffff"
                 android:textStyle="bold" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignLeft="@+id/textView"
-                android:layout_alignParentTop="true"
-                android:layout_alignStart="@+id/textView"
-                android:paddingTop="400dp"
-                android:text="People"
-                android:textColor="#ffffff"
+                android:id="@+id/textViewPeople"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewAboutUsContent"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="70dp"
+                android:text="PEOPLE"
+                android:textColor="#000000"
                 android:textSize="40sp"
                 android:textStyle="bold" />
 
-            <ImageView
+            <LinearLayout
+                android:id="@+id/firstLinear"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_below="@+id/textViewPeople"
+                android:weightSum="2">
 
-                />
+                <ImageView
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/blank_image" />
 
+                <ImageView
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/blank_image" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/firstLinear"
+                android:weightSum="2">
+
+            <ImageView
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/blank_image" />
+
+            <ImageView
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/blank_image" />
+            </LinearLayout>
+
+
+            <!--
+            <ImageView
+                android:id="@+id/firstImageLeft"
+                android:layout_marginTop="25dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginLeft="25dp"
+                android:layout_width="100dp"
+                android:layout_below="@+id/textViewPeople"
+                android:layout_height="100dp"
+                android:src="@drawable/blank_image" />
+
+            <ImageView
+                android:id="@+id/firstImageRight"
+                android:layout_width="100dp"
+                android:layout_below="@+id/textViewPeople"
+                android:layout_marginTop="25dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginLeft="25dp"
+                android:layout_toRightOf="@+id/firstImageLeft"
+                android:layout_toEndOf="@+id/firstImageLeft"
+                android:layout_height="100dp"
+                android:src="@drawable/blank_image" />
+
+            <ImageView
+                android:id="@+id/SecondImageLeft"
+                android:layout_marginTop="25dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginLeft="25dp"
+                android:layout_width="100dp"
+                android:layout_below="@+id/firstImageLeft"
+                android:layout_height="100dp"
+                android:src="@drawable/blank_image" />
+
+            <ImageView
+                android:id="@+id/SecondImageRight"
+                android:layout_width="100dp"
+                android:layout_below="@+id/firstImageRight"
+                android:layout_marginTop="25dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginLeft="25dp"
+                android:layout_toRightOf="@+id/SecondImageLeft"
+                android:layout_toEndOf="@+id/SecondImageLeft"
+                android:layout_height="100dp"
+                android:src="@drawable/blank_image" />
+                -->
 
         </RelativeLayout>
     </ScrollView>
