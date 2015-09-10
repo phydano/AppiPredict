@@ -18,6 +18,7 @@
             android:stretchColumns="1">
 
             <ImageView
+                android:id="@+id/firstBackground"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
@@ -54,9 +55,8 @@
                 android:id="@+id/textViewPeople"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/textViewAboutUsContent"
+                android:layout_below="@+id/firstBackground"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="70dp"
                 android:text="PEOPLE"
                 android:textColor="#000000"
                 android:textSize="40sp"
@@ -83,70 +83,89 @@
 
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/secondLinear"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/firstLinear"
                 android:weightSum="2">
 
-            <ImageView
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:src="@drawable/blank_image" />
+                <ImageView
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/blank_image" />
 
-            <ImageView
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:src="@drawable/blank_image" />
+                <ImageView
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/blank_image" />
             </LinearLayout>
 
-
-            <!--
             <ImageView
-                android:id="@+id/firstImageLeft"
-                android:layout_marginTop="25dp"
-                android:layout_marginStart="25dp"
-                android:layout_marginLeft="25dp"
-                android:layout_width="100dp"
-                android:layout_below="@+id/textViewPeople"
-                android:layout_height="100dp"
-                android:src="@drawable/blank_image" />
+                android:layout_below="@+id/secondLinear"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/blueportrait" />
 
-            <ImageView
-                android:id="@+id/firstImageRight"
-                android:layout_width="100dp"
-                android:layout_below="@+id/textViewPeople"
-                android:layout_marginTop="25dp"
-                android:layout_marginStart="25dp"
-                android:layout_marginLeft="25dp"
-                android:layout_toRightOf="@+id/firstImageLeft"
-                android:layout_toEndOf="@+id/firstImageLeft"
-                android:layout_height="100dp"
-                android:src="@drawable/blank_image" />
+            <TextView
+                android:id="@+id/textContactUs"
+                android:layout_below="@+id/secondLinear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:text="CONTACT US"
+                android:textColor="#ffffff"
+                android:textSize="35sp"
+                android:textStyle="bold" />
 
-            <ImageView
-                android:id="@+id/SecondImageLeft"
-                android:layout_marginTop="25dp"
-                android:layout_marginStart="25dp"
-                android:layout_marginLeft="25dp"
-                android:layout_width="100dp"
-                android:layout_below="@+id/firstImageLeft"
-                android:layout_height="100dp"
-                android:src="@drawable/blank_image" />
+            <TextView
+                android:layout_below="@+id/textContactUs"
+                android:id="@+id/email"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email:"
+                android:textColor="#ffffff"
+                android:paddingTop="15dp"/>
 
-            <ImageView
-                android:id="@+id/SecondImageRight"
-                android:layout_width="100dp"
-                android:layout_below="@+id/firstImageRight"
-                android:layout_marginTop="25dp"
-                android:layout_marginStart="25dp"
-                android:layout_marginLeft="25dp"
-                android:layout_toRightOf="@+id/SecondImageLeft"
-                android:layout_toEndOf="@+id/SecondImageLeft"
-                android:layout_height="100dp"
-                android:src="@drawable/blank_image" />
-                -->
+            <EditText
+                android:layout_below="@+id/email"
+                android:id="@+id/email_address"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/email_hint"
+                android:inputType="textEmailAddress"
+                android:textColor="#ffffff"/>
+
+            <TextView
+                android:layout_below="@+id/email_address"
+                android:id="@+id/messageContent"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Message:"
+                android:textColor="#ffffff"
+                android:paddingTop="15dp"/>
+
+            <EditText
+                android:layout_below="@+id/messageContent"
+                android:id="@+id/message"
+                android:layout_width="fill_parent"
+                android:layout_height="250dp"
+                android:hint="@string/message_hint"
+                android:inputType="textEmailAddress"
+                android:textColor="#ffffff"/>
+
+            <Button
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/message"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="@string/submit_message"
+                android:onClick="submitMessage" />
 
         </RelativeLayout>
     </ScrollView>
