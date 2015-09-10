@@ -14,10 +14,8 @@
     <string name="second_activity_title">Second Activity</string>
     <string name="content">Coming Soon...?</string>
     <string name="second">Go To Second Activity</string>
-    <string name="title_activity_browse_prediction">BrowsePrediction</string>
-    <string name="title_activity_about_us">AboutUs</string>
-    <string name="email_hint">Please Enter Email Address</string>
-    <string name="message_hint">Please Enter the Message</string>
+    <string name="title_activity_browse_prediction">Browse Prediction</string>
+    <string name="title_activity_about_us">About Us</string>
     <string name="submit_message">Submit</string>
     <string name="about_us_description">
         Established in 2008, iPredict ran as a political prediction market during the eight weeks
