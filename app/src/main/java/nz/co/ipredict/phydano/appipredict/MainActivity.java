@@ -34,6 +34,13 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    //Todo: delete this afterwards as this is just the front page button to direct to about us page
+    /** Go to the second activity which is the 'Trading' at the front screen */
+    public void gotoAboutUs(View view) {
+        Intent intent = new Intent(this, AboutUs.class);
+        startActivity(intent);
+    }
+
     /** Create the action menu */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
