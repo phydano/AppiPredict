@@ -1,26 +1,77 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="0dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp"
     tools:context=".MainActivity">
 
-    <ScrollView
-        android:id="@+id/scrollView1"
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent" >
-    <ImageView
-        android:id="@+id/draw"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:scaleType="fitXY"
-        android:scrollbars="vertical"
-        />
-    </ScrollView>
+        android:layout_height="match_parent">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/second"
-        android:onClick="gotoAboutUs" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:stretchColumns="1">
+
+            <ImageView
+                android:id="@+id/firstBackground"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/blueportrait" />
+
+            <TextView
+                android:id="@+id/textViewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="fill_horizontal"
+                android:layout_marginLeft="50dp"
+                android:layout_marginStart="50dp"
+                android:gravity="center_horizontal"
+                android:lineSpacingExtra="2.5dp"
+                android:paddingTop="100dp"
+                android:text="@string/frontpage"
+                android:textColor="#ffffff"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+
+            <Button
+                android:layout_below="@+id/textViewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@layout/mybutton"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_centerHorizontal="true"
+                android:text="@string/start"
+                android:textSize="10sp"
+                android:onClick="gotoAboutUs"
+                />
+
+            <TextView
+                android:id="@+id/textViewPeople"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/firstBackground"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:text="WHAT IS IPREDICT?"
+                android:textColor="#000000"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>
+
+

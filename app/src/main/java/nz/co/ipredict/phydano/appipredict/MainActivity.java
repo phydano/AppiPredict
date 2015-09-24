@@ -4,10 +4,14 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.ImageView;
+
+import java.lang.reflect.Field;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,7 +19,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main); // load the main activity layout
-        backgroundImage(findViewById(R.id.draw)); // set the background image
+        //backgroundImage(findViewById(R.id.draw)); // set the background image (don't think its useful anymore)
+        //makeActionOverflowMenuShown(); // make the action overflow shown (screw up the action button on the phone)
     }
 
     /** Set the background image depends on portrait or landscape */
@@ -89,5 +94,19 @@ public class MainActivity extends AppCompatActivity {
     public void openAboutUs() {
         Intent intent = new Intent(this, AboutUs.class);
         startActivity(intent);
+    }
+
+    private void makeActionOverflowMenuShown() {
+        //devices with hardware menu button (e.g. Samsung Note) don't show action overflow menu
+        try {
+            ViewConfiguration config = ViewConfiguration.get(this);
+            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+            if (menuKeyField != null) {
+                menuKeyField.setAccessible(true);
+                menuKeyField.setBoolean(config, false);
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 }

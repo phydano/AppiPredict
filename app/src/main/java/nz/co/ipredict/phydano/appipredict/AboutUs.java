@@ -91,6 +91,28 @@ public class AboutUs extends AppCompatActivity {
         String emailAddrValue = emailAddr.getText().toString();
         String messageContentValue = messageContent.getText().toString();
 
-
+        // Launch the Gmail App
+        //Todo: The problem here it launches Gmail App not under the same iPredict App.
+        //Todo: Don't forget to change the Email Addr to help@ipredict.co.nz
+        /**
+         * Code from: http://stackoverflow.com/questions/6817616/open-gmail-message-intent
+         * */
+        Intent sendIntent = getPackageManager().getLaunchIntentForPackage("com.google.android.gm");
+        if (sendIntent != null) {
+            // We found the activity now start the activity
+            sendIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            sendIntent.setType("plain/text");
+            sendIntent.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
+            sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"dano@ipredict.co.nz"});
+            sendIntent.putExtra(Intent.EXTRA_SUBJECT, "RE: " + emailAddrValue);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, messageContentValue);
+            startActivity(sendIntent);
+        } else {
+            // Bring user to the market or let them choose an app?
+            sendIntent = new Intent(Intent.ACTION_VIEW);
+            sendIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            sendIntent.setData(Uri.parse("market://details?id=" + "com.google.android.gm"));
+            startActivity(sendIntent);
+        }
     }
 }
