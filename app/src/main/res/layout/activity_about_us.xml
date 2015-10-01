@@ -82,7 +82,7 @@
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/emily_w300px_h350px" />
+                    android:src="@drawable/don_w300px_h350px" />
 
             </LinearLayout>
             <LinearLayout
