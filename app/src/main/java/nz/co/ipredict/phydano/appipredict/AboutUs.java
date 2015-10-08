@@ -1,7 +1,9 @@
 package nz.co.ipredict.phydano.appipredict;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBarActivity;
@@ -13,8 +15,33 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.ExponentialBackOff;
+import com.google.api.services.gmail.Gmail;
+import com.google.api.services.gmail.model.Message;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.services.gmail.GmailScopes;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Properties;
+
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import org.apache.commons.codec.binary.Base64;
+import android.content.SharedPreferences;
+
 
 public class AboutUs extends AppCompatActivity {
+
+    private static final String[] SCOPES = { GmailScopes.GMAIL_LABELS };
+    private static final String PREF_ACCOUNT_NAME = "accountName";
+    private com.google.api.services.gmail.Gmail mService = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +110,7 @@ public class AboutUs extends AppCompatActivity {
      * http://stackoverflow.com/questions/2020088/sending-email-in-android-using-javamail-api-without-using-the-default-built-in-a
      *
      * */
-    public void submitMessage(View view) {
+    public void submitMessageOld (View view) {
         //Todo: Here should send the feedback to help@ipredict.co.nz.
         EditText emailAddr = (EditText) findViewById(R.id.email_address);
         EditText messageContent = (EditText) findViewById(R.id.message);
@@ -115,4 +142,74 @@ public class AboutUs extends AppCompatActivity {
             startActivity(sendIntent);
         }
     }
+
+    public void submitMessage(View view){
+        GoogleAccountCredential mCredential;
+        String userId = "464470648798-9to9fcfks8ndh8fu64njsehs31q2agav.apps.googleusercontent.com";
+        try {
+            HttpTransport transport = AndroidHttp.newCompatibleTransport();
+            JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+            SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
+            mCredential = GoogleAccountCredential.usingOAuth2(
+                    getApplicationContext(), Arrays.asList(SCOPES))
+                    .setBackOff(new ExponentialBackOff())
+                    .setSelectedAccountName(settings.getString(PREF_ACCOUNT_NAME, null));
+
+            mService = new com.google.api.services.gmail.Gmail.Builder(
+                    transport, jsonFactory, mCredential)
+                    .setApplicationName("Gmail API")
+                    .build();
+
+            sendMessage(mService, userId, createEmail("dano@ipredict.co.nz",
+                    "dano@ipredict.co.nz", "Hello", "Testing"));
+
+        }catch(MessagingException e){
+            System.out.println("Error: " + e.toString());
+        }catch(IOException e){
+            System.out.println("Error: " + e.toString());
+        }
+    }
+
+    /**
+     * Create an Email using the Java API imported
+     * Code is from: https://developers.google.com/gmail/api/guides/sending
+     * */
+    public static MimeMessage createEmail (String to, String from, String subject,
+                                           String bodyText) throws MessagingException {
+        Properties props = new Properties();
+        Session session = Session.getDefaultInstance(props, null);
+
+        MimeMessage email = new MimeMessage(session);
+        InternetAddress tAddress = new InternetAddress(to);
+        InternetAddress fAddress = new InternetAddress(from);
+
+        // Setting the sender, receiver addr,add subject and text
+        email.setFrom(new InternetAddress(from));
+        email.addRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(to));
+        email.setSubject(subject);
+        email.setText(bodyText);
+        return email;
+
+    }
+
+    /**
+     * Encode the MimeMessage
+     * */
+    public static Message createMessageWithEmail(MimeMessage email) throws MessagingException, IOException{
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        email.writeTo(bytes);
+        String encodedEmail = Base64.encodeBase64URLSafeString(bytes.toByteArray());
+        Message message = new Message();
+        message.setRaw(encodedEmail);
+        return message;
+    }
+
+    /**
+     * Sending Email
+     * */
+    public static void sendMessage(Gmail service, String userId, MimeMessage email) throws MessagingException, IOException{
+        Message message = createMessageWithEmail(email);
+        message = service.users().messages().send(userId, message).execute();
+    }
+
 }
