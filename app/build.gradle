@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 22
+    //buildToolsVersion "21.1.2"
     buildToolsVersion "22.0.1"
 
     defaultConfig {
@@ -23,6 +24,14 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
     }
+
+    defaultConfig {
+        multiDexEnabled true
+    }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+    }
 }
 
 dependencies {
@@ -30,7 +39,6 @@ dependencies {
     //compile 'com.android.support:appcompat-v7:22.2.0'
     //compile 'com.google.android.gms:play-services:7.5.0'
     compile 'com.android.support:appcompat-v7:22.2.0'
-    compile 'com.google.android.gms:play-services:8.1.0'
     compile 'com.google.android.gms:play-services-identity:8.1.0'
     compile('com.google.api-client:google-api-client-android:1.20.0') {
         exclude group: 'org.apache.httpcomponents'

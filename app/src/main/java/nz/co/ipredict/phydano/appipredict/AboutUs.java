@@ -1,20 +1,16 @@
 package nz.co.ipredict.phydano.appipredict;
-
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
-
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
-
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -28,19 +24,16 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Properties;
-
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import org.apache.commons.codec.binary.Base64;
-import android.content.SharedPreferences;
-
 
 public class AboutUs extends AppCompatActivity {
-
-    private static final String[] SCOPES = { GmailScopes.GMAIL_LABELS };
+    GoogleAccountCredential mCredential;
     private static final String PREF_ACCOUNT_NAME = "accountName";
+    private static final String[] SCOPES = { GmailScopes.GMAIL_LABELS };
     private com.google.api.services.gmail.Gmail mService = null;
 
     @Override
@@ -48,8 +41,15 @@ public class AboutUs extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_us);
         scrollTextEdit();
-    }
 
+        // Initialize credentials and service object.
+        SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
+        mCredential = GoogleAccountCredential.usingOAuth2(
+                getApplicationContext(), Arrays.asList(SCOPES))
+                .setBackOff(new ExponentialBackOff())
+                .setSelectedAccountName(settings.getString(PREF_ACCOUNT_NAME, null));
+    }
+/*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -57,7 +57,7 @@ public class AboutUs extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
 
     }
-
+*/
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -163,9 +163,7 @@ public class AboutUs extends AppCompatActivity {
             sendMessage(mService, userId, createEmail("dano@ipredict.co.nz",
                     "dano@ipredict.co.nz", "Hello", "Testing"));
 
-        }catch(MessagingException e){
-            System.out.println("Error: " + e.toString());
-        }catch(IOException e){
+        }catch(MessagingException | IOException e){
             System.out.println("Error: " + e.toString());
         }
     }
@@ -178,10 +176,7 @@ public class AboutUs extends AppCompatActivity {
                                            String bodyText) throws MessagingException {
         Properties props = new Properties();
         Session session = Session.getDefaultInstance(props, null);
-
         MimeMessage email = new MimeMessage(session);
-        InternetAddress tAddress = new InternetAddress(to);
-        InternetAddress fAddress = new InternetAddress(from);
 
         // Setting the sender, receiver addr,add subject and text
         email.setFrom(new InternetAddress(from));
@@ -210,6 +205,8 @@ public class AboutUs extends AppCompatActivity {
     public static void sendMessage(Gmail service, String userId, MimeMessage email) throws MessagingException, IOException{
         Message message = createMessageWithEmail(email);
         message = service.users().messages().send(userId, message).execute();
-    }
 
+        System.out.println("Message id: " + message.getId());
+        System.out.println(message.toPrettyString());
+    }
 }
