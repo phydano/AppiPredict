@@ -26,6 +26,7 @@ import java.util.Arrays;
 import java.util.Properties;
 import javax.mail.MessagingException;
 import javax.mail.Session;
+import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import org.apache.commons.codec.binary.Base64;
@@ -110,7 +111,7 @@ public class AboutUs extends AppCompatActivity {
      * http://stackoverflow.com/questions/2020088/sending-email-in-android-using-javamail-api-without-using-the-default-built-in-a
      *
      * */
-    public void submitMessageOld (View view) {
+    public void submitMessage (View view) {
         //Todo: Here should send the feedback to help@ipredict.co.nz.
         EditText emailAddr = (EditText) findViewById(R.id.email_address);
         EditText messageContent = (EditText) findViewById(R.id.message);
@@ -143,7 +144,7 @@ public class AboutUs extends AppCompatActivity {
         }
     }
 
-    public void submitMessage(View view){
+/*    public void submitMessage(View view){
         GoogleAccountCredential mCredential;
         String userId = "464470648798-9to9fcfks8ndh8fu64njsehs31q2agav.apps.googleusercontent.com";
         try {
@@ -166,13 +167,13 @@ public class AboutUs extends AppCompatActivity {
         }catch(MessagingException | IOException e){
             System.out.println("Error: " + e.toString());
         }
-    }
+    }*/
 
     /**
      * Create an Email using the Java API imported
      * Code is from: https://developers.google.com/gmail/api/guides/sending
      * */
-    public static MimeMessage createEmail (String to, String from, String subject,
+/*    public static MimeMessage createEmail (String to, String from, String subject,
                                            String bodyText) throws MessagingException {
         Properties props = new Properties();
         Session session = Session.getDefaultInstance(props, null);
@@ -183,30 +184,32 @@ public class AboutUs extends AppCompatActivity {
         email.addRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(to));
         email.setSubject(subject);
         email.setText(bodyText);
+        System.out.println("These are the recipients: " + email.getAllRecipients());
         return email;
+    }*/
 
-    }
+    /**
+     * Sending Email
+     * */
+/*    public static void sendMessage(Gmail service, String userId, MimeMessage email)
+            throws MessagingException, IOException{
+        Message message = createMessageWithEmail(email);
+        message = service.users().messages().send(userId, message).execute();
+
+        System.out.println("Message id: " + message.getId());
+        System.out.println(message.toPrettyString());
+    }*/
 
     /**
      * Encode the MimeMessage
      * */
-    public static Message createMessageWithEmail(MimeMessage email) throws MessagingException, IOException{
+/*    public static Message createMessageWithEmail(MimeMessage email)
+            throws MessagingException, IOException{
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         email.writeTo(bytes);
         String encodedEmail = Base64.encodeBase64URLSafeString(bytes.toByteArray());
         Message message = new Message();
         message.setRaw(encodedEmail);
         return message;
-    }
-
-    /**
-     * Sending Email
-     * */
-    public static void sendMessage(Gmail service, String userId, MimeMessage email) throws MessagingException, IOException{
-        Message message = createMessageWithEmail(email);
-        message = service.users().messages().send(userId, message).execute();
-
-        System.out.println("Message id: " + message.getId());
-        System.out.println(message.toPrettyString());
-    }
+    }*/
 }

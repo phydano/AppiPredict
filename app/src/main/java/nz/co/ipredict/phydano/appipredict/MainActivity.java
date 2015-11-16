@@ -3,13 +3,16 @@ package nz.co.ipredict.phydano.appipredict;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.lang.reflect.Field;
 
@@ -21,6 +24,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main); // load the main activity layout
         //backgroundImage(findViewById(R.id.draw)); // set the background image (don't think its useful anymore)
         //makeActionOverflowMenuShown(); // make the action overflow shown (screw up the action button on the phone)
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        usersComment();
+    }
+
+    public void usersComment(){
+        String comment = "\"This is a quote from an iPredict user\"";
+        String username = "<font color='#0026FF'>iPredict Trader</font>";
+        TextView t1 = (TextView) findViewById(R.id.user1);
+        TextView t2 = (TextView) findViewById(R.id.user2);
+        t1.setText(Html.fromHtml(comment + "<br/>" + username));
+        t2.setText(Html.fromHtml(comment + "<br/>" + username));
     }
 
     /** Set the background image depends on portrait or landscape */

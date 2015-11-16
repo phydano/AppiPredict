@@ -28,6 +28,30 @@
         prices, to the discovery of extraterrestrial life. \n\n So, put your money where your mouth
         is and begin trading today!
     </string>
+    <string name="what_is_ipredict">
+        iPredict lets you buy and sell stocks in future events.
+        For example who will win the next general election?
+    </string>
+    <string name="test_your_knowledge">
+        Use your opinions or inside knowledge to trade on the outcome of a prediction.
+    </string>
+    <string name="earn_real_money">
+        Some of our traders have earned returns of over 2000%. You can start today with
+        as little as $5.
+    </string>
+    <string name="over_100_predictions">
+        Our markets cover a broad range of hot topics in the areas of politics, economics
+        and social issues.
+    </string>
+    <string name="trade_anywhere">
+        Access iPredict from anywhere, either through your mobile, tablet or desktop computer.
+    </string>
+    <string name="quote1">
+        \"This is a quote from an iPredict user\"
+    </string>
+        <string name="quote2">
+        \"This is a quote from an iPredict user\"
+    </string>
     <string name="frontpage">
         TRADE STOCKS IN
         FUTURE POLITICAL &amp;
