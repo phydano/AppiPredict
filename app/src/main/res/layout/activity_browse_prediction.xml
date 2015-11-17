@@ -6,12 +6,83 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="nz.co.ipredict.phydano.appipredict.MainActivity2">
 
-    <TextView
-        android:id="@+id/TextView1"
-        android:layout_width="wrap_content"
+    <SearchView
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/content" />
+        android:singleLine="true">
+    </SearchView>
+
+    <LinearLayout
+        android:id="@+id/LinearLayout"
+        android:layout_below="@+id/searchView"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
+        <Button
+            android:id="@+id/browseButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:text="BROWSE"
+            android:onClick="browse">
+        </Button>
+        <Button
+            android:id="@+id/sortByButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:text="SORT BY"
+            android:onClick="sortBy">
+        </Button>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/LinearLayout2"
+        android:layout_below="@+id/LinearLayout"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:weightSum="1">
+    <ListView
+        android:id="@+id/listView1"
+        android:layout_weight="0.95"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" >
+    </ListView>
+
+        <LinearLayout
+            android:id="@+id/LinearLayout3"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_weight="0.05"
+            android:weightSum="2">
+            <Button
+                android:id="@+id/cancelButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:text="Cancel"
+                android:layout_gravity="bottom"
+                android:onClick="">
+            </Button>
+            <Button
+                android:id="@+id/searchButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:text="SEARCH"
+                android:layout_gravity="bottom"
+                android:onClick="">
+            </Button>
+        </LinearLayout>
+    </LinearLayout>
+
 
 </RelativeLayout>
