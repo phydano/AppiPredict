@@ -112,6 +112,7 @@ public class BrowsePrediction extends AppCompatActivity {
         final Button sortByButton = (Button) findViewById(R.id.sortByButton);
         final Button cancelButton = (Button) findViewById(R.id.cancelButton);
         final Button searchButton = (Button) findViewById(R.id.searchButton);
+
         loadView(browseValues);
         browseButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){

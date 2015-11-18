@@ -1,7 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:layout_height="match_parent"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="nz.co.ipredict.phydano.appipredict.MainActivity2">
 
@@ -14,6 +13,8 @@
     </SearchView>
 
     <LinearLayout
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
         android:id="@+id/LinearLayout"
         android:layout_below="@+id/searchView"
         android:layout_height="wrap_content"
@@ -48,8 +49,10 @@
         android:layout_width="fill_parent"
         android:weightSum="1">
     <ListView
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
         android:id="@+id/listView1"
-        android:layout_weight="0.95"
+        android:layout_weight="0.999"
         android:layout_width="match_parent"
         android:layout_height="0dp" >
     </ListView>
@@ -60,28 +63,30 @@
             android:layout_gravity="bottom"
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_weight="0.05"
+            android:layout_weight="0.001"
             android:weightSum="2">
             <Button
                 android:id="@+id/cancelButton"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:clickable="true"
                 android:text="Cancel"
                 android:layout_gravity="bottom"
-                android:background="@layout/mybutton3"
+                android:textColor="#FFFFFF"
+                android:background="@layout/mybutton4"
                 android:onClick="">
             </Button>
             <Button
                 android:id="@+id/searchButton"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:clickable="true"
                 android:text="SEARCH"
                 android:layout_gravity="bottom"
-                android:background="@layout/mybutton3"
+                android:textColor="#FFFFFF"
+                android:background="@layout/mybutton4"
                 android:onClick="">
             </Button>
         </LinearLayout>

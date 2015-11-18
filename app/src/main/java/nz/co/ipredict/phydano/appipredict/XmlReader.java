@@ -25,14 +25,14 @@ import javax.xml.parsers.DocumentBuilderFactory;
  */
 public class XmlReader {
 
-    ArrayList<CurrentPrice> allCurrentPrice = new ArrayList<CurrentPrice>(); // store the current price of the stock
-    ArrayList<StockInformation> stockInfo = new ArrayList<StockInformation>(); // store stock information
-    ArrayList<TradeHistory> tradeHistory = new ArrayList<TradeHistory>(); // store trade history
-    ArrayList<TradeHistory> stockHistory = new ArrayList<TradeHistory>(); // store stock history
-    ArrayList<BookAndStock> book = new ArrayList<BookAndStock>(); // store book on sell and buy
-    ArrayList<String> listOfAllStocksName = new ArrayList<String>(); // store all stocks name that is read from CSV file
-    Pattern br = Pattern.compile("\\[br]"); // the newline pattern in HTML
-    Pattern apostrophe = Pattern.compile("&#039;"); // the apostrophe in HTML
+    private ArrayList<CurrentPrice> allCurrentPrice = new ArrayList<CurrentPrice>(); // store the current price of the stock
+    private ArrayList<StockInformation> stockInfo = new ArrayList<StockInformation>(); // store stock information
+    private ArrayList<TradeHistory> tradeHistory = new ArrayList<TradeHistory>(); // store trade history
+    private ArrayList<TradeHistory> stockHistory = new ArrayList<TradeHistory>(); // store stock history
+    private ArrayList<BookAndStock> book = new ArrayList<BookAndStock>(); // store book on sell and buy
+    private ArrayList<String> listOfAllStocksName = new ArrayList<String>(); // store all stocks name that is read from CSV file
+    private Pattern br = Pattern.compile("\\[br]"); // the newline pattern in HTML
+    private Pattern apostrophe = Pattern.compile("&#039;"); // the apostrophe in HTML
 
     public XmlReader(){} /** No arguments in the constructor */
 
@@ -483,7 +483,7 @@ public class XmlReader {
      * Read the CSV file from the web which contains the name of all stocks
      * Unclear on how often the list get update though
      * */
-    public void readCSVFile() {
+    public ArrayList<String> readCSVFile() {
         BufferedReader reader = null;
         String stockName;
         listOfAllStocksName.clear(); // clear the list every time we read the CSV file
@@ -513,13 +513,13 @@ public class XmlReader {
                 e.printStackTrace();
             }
         }
+        return listOfAllStocksName;
     }
 
     /** To run the file by itself for testing purpose */
     public static void main(String[] args) {
         XmlReader reader = new XmlReader();
         //reader.printWithExceptionCheck();
-        reader.readCSVFile();
     }
 
     //Todo: Note that this Xml reader has not yet deal with null values.
