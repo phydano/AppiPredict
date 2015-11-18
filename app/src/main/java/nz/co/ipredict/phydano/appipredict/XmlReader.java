@@ -3,6 +3,10 @@ package nz.co.ipredict.phydano.appipredict;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.DecimalFormat;
@@ -26,6 +30,7 @@ public class XmlReader {
     ArrayList<TradeHistory> tradeHistory = new ArrayList<TradeHistory>(); // store trade history
     ArrayList<TradeHistory> stockHistory = new ArrayList<TradeHistory>(); // store stock history
     ArrayList<BookAndStock> book = new ArrayList<BookAndStock>(); // store book on sell and buy
+    ArrayList<String> listOfAllStocksName = new ArrayList<String>(); // store all stocks name that is read from CSV file
     Pattern br = Pattern.compile("\\[br]"); // the newline pattern in HTML
     Pattern apostrophe = Pattern.compile("&#039;"); // the apostrophe in HTML
 
@@ -474,11 +479,47 @@ public class XmlReader {
         readBookAndStock("OCR.10SEP15.D25");
     }
 
+    /**
+     * Read the CSV file from the web which contains the name of all stocks
+     * Unclear on how often the list get update though
+     * */
+    public void readCSVFile() {
+        BufferedReader reader = null;
+        String stockName;
+        listOfAllStocksName.clear(); // clear the list every time we read the CSV file
+        try {
+            // Open the connection to the website
+            URL url = new URL("http://api.howison.co.nz/csv_export.php");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.connect();
+
+            // Reading the information
+            reader = new BufferedReader(new InputStreamReader(url.openStream()));
+            String line;
+
+            // Loop through each line and grab the first column of data only
+            while ((line = reader.readLine()) != null) {
+                String[] RowData = line.split(",");
+                stockName = RowData[0];
+                listOfAllStocksName.add(stockName);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                reader.close();
+            } catch (IOException | NullPointerException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     /** To run the file by itself for testing purpose */
     public static void main(String[] args) {
         XmlReader reader = new XmlReader();
-        //reader.print();
-        reader.printWithExceptionCheck();
+        //reader.printWithExceptionCheck();
+        reader.readCSVFile();
     }
 
     //Todo: Note that this Xml reader has not yet deal with null values.

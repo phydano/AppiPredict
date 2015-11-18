@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
 
-
 public class BrowsePrediction extends AppCompatActivity {
 
     SearchView search;
@@ -44,6 +43,8 @@ public class BrowsePrediction extends AppCompatActivity {
 
         search = (SearchView) findViewById(R.id.searchView);
         search.setQueryHint("Search by keyword");
+        search.setIconifiedByDefault(false);
+        search.setFocusable(false); // hide the keyboard upon load
 
         // Text Focus Change Listener
         search.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
@@ -109,6 +110,8 @@ public class BrowsePrediction extends AppCompatActivity {
     public void buttonIsClicked(){
         final Button browseButton = (Button) findViewById(R.id.browseButton);
         final Button sortByButton = (Button) findViewById(R.id.sortByButton);
+        final Button cancelButton = (Button) findViewById(R.id.cancelButton);
+        final Button searchButton = (Button) findViewById(R.id.searchButton);
         loadView(browseValues);
         browseButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
@@ -120,10 +123,21 @@ public class BrowsePrediction extends AppCompatActivity {
                 loadView(sortByValues);
             }
         });
+        cancelButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                finish(); // return back to the main activity
+            }
+        });
+        searchButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+
+            }
+        });
     }
 
     /**
      * ListView of items for the Browse section and Sort By section
+     * @param values takes in the array of values
      * */
     public void loadView(String[] values){
 

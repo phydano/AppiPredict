@@ -58,6 +58,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="nz.co.ipredict.phydano.appipredict.MainActivity" />
         </activity>
+        <activity
+            android:name=".searchPrediction"
+            android:label="@string/title_activity_search_prediction"
+            android:parentActivityName=".BrowsePrediction" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="nz.co.ipredict.phydano.appipredict.BrowsePrediction" />
+        </activity>
     </application>
 
 </manifest>
