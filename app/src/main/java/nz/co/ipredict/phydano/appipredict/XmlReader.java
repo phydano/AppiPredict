@@ -1,30 +1,42 @@
 package nz.co.ipredict.phydano.appipredict;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 /**
  * Created by phydano on 30/07/2015.
  * This is a class to read the XML
  */
 public class XmlReader {
-
     private ArrayList<CurrentPrice> allCurrentPrice = new ArrayList<CurrentPrice>(); // store the current price of the stock
     private ArrayList<StockInformation> stockInfo = new ArrayList<StockInformation>(); // store stock information
     private ArrayList<TradeHistory> tradeHistory = new ArrayList<TradeHistory>(); // store trade history
@@ -458,7 +470,7 @@ public class XmlReader {
     }
 
     /** Check the size of the arrays */
-    public void arraySize(){
+    public void arraySize() {
         System.out.println("The Current Price size is " + allCurrentPrice.size());
         System.out.println("The Stock info size is " + stockInfo.size());
         System.out.println("The Trade History size is " + tradeHistory.size());
@@ -516,11 +528,62 @@ public class XmlReader {
         return listOfAllStocksName;
     }
 
+    /**
+     * Read JSON File from the web given by Don (which update every 5 minutes)
+     */
+    public void JSONReader() throws MalformedURLException, IOException{
+        String sURL = "http://ipredict-test.elasticbeanstalk.com/beta/api/IPredict/cache/ContractResults.ipcache"; //just a string
+
+        // Connect to the URL using java's native library
+        URL url = new URL(sURL);
+        HttpURLConnection request = (HttpURLConnection) url.openConnection();
+        request.connect();
+
+        // Convert to a JSON object to print data
+        JsonParser jp = new JsonParser(); //from gson
+        JsonElement root = jp.parse(new InputStreamReader(request.getInputStream())); // all stuff in JSON
+        // Export root.toString to text file will shows everything - print in console here only some are shown
+        JsonObject allStuffinJson = root.getAsJsonObject(); // all stuff in JSON
+        JsonObject categories = allStuffinJson.getAsJsonObject("categories"); // get inside categories
+        JsonObject num704 = categories.getAsJsonObject("704"); // get inside 704
+        JsonElement e = num704.get("id"); // give the ID
+        JsonArray subcategories = num704.getAsJsonArray("subcategories");
+
+        for(int i =0; i<subcategories.size();i++){
+
+
+            System.out.println(subcategories.get(i).toString());
+        }
+
+
+        //System.out.println(categories.toString());
+        System.out.println(e.toString());
+
+/*        for(int i =0; i<subcategories.size();i++){
+            JsonObject e =
+        }*/
+
+/*        try {
+            String str = subcategories.toString();
+            File newTextFile = new File("D:/thetextfile2.txt");
+
+            FileWriter fw = new FileWriter(newTextFile);
+            fw.write(str);
+            fw.close();
+
+        } catch (IOException iox) {
+            //do stuff with exception
+            iox.printStackTrace();
+        }*/
+    }
+
     /** To run the file by itself for testing purpose */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         XmlReader reader = new XmlReader();
         //reader.printWithExceptionCheck();
+        reader.JSONReader();
     }
+
 
     //Todo: Note that this Xml reader has not yet deal with null values.
     //Todo: Under the trade history there is no API for the price changes.

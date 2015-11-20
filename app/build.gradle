@@ -48,4 +48,6 @@ dependencies {
     }
     compile files('libs/javax.mail.jar')
     compile files('libs/commons-codec-1.10.jar')
+    compile files('libs/gson-2.4.jar')
+    compile files('libs/json-20090211.jar')
 }
