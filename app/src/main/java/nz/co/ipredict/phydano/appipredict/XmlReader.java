@@ -38,6 +38,7 @@ import com.google.gson.JsonParser;
  */
 public class XmlReader {
     private ArrayList<CurrentPrice> allCurrentPrice = new ArrayList<CurrentPrice>(); // store the current price of the stock
+    private ArrayList<CurrentPrice> allStocks = new ArrayList<CurrentPrice>();
     private ArrayList<StockInformation> stockInfo = new ArrayList<StockInformation>(); // store stock information
     private ArrayList<TradeHistory> tradeHistory = new ArrayList<TradeHistory>(); // store trade history
     private ArrayList<TradeHistory> stockHistory = new ArrayList<TradeHistory>(); // store stock history
@@ -86,6 +87,48 @@ public class XmlReader {
                 CurrentPrice p = new CurrentPrice(stringClaim, valueLast.getTextContent(),
                         valueBid.getTextContent(), valueAsk.getTextContent());
                 allCurrentPrice.add(p); // add into the array list
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Read and Store all the stocks information
+     **/
+    public void readAllStocks(){
+
+        NodeList doubleLast, doubleBid, doubleAsk;
+        Element valueLast, valueBid, valueAsk;
+        String stringClaim;
+
+        try{
+            /** Open the connection to the XML online */
+            URL url = new URL("https://www.ipredict.co.nz/app.php?do=api&action=prices&allstock=true");
+            URLConnection conn = url.openConnection();
+
+            /** Build the document */
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document doc = builder.parse(conn.getInputStream());
+
+            /** Read the XML by the tag name and read each of the items and create an object */
+            NodeList nodes = doc.getElementsByTagName("claim");
+            for(int i=0; i<nodes.getLength(); i++){
+                Element element = (Element) nodes.item(i);
+
+                stringClaim = element.getAttribute("stock");
+                doubleLast = element.getElementsByTagName("last");
+                doubleBid = element.getElementsByTagName("bid");
+                doubleAsk = element.getElementsByTagName("ask");
+
+                valueLast = (Element) doubleLast.item(0);
+                valueBid = (Element) doubleBid.item(0);
+                valueAsk = (Element) doubleAsk.item(0);
+
+                CurrentPrice p = new CurrentPrice(stringClaim, valueLast.getTextContent(),
+                        valueBid.getTextContent(), valueAsk.getTextContent());
+                allStocks.add(p); // add into the array list
             }
         }catch(Exception e){
             e.printStackTrace();
@@ -152,12 +195,27 @@ public class XmlReader {
                  * */
                 SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
                 SimpleDateFormat output = new SimpleDateFormat("dd-MMM-yyyy");
-                Date d = input.parse(dateCreated.getTextContent());
-                String dateCreatedreformat = output.format(d);
-                d = input.parse(dateDue.getTextContent());
-                String dateDuereformat = output.format(d);
-                d = input.parse(lastTrade.getTextContent());
-                String lastTradereformat = output.format(d);
+                String dateCreatedreformat = "";
+                String dateDuereformat = "";
+                String lastTradereformat = "";
+                Date d;
+
+                /** Check conditions to see if the elements empty or not */
+                if(stringDateCreated.item(0).getChildNodes().getLength() > 0) {
+                    d = input.parse(dateCreated.getTextContent());
+                    dateCreatedreformat = output.format(d);
+                }
+                if(stringDateDue.item(0).getChildNodes().getLength() > 0) {
+                    d = input.parse(dateDue.getTextContent());
+                    dateDuereformat = output.format(d);
+                }
+
+/*              System.out.println("Length: " + stringLastTrade.item(0).getChildNodes().getLength());
+                System.out.println("Text: " + stringLastTrade.item(0).getChildNodes().toString());*/
+                if(stringLastTrade.item(0).getChildNodes().getLength() > 0) {
+                    d = input.parse(lastTrade.getTextContent());
+                    lastTradereformat = output.format(d);
+                }
 
                 /** Changes the breaking [br] and apostrophe in a correct format */
                 Matcher matcher = br.matcher(judgeStatement.getTextContent());
@@ -532,8 +590,8 @@ public class XmlReader {
      * Read JSON File from the web given by Don (which update every 5 minutes)
      */
     public void JSONReader() throws MalformedURLException, IOException{
-        String sURL = "http://ipredict-test.elasticbeanstalk.com/beta/api/IPredict/cache/ContractResults.ipcache"; //just a string
-
+        //String sURL = "http://ipredict-test.elasticbeanstalk.com/beta/api/IPredict/cache/ContractResults.ipcache"; //just a string
+        String sURL = "http://ipredict-test.elasticbeanstalk.com/beta/ajax/Browse/Categories.php?includeContracts=true";
         // Connect to the URL using java's native library
         URL url = new URL(sURL);
         HttpURLConnection request = (HttpURLConnection) url.openConnection();
@@ -545,27 +603,54 @@ public class XmlReader {
         // Export root.toString to text file will shows everything - print in console here only some are shown
         JsonObject allStuffinJson = root.getAsJsonObject(); // all stuff in JSON
         JsonObject categories = allStuffinJson.getAsJsonObject("categories"); // get inside categories
-        JsonObject num704 = categories.getAsJsonObject("704"); // get inside 704
-        JsonElement e = num704.get("id"); // give the ID
-        JsonArray subcategories = num704.getAsJsonArray("subcategories");
 
-        for(int i =0; i<subcategories.size();i++){
+        if(categories != null){
+            JsonObject NZPolitics = categories.getAsJsonObject("1");
+            if(NZPolitics != null){
+                JsonArray contracts = NZPolitics.getAsJsonArray("contracts");
+                if(contracts != null){
+                    for(int i=0; i<contracts.size(); i++){
+                        JsonObject e = contracts.get(i).getAsJsonObject();
+                        if(e != null){
+                            /** Contract Info */
+                            String stockName = e.get("symbol").toString(); // stock Name
+                            String lastTradePrice = e.getAsJsonObject("tradingData").get("lastTradePrice").toString(); // last Trade price
+                            String todayChange = e.getAsJsonObject("tradingData").get("todaysChange").toString();
+                            String todayVolume = e.getAsJsonObject("tradingData").get("todaysVolume").toString();
+                            String averageDailyVol = e.getAsJsonObject("tradingData").get("averageDailyVolume").toString();
+                            String status = e.get("status").toString();
+                            String startDate = e.get("dateCreated").toString();
+                            String endDate = e.get("dateDue").toString();
+                            String lastTradeTime = e.getAsJsonObject("tradingData").get("lastTradeTime").toString();
+                            String shortDescription = e.get("shortDescription").toString();
+                            String longDescription = e.get("longDescription").toString();
 
+                            /** Buy order and Sell order */
 
-            System.out.println(subcategories.get(i).toString());
+                        }
+                    }
+                }
+            }
         }
+
+//        JsonObject num704 = categories.getAsJsonObject("704"); // get inside 704
+//        JsonElement e = num704.get("id"); // give the ID
+//        JsonArray subcategories = num704.getAsJsonArray("subcategories");
+
+//        for(int i =0; i<subcategories.size();i++){
+//            System.out.println(subcategories.get(i).toString());
+//        }
 
 
         //System.out.println(categories.toString());
-        System.out.println(e.toString());
 
 /*        for(int i =0; i<subcategories.size();i++){
             JsonObject e =
         }*/
 
 /*        try {
-            String str = subcategories.toString();
-            File newTextFile = new File("D:/thetextfile2.txt");
+            String str = categories.toString();
+            File newTextFile = new File("D:/test.txt");
 
             FileWriter fw = new FileWriter(newTextFile);
             fw.write(str);
@@ -582,6 +667,8 @@ public class XmlReader {
         XmlReader reader = new XmlReader();
         //reader.printWithExceptionCheck();
         reader.JSONReader();
+        //reader.readAllStocks();
+        //System.out.println(reader.allStocks.size());
     }
 
 
