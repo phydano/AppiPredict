@@ -8,16 +8,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.SearchView;
 
+import java.util.ArrayList;
+
 public class BrowsePrediction extends AppCompatActivity {
 
-    SearchView search;
-    ListView lv;
-    Model[] modelItems;
-    String[] browseValues = new String[] {"All Contracts", "Featured",
+    private SearchView search;
+    private ListView lv;
+    private Model[] modelItems;
+    private String[] browseValues = new String[] {"All Contracts", "Featured",
             "NZ Foreign Affairs", "NZ Politics", "NZ Economics", "NZ Election 2017",
             "NZ Vote Share 2017", "International Politics", "NZ Pay Gaps", "NZ Misc Issues",
             "Pay-the-Searcher", "Commodities", "Financial Markets", "US Politics",
@@ -25,7 +29,9 @@ public class BrowsePrediction extends AppCompatActivity {
             "European Elections", "British Election", "British Politics",
             "Eurozone Crises", "Science & Tech", "North Korea", "Student Issues",
             "NZ Long-Term Econ", "NZ Fonterra"};
-    String[] sortByValues = new String[] {"Trades", "Movement", "New", "Close Date"};
+    private String[] sortByValues = new String[] {"Trades", "Movement", "New", "Close Date"};
+    private CustomAdapter adapter;
+    private ArrayList<String> selectedCategoriesContract = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,16 +130,28 @@ public class BrowsePrediction extends AppCompatActivity {
                 loadView(sortByValues);
             }
         });
-        cancelButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
                 finish(); // return back to the main activity
             }
         });
-        searchButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                reloadView(browseValues);
+                gotoSearchPage(v);
             }
         });
+    }
+
+    /**
+     * Go to search page
+     * */
+    public void gotoSearchPage(View view) {
+        System.out.println("TAG: Array List Size: " + selectedCategoriesContract.size());
+
+        Intent intent = new Intent(this, searchPrediction.class);
+        intent.putStringArrayListExtra("selectedContract", selectedCategoriesContract);
+        startActivity(intent);
     }
 
     /**
@@ -147,7 +165,24 @@ public class BrowsePrediction extends AppCompatActivity {
         for(int i=0; i<values.length; i++){
             modelItems[i] = new Model(values[i],0);
         }
-        CustomAdapter adapter = new CustomAdapter(this, modelItems);
+        adapter = new CustomAdapter(this, modelItems);
+        lv.setAdapter(adapter);
+    }
+
+    /**
+     * Use this to reload the view after the user clicks search. We are going to use this
+     * and pass it to the searchPrediction allowing it to gathers all information related
+     * to the stocks
+     * */
+    public void reloadView(String[] values){
+
+        for(int i=0; i< values.length;i++){
+            if (adapter.mCheckStates.get(i)){
+                System.out.println("TAG: " + modelItems[i].getName());
+                selectedCategoriesContract.add(modelItems[i].getName());
+            }
+        }
+        adapter = new CustomAdapter(this, modelItems);
         lv.setAdapter(adapter);
     }
 }

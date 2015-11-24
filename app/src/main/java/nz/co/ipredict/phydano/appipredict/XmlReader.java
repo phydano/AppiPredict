@@ -1,8 +1,5 @@
 package nz.co.ipredict.phydano.appipredict;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -10,9 +7,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -21,12 +16,10 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -44,6 +37,8 @@ public class XmlReader {
     private ArrayList<TradeHistory> stockHistory = new ArrayList<TradeHistory>(); // store stock history
     private ArrayList<BookAndStock> book = new ArrayList<BookAndStock>(); // store book on sell and buy
     private ArrayList<String> listOfAllStocksName = new ArrayList<String>(); // store all stocks name that is read from CSV file
+    private ArrayList<ContractInfo> browsePrediction = new ArrayList<ContractInfo>(); // browse predictions
+    private ArrayList<ContractInfo> listOfwantedBundle = new ArrayList<ContractInfo>(); // the bundle we want
     private Pattern br = Pattern.compile("\\[br]"); // the newline pattern in HTML
     private Pattern apostrophe = Pattern.compile("&#039;"); // the apostrophe in HTML
 
@@ -604,10 +599,23 @@ public class XmlReader {
         JsonObject allStuffinJson = root.getAsJsonObject(); // all stuff in JSON
         JsonObject categories = allStuffinJson.getAsJsonObject("categories"); // get inside categories
 
+        int count = 0;
+        while(count < 1500){
+            readJsonObject(categories, Integer.toString(count));
+            count++;
+        }
+        bundle("New Zealand Politics");
+    }
+
+    /**
+     * Read the Categories and store it in the browse prediction array list
+     * */
+    public void readJsonObject (JsonObject categories, String num){
         if(categories != null){
-            JsonObject NZPolitics = categories.getAsJsonObject("1");
-            if(NZPolitics != null){
-                JsonArray contracts = NZPolitics.getAsJsonArray("contracts");
+            JsonObject ObjNumber = categories.getAsJsonObject(num);
+            if(ObjNumber != null){
+                JsonArray contracts = ObjNumber.getAsJsonArray("contracts");
+                String title = ObjNumber.get("desc").getAsString();
                 if(contracts != null){
                     for(int i=0; i<contracts.size(); i++){
                         JsonObject e = contracts.get(i).getAsJsonObject();
@@ -624,31 +632,45 @@ public class XmlReader {
                             String lastTradeTime = e.getAsJsonObject("tradingData").get("lastTradeTime").toString();
                             String shortDescription = e.get("shortDescription").toString();
                             String longDescription = e.get("longDescription").toString();
+                            String judgeStatement = e.get("judgeStatement").toString();
 
                             /** Buy order and Sell order */
+                            JsonArray buyOrders = e.getAsJsonObject("book").getAsJsonArray("buyOrders");
+                            JsonArray sellOrders = e.getAsJsonObject("book").getAsJsonArray("sellOrders");
 
+                            if(status.equals("2")){ status = "active";}
+
+                            ContractInfo contractInfo = new ContractInfo(stockName, title, lastTradePrice, todayChange, todayVolume,
+                                    averageDailyVol, status, startDate, endDate, lastTradeTime,
+                                    shortDescription, longDescription, judgeStatement,
+                                    buyOrders, sellOrders);
+                            browsePrediction.add(contractInfo);
                         }
                     }
                 }
+               // System.out.println(browsePrediction.size() + "---" + num); // test
             }
         }
+    }
 
-//        JsonObject num704 = categories.getAsJsonObject("704"); // get inside 704
-//        JsonElement e = num704.get("id"); // give the ID
-//        JsonArray subcategories = num704.getAsJsonArray("subcategories");
+    /**
+     * Store the bundle contracts in the array list so that we can use it in search prediction page
+     * @param wantedBundle give the string of the stock name and we can grab its info from the list
+     * */
+    public void bundle(String wantedBundle){
+        for(int i=0; i<browsePrediction.size();i++){
+            if(browsePrediction.get(i).getTitle().equals(wantedBundle)){ // grab list of specific contract
+                listOfwantedBundle.add(browsePrediction.get(i));
+            }
+        }
+    }
 
-//        for(int i =0; i<subcategories.size();i++){
-//            System.out.println(subcategories.get(i).toString());
-//        }
-
-
-        //System.out.println(categories.toString());
-
-/*        for(int i =0; i<subcategories.size();i++){
-            JsonObject e =
-        }*/
-
-/*        try {
+    /**
+     * Export to the file to check the content
+     * Note: mainly for testing purpose
+     * */
+    public void exportToFile(JsonObject categories){
+        try {
             String str = categories.toString();
             File newTextFile = new File("D:/test.txt");
 
@@ -659,7 +681,7 @@ public class XmlReader {
         } catch (IOException iox) {
             //do stuff with exception
             iox.printStackTrace();
-        }*/
+        }
     }
 
     /** To run the file by itself for testing purpose */
@@ -671,7 +693,10 @@ public class XmlReader {
         //System.out.println(reader.allStocks.size());
     }
 
-
+    /** Get the list of bundle that wa want */
+    public ArrayList<ContractInfo> getWantedBundle (){
+        return listOfwantedBundle;
+    }
     //Todo: Note that this Xml reader has not yet deal with null values.
     //Todo: Under the trade history there is no API for the price changes.
     //Todo: The rankings not working (502 Bad Gateway) - waiting for the new API

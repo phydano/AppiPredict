@@ -54,7 +54,8 @@
         android:id="@+id/listView1"
         android:layout_weight="0.999"
         android:layout_width="match_parent"
-        android:layout_height="0dp" >
+        android:layout_height="0dp"
+        android:clickable="true">
     </ListView>
 
         <LinearLayout
