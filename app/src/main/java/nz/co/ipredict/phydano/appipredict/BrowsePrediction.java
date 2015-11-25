@@ -1,6 +1,11 @@
 package nz.co.ipredict.phydano.appipredict;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
@@ -79,35 +84,48 @@ public class BrowsePrediction extends AppCompatActivity {
         });
     }
 
-    @Override
+/*    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_browse_prediction, menu);
         return super.onCreateOptionsMenu(menu);
-    }
+    }*/
 
+    /**
+     * Item in the option menu. There would be varies case depend on the selection
+     * The code here allow us to go back to the home page (parent activity)
+     * */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
-                Intent upIntent = NavUtils.getParentActivityIntent(this);
-                if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
-                    // This activity is NOT part of this app's task, so create a new task
-                    // when navigating up, with a synthesized back stack.
-                    TaskStackBuilder.create(this)
-                            // Add all of this activity's parents to the back stack
-                            .addNextIntentWithParentStack(upIntent)
-                                    // Navigate up to the closest parent
-                            .startActivities();
-                } else {
-                    // This activity is part of this app's task, so simply
-                    // navigate up to the logical parent activity.
-                    NavUtils.navigateUpTo(this, upIntent);
-                }
+                returnToHome();
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void returnToHome(){
+        Intent upIntent = NavUtils.getParentActivityIntent(this);
+        if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
+            // This activity is NOT part of this app's task, so create a new task
+            // when navigating up, with a synthesized back stack.
+            TaskStackBuilder.create(this)
+                    // Add all of this activity's parents to the back stack
+                    .addNextIntentWithParentStack(upIntent)
+                            // Navigate up to the closest parent
+                    .startActivities();
+        } else {
+            // This activity is part of this app's task, so simply
+            // navigate up to the logical parent activity.
+            NavUtils.navigateUpTo(this, upIntent);
+        }
+    }
+
+    @Override
+    public void onBackPressed(){
+        returnToHome();
     }
 
     /**
@@ -138,9 +156,43 @@ public class BrowsePrediction extends AppCompatActivity {
         searchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 reloadView(browseValues);
-                gotoSearchPage(v);
+
+                if(isNetworkAvailable()) {
+                    finish();
+                    gotoSearchPage(v);
+                }
+                else{
+                    AlertDialog.Builder builder = new AlertDialog.Builder(BrowsePrediction.this);
+                    builder.setMessage("You have no Internet Connection")
+                            .setCancelable(false)
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
             }
         });
+    }
+
+    /**
+     * Check to see if there is a connection by testing ping to Google
+     * */
+    public boolean isNetworkAvailable(){
+        try {
+            Process p1 = java.lang.Runtime.getRuntime().exec("ping -c 1    www.google.com");
+            int returnVal = p1.waitFor();
+            boolean reachable = (returnVal==0);
+            if(reachable){
+                return reachable;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     /**

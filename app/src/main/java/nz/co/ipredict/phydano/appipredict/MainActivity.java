@@ -19,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main); // load the main activity layout
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         usersComment();
     }
 
@@ -70,10 +72,12 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_signIn) {
+            finish();
             openSignIn();
             return true;
         }
         else if(id == R.id.action_browse) {
+            finish();
             openPrediction();
             return true;
         }

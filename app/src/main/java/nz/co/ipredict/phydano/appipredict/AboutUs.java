@@ -32,10 +32,10 @@ import javax.mail.internet.MimeMessage;
 import org.apache.commons.codec.binary.Base64;
 
 public class AboutUs extends AppCompatActivity {
-    GoogleAccountCredential mCredential;
+/*    GoogleAccountCredential mCredential;
     private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = { GmailScopes.GMAIL_LABELS };
-    private com.google.api.services.gmail.Gmail mService = null;
+    private com.google.api.services.gmail.Gmail mService = null;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +43,12 @@ public class AboutUs extends AppCompatActivity {
         setContentView(R.layout.activity_about_us);
         scrollTextEdit();
 
-        // Initialize credentials and service object.
+/*        // Initialize credentials and service object.
         SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
         mCredential = GoogleAccountCredential.usingOAuth2(
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff())
-                .setSelectedAccountName(settings.getString(PREF_ACCOUNT_NAME, null));
+                .setSelectedAccountName(settings.getString(PREF_ACCOUNT_NAME, null));*/
     }
 
     /**
@@ -60,23 +60,32 @@ public class AboutUs extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
-                Intent upIntent = NavUtils.getParentActivityIntent(this);
-                if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
-                    // This activity is NOT part of this app's task, so create a new task
-                    // when navigating up, with a synthesized back stack.
-                    TaskStackBuilder.create(this)
-                            // Add all of this activity's parents to the back stack
-                            .addNextIntentWithParentStack(upIntent)
-                                    // Navigate up to the closest parent
-                            .startActivities();
-                } else {
-                    // This activity is part of this app's task, so simply
-                    // navigate up to the logical parent activity.
-                    NavUtils.navigateUpTo(this, upIntent);
-                }
+                returnToHome();
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void returnToHome(){
+        Intent upIntent = NavUtils.getParentActivityIntent(this);
+        if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
+            // This activity is NOT part of this app's task, so create a new task
+            // when navigating up, with a synthesized back stack.
+            TaskStackBuilder.create(this)
+                    // Add all of this activity's parents to the back stack
+                    .addNextIntentWithParentStack(upIntent)
+                            // Navigate up to the closest parent
+                    .startActivities();
+        } else {
+            // This activity is part of this app's task, so simply
+            // navigate up to the logical parent activity.
+            NavUtils.navigateUpTo(this, upIntent);
+        }
+    }
+
+    @Override
+    public void onBackPressed(){
+        returnToHome();
     }
 
     /**

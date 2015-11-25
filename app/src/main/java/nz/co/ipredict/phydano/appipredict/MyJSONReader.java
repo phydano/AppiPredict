@@ -24,7 +24,7 @@ public class MyJSONReader {
      * At the moment this code open a connection but it should also give a connection timeout if
      * users are not connected to the Internet
      */
-    //Todo: check for internet connection to be sure that user has an internet.
+    //Todo: to avoid the network connection error to the main activity, it is suggested to use the AsynTask
 
     public static void JSONReader(String wantedBundle) throws IOException {
         System.out.println("TAG: Does it reaches here?");
@@ -33,6 +33,7 @@ public class MyJSONReader {
         // Connect to the URL using java's native library
         URL url = new URL(sURL);
         HttpURLConnection request = (HttpURLConnection) url.openConnection();
+        request.setConnectTimeout(50000);
         request.connect();
         System.out.println("TAG: Reaches to count area 1");
 
