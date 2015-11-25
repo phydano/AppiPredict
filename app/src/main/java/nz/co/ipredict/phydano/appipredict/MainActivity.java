@@ -6,14 +6,11 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewConfiguration;
-import android.widget.ImageView;
 import android.widget.TextView;
-
 import java.lang.reflect.Field;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,20 +19,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main); // load the main activity layout
-        //backgroundImage(findViewById(R.id.draw)); // set the background image (don't think its useful anymore)
-        //makeActionOverflowMenuShown(); // make the action overflow shown (screw up the action button on the phone)
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
         usersComment();
     }
 
+    /**
+     * The user comment in the home page
+     **/
     public void usersComment(){
-        String comment = "\"This is a quote from an iPredict user\"";
+        String userCommentOne = "\"Buying low and selling high\"";
+        String userCommentTwo = "\"The prediction is real close to its perfection\"";
         String username = "<font color='#0026FF'>iPredict Trader</font>";
         TextView t1 = (TextView) findViewById(R.id.user1);
         TextView t2 = (TextView) findViewById(R.id.user2);
-        t1.setText(Html.fromHtml(comment + "<br/>" + username));
-        t2.setText(Html.fromHtml(comment + "<br/>" + username));
+        t1.setText(Html.fromHtml(userCommentOne + "<br/>" + username));
+        t2.setText(Html.fromHtml(userCommentTwo + "<br/>" + username));
     }
 
     /** Set the background image depends on portrait or landscape */
@@ -48,16 +45,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /** Go to the second activity which is the 'Trading' at the front screen */
-    public void gotoSecond(View view) {
-        Intent intent = new Intent(this, MainActivity2.class);
-        startActivity(intent);
-    }
-
     //Todo: delete this afterwards as this is just the front page button to direct to about us page
     /** Go to the second activity which is the 'Trading' at the front screen */
-    public void gotoAboutUs(View view) {
-        Intent intent = new Intent(this, AboutUs.class);
+    public void gotoBrowsePrediction(View view) {
+        Intent intent = new Intent(this, BrowsePrediction.class);
         startActivity(intent);
     }
 
@@ -87,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         else if(id == R.id.action_about) {
+            finish();
             openAboutUs();
             return true;
         }
@@ -111,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /** This is the action overflow menu */
     private void makeActionOverflowMenuShown() {
         //devices with hardware menu button (e.g. Samsung Note) don't show action overflow menu
         try {

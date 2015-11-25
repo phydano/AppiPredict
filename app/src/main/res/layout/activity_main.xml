@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -55,8 +54,7 @@
                 android:layout_centerHorizontal="true"
                 android:text="@string/start"
                 android:textSize="10sp"
-                android:onClick="gotoAboutUs"
-                />
+                android:onClick="gotoBrowsePrediction" />
 
             <TextView
                 android:id="@+id/textViewPeople"
@@ -88,9 +86,10 @@
             <ImageView
                 android:id="@+id/image"
                 android:layout_below="@+id/textViewAboutUsContent"
-                android:layout_width="match_parent"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:src="@drawable/blank_image" />
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/phone" />
 
             <View
                 android:id="@+id/aLine"
@@ -114,7 +113,7 @@
             <LinearLayout
                 android:id="@+id/one"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="70dp"
                 android:layout_below="@+id/whyUseiPredict"
                 android:weightSum="2"
                 android:orientation="horizontal">
@@ -122,28 +121,26 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/blank_image"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/brain"
                     android:orientation="horizontal">
-
                 </ImageView>
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/blank_image"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/coin"
                     android:orientation="horizontal">
-
                 </ImageView>
-
-
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/four"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="70dp"
                 android:layout_below="@+id/three"
                 android:weightSum="2"
                 android:orientation="horizontal">
@@ -151,19 +148,19 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/blank_image"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/whiteboard"
                     android:orientation="horizontal">
-
                 </ImageView>
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/blank_image"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/phone2"
                     android:orientation="horizontal">
-
                 </ImageView>
 
             </LinearLayout>
@@ -171,7 +168,7 @@
             <LinearLayout
                 android:id="@+id/three"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="80dp"
                 android:layout_below="@+id/two"
                 android:weightSum="2"
                 android:orientation="horizontal">
@@ -187,7 +184,6 @@
                     android:textSize="12sp"
                     android:text="@string/test_your_knowledge"
                     android:orientation="horizontal">
-
                 </TextView>
 
                 <TextView
@@ -201,9 +197,7 @@
                     android:layout_marginRight="12dp"
                     android:text="@string/earn_real_money"
                     android:orientation="horizontal">
-
                 </TextView>
-
             </LinearLayout>
 
             <LinearLayout
@@ -223,7 +217,6 @@
                     android:textStyle="bold"
                     android:text="OVER 100 \n PREDICTIONS"
                     android:orientation="horizontal">
-
                 </TextView>
 
                 <TextView
@@ -235,9 +228,7 @@
                     android:textStyle="bold"
                     android:text="TRADE \n ANYWHERE"
                     android:orientation="horizontal">
-
                 </TextView>
-
             </LinearLayout>
 
             <LinearLayout
@@ -259,7 +250,6 @@
                     android:layout_marginRight="10dp"
                     android:text="@string/over_100_predictions"
                     android:orientation="horizontal">
-
                 </TextView>
 
                 <TextView
@@ -273,9 +263,7 @@
                     android:layout_marginRight="10dp"
                     android:text="@string/trade_anywhere"
                     android:orientation="horizontal">
-
                 </TextView>
-
             </LinearLayout>
 
             <LinearLayout
@@ -295,7 +283,6 @@
                     android:textStyle="bold"
                     android:text="TEST YOUR \n KNOWLEDGE"
                     android:orientation="horizontal">
-
                 </TextView>
 
                 <TextView
@@ -307,9 +294,7 @@
                     android:textStyle="bold"
                     android:text="EARN REAL \n MONEY"
                     android:orientation="horizontal">
-
                 </TextView>
-
             </LinearLayout>
 
             <View
@@ -344,9 +329,8 @@
                     android:layout_width="match_parent"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/blank_image"
+                    android:src="@drawable/user_two"
                     android:orientation="horizontal">
-
                 </ImageView>
 
                 <TextView
@@ -390,12 +374,9 @@
                     android:layout_width="match_parent"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/blank_image"
+                    android:src="@drawable/user_one"
                     android:orientation="horizontal">
-
                 </ImageView>
-
-
             </LinearLayout>
 
             <RelativeLayout
@@ -431,9 +412,7 @@
                     android:textSize="10sp"
                     android:textColor="#ffffff"
                     android:textStyle="bold"
-                    android:onClick="gotoAboutUs"
-                    />
-
+                    android:onClick="gotoBrowsePrediction" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -460,8 +439,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:src="@drawable/vic_logo" />
-
-
             </RelativeLayout>
 
             <RelativeLayout
@@ -505,8 +482,8 @@
                         android:src="@drawable/twitter_logo"
                         android:orientation="horizontal">
                     </ImageView>
-
                 </LinearLayout>
+
                 <TextView
                     android:layout_below="@+id/nine"
                     android:layout_width="match_parent"
@@ -524,5 +501,3 @@
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>
-
-

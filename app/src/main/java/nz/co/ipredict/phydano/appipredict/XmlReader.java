@@ -37,12 +37,13 @@ public class XmlReader {
     private ArrayList<TradeHistory> stockHistory = new ArrayList<TradeHistory>(); // store stock history
     private ArrayList<BookAndStock> book = new ArrayList<BookAndStock>(); // store book on sell and buy
     private ArrayList<String> listOfAllStocksName = new ArrayList<String>(); // store all stocks name that is read from CSV file
-    private ArrayList<ContractInfo> browsePrediction = new ArrayList<ContractInfo>(); // browse predictions
-    private ArrayList<ContractInfo> listOfwantedBundle = new ArrayList<ContractInfo>(); // the bundle we want
+    private static ArrayList<ContractInfo> browsePrediction = new ArrayList<ContractInfo>(); // browse predictions
+    private static ArrayList<ContractInfo> listOfwantedBundle = new ArrayList<ContractInfo>(); // the bundle we want
     private Pattern br = Pattern.compile("\\[br]"); // the newline pattern in HTML
     private Pattern apostrophe = Pattern.compile("&#039;"); // the apostrophe in HTML
 
     public XmlReader(){} /** No arguments in the constructor */
+
 
     /**
      * Read the XML file from the website on the Current Price
@@ -584,7 +585,7 @@ public class XmlReader {
     /**
      * Read JSON File from the web given by Don (which update every 5 minutes)
      */
-    public void JSONReader() throws MalformedURLException, IOException{
+    public static void JSONReader(String wantedBundle) throws IOException{
         //String sURL = "http://ipredict-test.elasticbeanstalk.com/beta/api/IPredict/cache/ContractResults.ipcache"; //just a string
         String sURL = "http://ipredict-test.elasticbeanstalk.com/beta/ajax/Browse/Categories.php?includeContracts=true";
         // Connect to the URL using java's native library
@@ -604,18 +605,19 @@ public class XmlReader {
             readJsonObject(categories, Integer.toString(count));
             count++;
         }
-        bundle("New Zealand Politics");
+        bundle(wantedBundle);
     }
 
     /**
      * Read the Categories and store it in the browse prediction array list
      * */
-    public void readJsonObject (JsonObject categories, String num){
+    public static void readJsonObject (JsonObject categories, String num){
         if(categories != null){
             JsonObject ObjNumber = categories.getAsJsonObject(num);
             if(ObjNumber != null){
                 JsonArray contracts = ObjNumber.getAsJsonArray("contracts");
                 String title = ObjNumber.get("desc").getAsString();
+                String name = ObjNumber.get("name").getAsString();
                 if(contracts != null){
                     for(int i=0; i<contracts.size(); i++){
                         JsonObject e = contracts.get(i).getAsJsonObject();
@@ -640,7 +642,7 @@ public class XmlReader {
 
                             if(status.equals("2")){ status = "active";}
 
-                            ContractInfo contractInfo = new ContractInfo(stockName, title, lastTradePrice, todayChange, todayVolume,
+                            ContractInfo contractInfo = new ContractInfo(stockName, title, name, lastTradePrice, todayChange, todayVolume,
                                     averageDailyVol, status, startDate, endDate, lastTradeTime,
                                     shortDescription, longDescription, judgeStatement,
                                     buyOrders, sellOrders);
@@ -657,9 +659,10 @@ public class XmlReader {
      * Store the bundle contracts in the array list so that we can use it in search prediction page
      * @param wantedBundle give the string of the stock name and we can grab its info from the list
      * */
-    public void bundle(String wantedBundle){
+    public static void bundle(String wantedBundle){
+        System.out.println("TAG: Does it reach here? " + wantedBundle);
         for(int i=0; i<browsePrediction.size();i++){
-            if(browsePrediction.get(i).getTitle().equals(wantedBundle)){ // grab list of specific contract
+            if(browsePrediction.get(i).getName().equals(wantedBundle)){ // grab list of specific contract
                 listOfwantedBundle.add(browsePrediction.get(i));
             }
         }
@@ -688,13 +691,13 @@ public class XmlReader {
     public static void main(String[] args) throws Exception {
         XmlReader reader = new XmlReader();
         //reader.printWithExceptionCheck();
-        reader.JSONReader();
+        //reader.JSONReader();
         //reader.readAllStocks();
         //System.out.println(reader.allStocks.size());
     }
 
     /** Get the list of bundle that wa want */
-    public ArrayList<ContractInfo> getWantedBundle (){
+    public static ArrayList<ContractInfo> getWantedBundle (){
         return listOfwantedBundle;
     }
     //Todo: Note that this Xml reader has not yet deal with null values.
