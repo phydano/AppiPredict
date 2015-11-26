@@ -1,7 +1,6 @@
 package nz.co.ipredict.phydano.appipredict;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
@@ -9,12 +8,14 @@ import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.widget.TextView;
-import java.lang.reflect.Field;
 
+/**
+ * This is the main activity in which is the Home Page of iPredict.
+ **/
 public class MainActivity extends AppCompatActivity {
 
+    // Load upon opening the app
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,23 +29,13 @@ public class MainActivity extends AppCompatActivity {
      * The user comment in the home page
      **/
     public void usersComment(){
-        String userCommentOne = "\"Buying low and selling high\"";
-        String userCommentTwo = "\"The prediction is real close to its perfection\"";
+        String userCommentOne = "\"One of the only three prediction markets in the world\"";
+        String userCommentTwo = "\"Buying low and selling high\"";
         String username = "<font color='#0026FF'>iPredict Trader</font>";
         TextView t1 = (TextView) findViewById(R.id.user1);
         TextView t2 = (TextView) findViewById(R.id.user2);
         t1.setText(Html.fromHtml(userCommentOne + "<br/>" + username));
         t2.setText(Html.fromHtml(userCommentTwo + "<br/>" + username));
-    }
-
-    /** Set the background image depends on portrait or landscape */
-    public void backgroundImage(View view){
-        int orientation = getResources().getConfiguration().orientation;
-        if(orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            view.setBackgroundResource (R.drawable.itemsblue);
-        } else {
-            view.setBackgroundResource (R.drawable.blueportrait);
-        }
     }
 
     //Todo: delete this afterwards as this is just the front page button to direct to about us page
@@ -65,24 +56,21 @@ public class MainActivity extends AppCompatActivity {
     /** Determine which of the action button is clicked and handle that event */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_signIn) {
-            finish();
+        // Action depends on what item you selected in the menu
+        if (id == R.id.action_signIn) { // gets you to the sign in page
+            this.finish(); // close the home page
             openSignIn();
             return true;
         }
-        else if(id == R.id.action_browse) {
-            finish();
+        else if(id == R.id.action_browse) { // gets you to the browse prediction page
+            this.finish(); // close the home page
             openPrediction();
             return true;
         }
-        else if(id == R.id.action_about) {
-            finish();
+        else if(id == R.id.action_about) { // gets you to the about us page
+            this.finish(); // close the home page
             openAboutUs();
             return true;
         }
@@ -107,8 +95,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    /** This is the action overflow menu */
-    private void makeActionOverflowMenuShown() {
+    /**
+     * This is the action overflow menu if needed to use
+     **/
+/*    private void makeActionOverflowMenuShown() {
         //devices with hardware menu button (e.g. Samsung Note) don't show action overflow menu
         try {
             ViewConfiguration config = ViewConfiguration.get(this);
@@ -120,5 +110,5 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
-    }
+    }*/
 }

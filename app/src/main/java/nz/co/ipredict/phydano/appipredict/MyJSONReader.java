@@ -27,7 +27,6 @@ public class MyJSONReader {
     //Todo: to avoid the network connection error to the main activity, it is suggested to use the AsynTask
 
     public static void JSONReader(String wantedBundle) throws IOException {
-        System.out.println("TAG: Does it reaches here?");
         //String sURL = "http://ipredict-test.elasticbeanstalk.com/beta/api/IPredict/cache/ContractResults.ipcache"; //just a string
         String sURL = "http://ipredict-test.elasticbeanstalk.com/beta/ajax/Browse/Categories.php?includeContracts=true";
         // Connect to the URL using java's native library
@@ -35,24 +34,20 @@ public class MyJSONReader {
         HttpURLConnection request = (HttpURLConnection) url.openConnection();
         request.setConnectTimeout(50000);
         request.connect();
-        System.out.println("TAG: Reaches to count area 1");
 
         // Convert to a JSON object to print data
         JsonParser jp = new JsonParser(); //from gson
-        System.out.println("TAG: Reaches to count area 2");
         JsonElement root = jp.parse(new InputStreamReader(request.getInputStream())); // all stuff in JSON
         // Export root.toString to text file will shows everything - print in console here only some are shown
-        System.out.println("TAG: Reaches to count area 3");
         JsonObject allStuffinJson = root.getAsJsonObject(); // all stuff in JSON
         JsonObject categories = allStuffinJson.getAsJsonObject("categories"); // get inside categories
 
-        System.out.println("TAG: Reaches to count area");
         int count = 0;
         while(count < 1500){
             readJsonObject(categories, Integer.toString(count), wantedBundle);
             count++;
-            System.out.println("TAG: " + count);
         }
+        request.disconnect();
         bundle(wantedBundle);
     }
 
@@ -108,7 +103,6 @@ public class MyJSONReader {
      * @param wantedBundle give the string of the stock name and we can grab its info from the list
      * */
     public static void bundle(String wantedBundle){
-        System.out.println("TAG: Does it reach here? " + wantedBundle);
         for(int i=0; i<browsePrediction.size();i++){
             if(browsePrediction.get(i).getName().equals(wantedBundle)){ // grab list of specific contract
                 listOfwantedBundle.add(browsePrediction.get(i));

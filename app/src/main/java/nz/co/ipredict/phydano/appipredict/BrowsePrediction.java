@@ -1,21 +1,15 @@
 package nz.co.ipredict.phydano.appipredict;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.SearchView;
 
@@ -23,9 +17,10 @@ import java.util.ArrayList;
 
 public class BrowsePrediction extends AppCompatActivity {
 
-    private SearchView search;
-    private ListView lv;
-    private Model[] modelItems;
+    private SearchView search; // the search field
+    private ListView lv; // the list of items to display under the search field with checkbox
+    private Model[] modelItems; // our model in each of the row showing the text and checkbox
+    // Item to be listed under the first button
     private String[] browseValues = new String[] {"All Contracts", "Featured",
             "NZ Foreign Affairs", "NZ Politics", "NZ Economics", "NZ Election 2017",
             "NZ Vote Share 2017", "International Politics", "NZ Pay Gaps", "NZ Misc Issues",
@@ -34,32 +29,33 @@ public class BrowsePrediction extends AppCompatActivity {
             "European Elections", "British Election", "British Politics",
             "Eurozone Crises", "Science & Tech", "North Korea", "Student Issues",
             "NZ Long-Term Econ", "NZ Fonterra"};
+    // Item to be listed under the second button
     private String[] sortByValues = new String[] {"Trades", "Movement", "New", "Close Date"};
-    private CustomAdapter adapter;
-    private ArrayList<String> selectedCategoriesContract = new ArrayList<String>();
+    private CustomAdapter adapter; // created custom adapter
+    private ArrayList<String> selectedCategoriesContract = new ArrayList<String>(); // listed of selected categories
 
+    /**
+     * Runs upon loading the activity
+     **/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browse_prediction);
-
-        searchView();
-        buttonIsClicked();
+        searchView(); // load the search view in this acitvity
+        buttonIsClicked(); // load all the buttons in this activity
     }
 
     /**
      * Below is the code for the search view
      * */
     public void searchView(){
-
         search = (SearchView) findViewById(R.id.searchView);
-        search.setQueryHint("Search by keyword");
-        search.setIconifiedByDefault(false);
+        search.setQueryHint("Search by keyword"); // show the hint in the search area
+        search.setIconifiedByDefault(false); // turn off iconified
         search.setFocusable(false); // hide the keyboard upon load
 
         // Text Focus Change Listener
         search.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
-
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
             }
@@ -67,23 +63,21 @@ public class BrowsePrediction extends AppCompatActivity {
 
         // Search on Query Text Listener
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-
             // Text user input in the search field when performing the search
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                System.out.println("The input text is: " + query);
-                return false;
-            }
-
+            public boolean onQueryTextSubmit(String query) { return false; }
             // Call when the query text is changed by the user
             @Override
             public boolean onQueryTextChange(String newText) {
-                System.out.println("The new input text is: " + newText);
                 return false;
             }
         });
     }
 
+    /**
+     * It depends on whether we need the option menu or not. According to the design of the app
+     * apparently it is not needed
+     * */
 /*    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -100,6 +94,7 @@ public class BrowsePrediction extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
+                this.finish();
                 returnToHome();
                 return true;
         }
@@ -125,6 +120,7 @@ public class BrowsePrediction extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){
+        this.finish();
         returnToHome();
     }
 
@@ -132,12 +128,14 @@ public class BrowsePrediction extends AppCompatActivity {
      * Checks to see if button is clicked
      */
     public void buttonIsClicked(){
+        // All the buttons that should be in this activity
         final Button browseButton = (Button) findViewById(R.id.browseButton);
         final Button sortByButton = (Button) findViewById(R.id.sortByButton);
         final Button cancelButton = (Button) findViewById(R.id.cancelButton);
         final Button searchButton = (Button) findViewById(R.id.searchButton);
 
-        loadView(browseValues);
+        loadView(browseValues); // by default load this list
+        // Change the list view depends on what button the user clicked
         browseButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 loadView(browseValues);
@@ -148,20 +146,19 @@ public class BrowsePrediction extends AppCompatActivity {
                 loadView(sortByValues);
             }
         });
+        // These are the two buttons located at the bottom of the activity
         cancelButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                finish(); // return back to the main activity
+                onBackPressed(); // return back to the main activity
             }
         });
         searchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 reloadView(browseValues);
-
-                if(isNetworkAvailable()) {
-                    finish();
+                // Check whether the network connection is available or not
+                if (isNetworkAvailable()) {
                     gotoSearchPage(v);
-                }
-                else{
+                } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(BrowsePrediction.this);
                     builder.setMessage("You have no Internet Connection")
                             .setCancelable(false)
@@ -199,9 +196,8 @@ public class BrowsePrediction extends AppCompatActivity {
      * Go to search page
      * */
     public void gotoSearchPage(View view) {
-        System.out.println("TAG: Array List Size: " + selectedCategoriesContract.size());
-
         Intent intent = new Intent(this, searchPrediction.class);
+        this.finish();
         intent.putStringArrayListExtra("selectedContract", selectedCategoriesContract);
         startActivity(intent);
     }
@@ -230,7 +226,6 @@ public class BrowsePrediction extends AppCompatActivity {
 
         for(int i=0; i< values.length;i++){
             if (adapter.mCheckStates.get(i)){
-                System.out.println("TAG: " + modelItems[i].getName());
                 selectedCategoriesContract.add(modelItems[i].getName());
             }
         }

@@ -5,22 +5,14 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ListView;
 import android.widget.TextView;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
 public class searchPrediction extends AppCompatActivity {
 
     private ArrayList<String> list = new ArrayList<String>();
-    private ArrayList<ContractInfo> browsePrediction = new ArrayList<ContractInfo>(); // browse predictions
-    private ArrayList<ContractInfo> listOfwantedBundle = new ArrayList<ContractInfo>(); // the bundle we want
-    private ListView lv;
-    private StockItem[] modelItems;
-    private CustomAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +21,6 @@ public class searchPrediction extends AppCompatActivity {
 
         list = getIntent().getStringArrayListExtra("selectedContract");
         TextView t = (TextView) findViewById(R.id.stockName);
-        System.out.println("TAG: " + list.size());
         t.setText(list.get(0));
         loadBundle();
     }
@@ -50,6 +41,7 @@ public class searchPrediction extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
+                this.finish();
                 returnToHome();
                 return true;
         }
@@ -75,6 +67,7 @@ public class searchPrediction extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){
+        this.finish();
         returnToHome();
     }
 
@@ -82,12 +75,9 @@ public class searchPrediction extends AppCompatActivity {
      * Call the bundle method from the XMLReader to grab the info from the JSON file.
      * */
     public void loadBundle() {
-        System.out.println("TAG: Start here");
         try {
             for (int i = 0; i < list.size(); i++) {
-                System.out.println("TAG: What in the list is: " + list.get(i));
                 MyJSONReader.JSONReader(list.get(i));
-                System.out.println("TAG : Check the wanted bundle " + MyJSONReader.getWantedBundle().size());
             }
         }catch(IOException e){
             e.printStackTrace();

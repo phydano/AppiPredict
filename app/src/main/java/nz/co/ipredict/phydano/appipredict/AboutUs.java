@@ -31,6 +31,9 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import org.apache.commons.codec.binary.Base64;
 
+/**
+ * This is the about us page which is the iPredict info page on the company
+ **/
 public class AboutUs extends AppCompatActivity {
 /*    GoogleAccountCredential mCredential;
     private static final String PREF_ACCOUNT_NAME = "accountName";
@@ -48,7 +51,8 @@ public class AboutUs extends AppCompatActivity {
         mCredential = GoogleAccountCredential.usingOAuth2(
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff())
-                .setSelectedAccountName(settings.getString(PREF_ACCOUNT_NAME, null));*/
+                .setSelectedAccountName(settings.getString(PREF_ACCOUNT_NAME, null));
+                */
     }
 
     /**
@@ -60,6 +64,7 @@ public class AboutUs extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
+                this.finish();
                 returnToHome();
                 return true;
         }
@@ -83,8 +88,10 @@ public class AboutUs extends AppCompatActivity {
         }
     }
 
+    // The back physical button located on the phone
     @Override
     public void onBackPressed(){
+        this.finish();
         returnToHome();
     }
 
@@ -96,7 +103,6 @@ public class AboutUs extends AppCompatActivity {
         EditText dwEdit = (EditText) findViewById(R.id.message);
         dwEdit.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View view, MotionEvent event) {
-                // TODO Auto-generated method stub
                 if (view.getId() ==R.id.message) {
                     view.getParent().requestDisallowInterceptTouchEvent(true);
                     switch (event.getAction()&MotionEvent.ACTION_MASK){

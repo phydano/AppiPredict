@@ -2,14 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="nz.co.ipredict.phydano.appipredict" >
 
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <!-- Need Internet connection permission so the app can connect to the Internet -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+<!-- This is for the Gmail API but commented our because not using it
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    -->
 
     <application
         android:allowBackup="true"
@@ -24,14 +27,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".MainActivity2"
-            android:label="@string/title_activity_main_activity2"
-            android:parentActivityName=".MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="nz.co.ipredict.phydano.appipredict.MainActivity" />
         </activity>
         <activity
             android:name=".LoginActivity"

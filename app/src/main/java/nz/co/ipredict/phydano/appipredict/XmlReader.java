@@ -317,9 +317,6 @@ public class XmlReader {
                 dateTime = inputOne.parse(endTime.getTextContent());
                 String endTimeMod = dateTimeFormat.format(dateTime);
 
-                System.out.println("Unmodified time is " + startTime.getTextContent());
-                System.out.println("Modified time is " + startTimeMod);
-
                 TradeHistory t = new TradeHistory(currentTimeMod,
                         startTimeMod, endTimeMod);
                 stockHistory.add(t); // add into the array list
@@ -374,9 +371,8 @@ public class XmlReader {
     public void printWithExceptionCheck(){
         try {
             readCurrentPrice("OCR.10DEC15.D25");
-            System.out.println(allCurrentPrice.get(0).getLast());
         }catch (Exception e){
-            System.out.println("The stock appears to be no longer available");
+            e.printStackTrace();
         }
     }
 
@@ -467,10 +463,8 @@ public class XmlReader {
                     max = Double.parseDouble(tradeHistory.get(i).getPrice());
                 }
             }
-            System.out.println("The max price of the stock is: " + max);
             return max;
         }
-        else System.out.println("The stock appears to be no longer available");
         return max;
     }
 
@@ -484,10 +478,8 @@ public class XmlReader {
                     min = Double.parseDouble(tradeHistory.get(i).getPrice());
                 }
             }
-            System.out.println("The min price of the stock is: " + min);
             return min;
         }
-        else System.out.println("The stock appears to be no longer available");
         return min;
     }
 
@@ -499,10 +491,8 @@ public class XmlReader {
                 int temp = Integer.parseInt(t.getQuantity());
                 totalStocks += temp;
             }
-            System.out.println("Number of stocks: " + totalStocks);
             return totalStocks;
         }
-        else System.out.println("The stock appears to be no longer available");
         return totalStocks;
     }
 
@@ -516,10 +506,8 @@ public class XmlReader {
                 sum += Double.parseDouble(t.getPrice()) * temp;
             }
             double sumPrice =  Double.valueOf(newFormat.format(sum));
-            System.out.println("The total price of stock is: " + sumPrice);
             return sumPrice;
         }
-        else System.out.println("The stock appears to be no longer available");
         return sum;
     }
 
@@ -549,7 +537,7 @@ public class XmlReader {
      * Read the CSV file from the web which contains the name of all stocks
      * Unclear on how often the list get update though
      * */
-    public ArrayList<String> readCSVFile() {
+/*    public ArrayList<String> readCSVFile() {
         BufferedReader reader = null;
         String stockName;
         listOfAllStocksName.clear(); // clear the list every time we read the CSV file
@@ -580,12 +568,12 @@ public class XmlReader {
             }
         }
         return listOfAllStocksName;
-    }
+    }*/
 
     /**
      * Read JSON File from the web given by Don (which update every 5 minutes)
      */
-    public static void JSONReader(String wantedBundle) throws IOException{
+/*    public static void JSONReader(String wantedBundle) throws IOException{
         //String sURL = "http://ipredict-test.elasticbeanstalk.com/beta/api/IPredict/cache/ContractResults.ipcache"; //just a string
         String sURL = "http://ipredict-test.elasticbeanstalk.com/beta/ajax/Browse/Categories.php?includeContracts=true";
         // Connect to the URL using java's native library
@@ -606,12 +594,12 @@ public class XmlReader {
             count++;
         }
         bundle(wantedBundle);
-    }
+    }*/
 
     /**
      * Read the Categories and store it in the browse prediction array list
      * */
-    public static void readJsonObject (JsonObject categories, String num){
+/*    public static void readJsonObject (JsonObject categories, String num){
         if(categories != null){
             JsonObject ObjNumber = categories.getAsJsonObject(num);
             if(ObjNumber != null){
@@ -622,7 +610,7 @@ public class XmlReader {
                     for(int i=0; i<contracts.size(); i++){
                         JsonObject e = contracts.get(i).getAsJsonObject();
                         if(e != null){
-                            /** Contract Info */
+                            *//** Contract Info *//*
                             String stockName = e.get("symbol").toString(); // stock Name
                             String lastTradePrice = e.getAsJsonObject("tradingData").get("lastTradePrice").toString(); // last Trade price
                             String todayChange = e.getAsJsonObject("tradingData").get("todaysChange").toString();
@@ -636,7 +624,7 @@ public class XmlReader {
                             String longDescription = e.get("longDescription").toString();
                             String judgeStatement = e.get("judgeStatement").toString();
 
-                            /** Buy order and Sell order */
+                            *//** Buy order and Sell order *//*
                             JsonArray buyOrders = e.getAsJsonObject("book").getAsJsonArray("buyOrders");
                             JsonArray sellOrders = e.getAsJsonObject("book").getAsJsonArray("sellOrders");
 
@@ -653,14 +641,13 @@ public class XmlReader {
                // System.out.println(browsePrediction.size() + "---" + num); // test
             }
         }
-    }
+    }*/
 
     /**
      * Store the bundle contracts in the array list so that we can use it in search prediction page
      * @param wantedBundle give the string of the stock name and we can grab its info from the list
      * */
     public static void bundle(String wantedBundle){
-        System.out.println("TAG: Does it reach here? " + wantedBundle);
         for(int i=0; i<browsePrediction.size();i++){
             if(browsePrediction.get(i).getName().equals(wantedBundle)){ // grab list of specific contract
                 listOfwantedBundle.add(browsePrediction.get(i));
