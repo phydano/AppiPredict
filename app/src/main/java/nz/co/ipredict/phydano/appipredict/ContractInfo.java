@@ -10,6 +10,7 @@ public class ContractInfo {
     private String stockName;
     private String title;
     private String name;
+    private String price;
     private String lastTradePrice;
     private String todaysChange;
     private String todaysVolume;
@@ -24,7 +25,7 @@ public class ContractInfo {
     private JsonArray buyOrders;
     private JsonArray sellOrders;
 
-    public ContractInfo(String stockName, String title, String name, String lastTradePrice, String todaysChange,
+    public ContractInfo(String stockName, String title, String name, String price, String lastTradePrice, String todaysChange,
                         String todaysVolume, String averageDailyVol, String status,
                         String startDate, String endDate, String lastTradeTime,
                         String shortDescription, String longDescription,
@@ -32,6 +33,7 @@ public class ContractInfo {
         this.stockName = stockName;
         this.title = title;
         this.name = name;
+        this.price = price;
         this.lastTradePrice = lastTradePrice;
         this.todaysChange = todaysChange;
         this.todaysVolume = todaysVolume;
@@ -50,6 +52,7 @@ public class ContractInfo {
     public String getStockName(){ return this.stockName;}
     public String getTitle(){ return this.title;}
     public String getName(){ return this.name;}
+    public String getPrice() { return this.price;}
     public String getLastTradePrice(){ return this.lastTradePrice;}
     public String getTodaysChange(){ return this.todaysChange;}
     public String getTodaysVolume(){ return this.todaysVolume;}

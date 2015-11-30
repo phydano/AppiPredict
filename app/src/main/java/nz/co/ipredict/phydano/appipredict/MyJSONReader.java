@@ -32,7 +32,7 @@ public class MyJSONReader {
         // Connect to the URL using java's native library
         URL url = new URL(sURL);
         HttpURLConnection request = (HttpURLConnection) url.openConnection();
-        request.setConnectTimeout(50000);
+        request.setConnectTimeout(60000); // Allow 1 minute to establish connection
         request.connect();
 
         // Convert to a JSON object to print data
@@ -78,6 +78,7 @@ public class MyJSONReader {
                             String shortDescription = e.get("shortDescription").toString();
                             String longDescription = e.get("longDescription").toString();
                             String judgeStatement = e.get("judgeStatement").toString();
+                            String price = e.get("price").toString();
 
                             /** Buy order and Sell order */
                             JsonArray buyOrders = e.getAsJsonObject("book").getAsJsonArray("buyOrders");
@@ -85,10 +86,10 @@ public class MyJSONReader {
 
                             if(status.equals("2")){ status = "active";}
 
-                            ContractInfo contractInfo = new ContractInfo(stockName, title, name, lastTradePrice, todayChange, todayVolume,
-                                    averageDailyVol, status, startDate, endDate, lastTradeTime,
-                                    shortDescription, longDescription, judgeStatement,
-                                    buyOrders, sellOrders);
+                            ContractInfo contractInfo = new ContractInfo(stockName, title, name, price,
+                                    lastTradePrice, todayChange, todayVolume, averageDailyVol, status,
+                                    startDate, endDate, lastTradeTime, shortDescription, longDescription,
+                                    judgeStatement, buyOrders, sellOrders);
                             browsePrediction.add(contractInfo);
                         }
                     }
@@ -113,5 +114,11 @@ public class MyJSONReader {
     /** Get the list of bundle that wa want */
     public static ArrayList<ContractInfo> getWantedBundle (){
         return listOfwantedBundle;
+    }
+
+    /** Must clear the list after return back to the browse prediction page */
+    public static void clearArrayList(){
+        browsePrediction.clear();
+        listOfwantedBundle.clear();
     }
 }

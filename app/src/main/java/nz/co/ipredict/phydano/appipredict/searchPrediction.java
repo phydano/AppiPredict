@@ -6,6 +6,9 @@ import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.TextView;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,16 +16,17 @@ import java.util.ArrayList;
 public class searchPrediction extends AppCompatActivity {
 
     private ArrayList<String> list = new ArrayList<String>();
+    private ArrayList<ContractInfo> selectedContract = new ArrayList<ContractInfo>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_prediction);
-
+        list.clear();
         list = getIntent().getStringArrayListExtra("selectedContract");
-        TextView t = (TextView) findViewById(R.id.stockName);
-        t.setText(list.get(0));
+        System.out.println("TAG: " + list.size());
         loadBundle();
+        displayListView();
     }
 
 /*    @Override
@@ -41,6 +45,7 @@ public class searchPrediction extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
+                MyJSONReader.clearArrayList();
                 this.finish();
                 returnToHome();
                 return true;
@@ -67,6 +72,7 @@ public class searchPrediction extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){
+        MyJSONReader.clearArrayList();
         this.finish();
         returnToHome();
     }
@@ -77,10 +83,41 @@ public class searchPrediction extends AppCompatActivity {
     public void loadBundle() {
         try {
             for (int i = 0; i < list.size(); i++) {
-                MyJSONReader.JSONReader(list.get(i));
+                MyJSONReader.JSONReader(list.get(i)); // search for the selected checked box
+                System.out.println("TAG: Bundled Size " + MyJSONReader.getWantedBundle().size());
             }
+            if(MyJSONReader.getWantedBundle().size() > 0) {
+                for (ContractInfo e : MyJSONReader.getWantedBundle()) {
+                    selectedContract.add(e);
+                }
+            }
+            System.out.println("TAG: " + selectedContract.size());
         }catch(IOException e){
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Add items to the listview and display them
+     **/
+    public void displayListView(){
+        ArrayList<StockItem> myList = new ArrayList<StockItem>();
+        // Loop through the contracts and just grab any infomation necessary to display
+        for(ContractInfo e : selectedContract){
+            String stock = e.getStockName().replace("\"", "");
+            String price = "$" + e.getPrice().replace("\"", "");
+            String change = e.getTodaysChange().replace("\"", "");
+            StockItem temp = new StockItem(stock, price, change);
+            myList.add(temp);
+        }
+
+        final ListView myBundlesList = (ListView) findViewById(R.id.listOfStocks);
+        myBundlesList.setAdapter(new SearchViewCustomAdapter(this, myList));
+        myBundlesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
     }
 }
