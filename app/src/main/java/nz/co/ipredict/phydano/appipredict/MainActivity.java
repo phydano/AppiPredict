@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
      **/
     public void usersComment(){
         String userCommentOne = "\"One of the only three prediction markets in the world\"";
-        String userCommentTwo = "\"Buying low and selling high\"";
+        String userCommentTwo = "\"A fantastic information asset in the NZ market\"";
         String username = "<font color='#0026FF'>iPredict Trader</font>";
         TextView t1 = (TextView) findViewById(R.id.user1);
         TextView t2 = (TextView) findViewById(R.id.user2);

@@ -28,6 +28,8 @@ import com.google.gson.JsonParser;
 /**
  * Created by phydano on 30/07/2015.
  * This is a class to read the XML
+ * This class and its association in reading the XML are no longer needed because of the I am
+ * reading from JSON provided by Don this time round
  */
 public class XmlReader {
     private ArrayList<CurrentPrice> allCurrentPrice = new ArrayList<CurrentPrice>(); // store the current price of the stock
@@ -676,7 +678,7 @@ public class XmlReader {
 
     /** To run the file by itself for testing purpose */
     public static void main(String[] args) throws Exception {
-        XmlReader reader = new XmlReader();
+        //XmlReader reader = new XmlReader();
         //reader.printWithExceptionCheck();
         //reader.JSONReader();
         //reader.readAllStocks();

@@ -27,13 +27,12 @@ public class MyJSONReader {
     //Todo: to avoid the network connection error to the main activity, it is suggested to use the AsynTask
 
     public static void JSONReader(String wantedBundle) throws IOException {
-        //String sURL = "http://ipredict-test.elasticbeanstalk.com/beta/api/IPredict/cache/ContractResults.ipcache"; //just a string
         String sURL = "http://ipredict-test.elasticbeanstalk.com/beta/ajax/Browse/Categories.php?includeContracts=true";
         // Connect to the URL using java's native library
         URL url = new URL(sURL);
         HttpURLConnection request = (HttpURLConnection) url.openConnection();
-        request.setConnectTimeout(60000); // Allow 1 minute to establish connection
-        request.connect();
+        request.setConnectTimeout(60000); //If can't connect, time out in 60 seconds
+        request.connect(); // establish connection
 
         // Convert to a JSON object to print data
         JsonParser jp = new JsonParser(); //from gson
