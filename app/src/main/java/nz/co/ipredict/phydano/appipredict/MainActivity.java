@@ -60,17 +60,14 @@ public class MainActivity extends AppCompatActivity {
 
         // Action depends on what item you selected in the menu
         if (id == R.id.action_signIn) { // gets you to the sign in page
-            this.finish(); // close the home page
             openSignIn();
             return true;
         }
         else if(id == R.id.action_browse) { // gets you to the browse prediction page
-            this.finish(); // close the home page
             openPrediction();
             return true;
         }
         else if(id == R.id.action_about) { // gets you to the about us page
-            this.finish(); // close the home page
             openAboutUs();
             return true;
         }
@@ -80,18 +77,21 @@ public class MainActivity extends AppCompatActivity {
     /** Load the log in page */
     public void openSignIn() {
         Intent intent = new Intent(this, LoginActivity.class);
+        this.finish(); // close the home page
         startActivity(intent);
     }
 
     /** Load the Browse Prediction Page */
     public void openPrediction() {
         Intent intent = new Intent(this, BrowsePrediction.class);
+        this.finish(); // close the home page
         startActivity(intent);
     }
 
     /** Load the about us page */
     public void openAboutUs() {
         Intent intent = new Intent(this, AboutUs.class);
+        this.finish(); // close the home page
         startActivity(intent);
     }
 

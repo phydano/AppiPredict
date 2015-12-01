@@ -8,15 +8,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.TextView;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class searchPrediction extends AppCompatActivity {
 
     private ArrayList<String> list = new ArrayList<String>();
     private ArrayList<ContractInfo> selectedContract = new ArrayList<ContractInfo>();
+
+    /** Test for the Expandable list */
+    ExpandableListAdapter listAdapter;
+    ExpandableListView expListView;
+    ArrayList<String> listDataHeader;
+    HashMap<String, ArrayList<StockItem>> listDataChild;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +34,8 @@ public class searchPrediction extends AppCompatActivity {
         list = getIntent().getStringArrayListExtra("selectedContract");
         System.out.println("TAG: " + list.size());
         loadBundle();
-        displayListView();
+       // displayListView();
+        ExpandableListView();
     }
 
 /*    @Override
@@ -119,5 +128,41 @@ public class searchPrediction extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void ExpandableListView() {
+        expListView = (ExpandableListView) findViewById(R.id.lvExp);
+        listDataHeader = new ArrayList<String>();
+        listDataChild = new HashMap<String, ArrayList<StockItem>>();
+        String title = "";
+
+        for(int i=0 ; i<selectedContract.size(); i++){
+            // first grab any info on that stock
+            String stock = selectedContract.get(i).getStockName().replace("\"", "");
+            String price = "Price: $" + selectedContract.get(i).getPrice().replace("\"", "");
+            String change = "Change: " + selectedContract.get(i).getTodaysChange().replace("\"", "");
+            StockItem temp = new StockItem(stock, price, change);
+            ArrayList<StockItem> myTempList = new ArrayList<StockItem>();
+
+            // check if the title is the same or not
+            // If the title is not the same then add the stock to the list
+            if(!title.equals(selectedContract.get(i).getTitle().replace("\"", ""))) {
+                title = selectedContract.get(i).getTitle().replace("\"", "");
+                myTempList.add(temp);
+                // add it to the map
+                listDataHeader.add(title);
+                listDataChild.put(title, myTempList);
+            }
+            // Otherwise if title is already in the map then add the stock to the arraylist of stocks
+            else{
+                listDataChild.get(title).add(temp);
+            }
+        }
+
+        listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
+        expListView.setAdapter(listAdapter);
+        for(int i=0; i<listAdapter.getGroupCount(); i++){
+            expListView.expandGroup(i);
+        }
     }
 }

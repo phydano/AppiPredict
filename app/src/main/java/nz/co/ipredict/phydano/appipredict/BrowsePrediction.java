@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
@@ -33,6 +34,7 @@ public class BrowsePrediction extends AppCompatActivity {
     private String[] sortByValues = new String[] {"Trades", "Movement", "New", "Close Date"};
     private CustomAdapter adapter; // created custom adapter
     private ArrayList<String> selectedCategoriesContract = new ArrayList<String>(); // listed of selected categories
+    private long mLastClickTime = 0;
 
     /**
      * Runs upon loading the activity
@@ -157,6 +159,11 @@ public class BrowsePrediction extends AppCompatActivity {
                 reloadView(browseValues);
                 // Check whether the network connection is available or not
                 if (isNetworkAvailable()) {
+                    // mis-clicking prevention, using threshold of 1s
+                    if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                        return;
+                    }
+                    mLastClickTime = SystemClock.elapsedRealtime();
                     gotoSearchPage(v);
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(BrowsePrediction.this);
