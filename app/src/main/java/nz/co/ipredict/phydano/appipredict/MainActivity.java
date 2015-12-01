@@ -60,39 +60,39 @@ public class MainActivity extends AppCompatActivity {
 
         // Action depends on what item you selected in the menu
         if (id == R.id.action_signIn) { // gets you to the sign in page
-            openSignIn();
-            return true;
+            return openSignIn();
         }
         else if(id == R.id.action_browse) { // gets you to the browse prediction page
-            openPrediction();
-            return true;
+            return openPrediction();
         }
         else if(id == R.id.action_about) { // gets you to the about us page
-            openAboutUs();
-            return true;
+            return openAboutUs();
         }
         return super.onOptionsItemSelected(item);
     }
 
     /** Load the log in page */
-    public void openSignIn() {
+    public boolean openSignIn() {
         Intent intent = new Intent(this, LoginActivity.class);
         this.finish(); // close the home page
         startActivity(intent);
+        return true;
     }
 
     /** Load the Browse Prediction Page */
-    public void openPrediction() {
+    public boolean openPrediction() {
         Intent intent = new Intent(this, BrowsePrediction.class);
         this.finish(); // close the home page
         startActivity(intent);
+        return true;
     }
 
     /** Load the about us page */
-    public void openAboutUs() {
+    public boolean openAboutUs() {
         Intent intent = new Intent(this, AboutUs.class);
         this.finish(); // close the home page
         startActivity(intent);
+        return true;
     }
 
     /**

@@ -156,30 +156,38 @@ public class BrowsePrediction extends AppCompatActivity {
         });
         searchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                // mis-clicking prevention, using threshold of 1s
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
+                    return;
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();
+
+                // Do all other actions here
                 reloadView(browseValues);
                 // Check whether the network connection is available or not
-                if (isNetworkAvailable()) {
-                    // mis-clicking prevention, using threshold of 1s
-                    if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
-                        return;
-                    }
-                    mLastClickTime = SystemClock.elapsedRealtime();
-                    gotoSearchPage(v);
-                } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(BrowsePrediction.this);
-                    builder.setMessage("You have no Internet Connection")
-                            .setCancelable(false)
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.cancel();
-                                }
-                            });
-                    AlertDialog alert = builder.create();
-                    alert.show();
-                }
+                if (selectedCategoriesContract.size() == 0) alertBox("Please select at least one category");
+                else if(isNetworkAvailable()) gotoSearchPage(v);
+                else alertBox("You have no Internet Connection");
             }
         });
+    }
+
+    /**
+     * This is the alert box tp notify the users
+     * @param message the message which we want to display as a pop up
+     **/
+    public void alertBox(String message){
+        AlertDialog.Builder builder = new AlertDialog.Builder(BrowsePrediction.this);
+        builder.setMessage(message)
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     /**
