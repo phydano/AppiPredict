@@ -1,6 +1,9 @@
 package nz.co.ipredict.phydano.appipredict;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
@@ -11,6 +14,9 @@ import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.google.gson.JsonObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,10 +38,33 @@ public class searchPrediction extends AppCompatActivity {
         setContentView(R.layout.activity_search_prediction);
         list.clear();
         list = getIntent().getStringArrayListExtra("selectedContract");
-        System.out.println("TAG: " + list.size());
-        loadBundle();
-       // displayListView();
-        ExpandableListView();
+        new GetTask().execute();
+    }
+
+    class GetTask extends AsyncTask<String,String,JsonObject> {
+        ProgressDialog mDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mDialog = new ProgressDialog(searchPrediction.this);
+            mDialog.setMessage("Please wait...");
+            mDialog.setIndeterminate(false);
+            mDialog.setCancelable(true);
+            mDialog.show();
+        }
+
+        @Override
+        protected JsonObject doInBackground(String... args){
+            loadBundle();
+            return MyJSONReader.getJsonObj();
+        }
+
+        @Override
+        protected void onPostExecute(JsonObject json){
+            mDialog.dismiss();
+            ExpandableListView();
+        }
     }
 
 /*    @Override
@@ -55,7 +84,6 @@ public class searchPrediction extends AppCompatActivity {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
                 MyJSONReader.clearArrayList();
-                this.finish();
                 returnToHome();
                 return true;
         }
@@ -63,6 +91,7 @@ public class searchPrediction extends AppCompatActivity {
     }
 
     public void returnToHome(){
+        this.finish();
         Intent upIntent = NavUtils.getParentActivityIntent(this);
         if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
             // This activity is NOT part of this app's task, so create a new task
@@ -82,7 +111,6 @@ public class searchPrediction extends AppCompatActivity {
     @Override
     public void onBackPressed(){
         MyJSONReader.clearArrayList();
-        this.finish();
         returnToHome();
     }
 
@@ -164,5 +192,11 @@ public class searchPrediction extends AppCompatActivity {
         for(int i=0; i<listAdapter.getGroupCount(); i++){
             expListView.expandGroup(i);
         }
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop(); // Always call the superclass method first
+        System.gc();
     }
 }

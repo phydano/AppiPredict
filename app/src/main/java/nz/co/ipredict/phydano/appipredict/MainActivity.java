@@ -1,14 +1,23 @@
 package nz.co.ipredict.phydano.appipredict;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 
 /**
  * This is the main activity in which is the Home Page of iPredict.
@@ -20,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main); // load the main activity layout
+        resizeImagesUsingBitMap();
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         usersComment();
@@ -38,11 +48,74 @@ public class MainActivity extends AppCompatActivity {
         t2.setText(Html.fromHtml(userCommentTwo + "<br/>" + username));
     }
 
-    //Todo: delete this afterwards as this is just the front page button to direct to about us page
+    /** Use bitmap to resize images **/
+    public void reduceImageSize(String image){
+        Bitmap bmp;
+        Bitmap bMapScaled;
+        ImageView v;
+        if(image.equals("brain.png") || image.equals("brain")) {
+            v = (ImageView) findViewById(R.id.brain);
+            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.brain);
+            bMapScaled = Bitmap.createScaledBitmap(bmp, 100, 100, true);
+            v.setImageBitmap(bMapScaled);
+        }
+        else if(image.equals("coin.png") || image.equals("coin")) {
+            v = (ImageView) findViewById(R.id.coin);
+            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.coin);
+            bMapScaled = Bitmap.createScaledBitmap(bmp, 100, 100, true);
+            v.setImageBitmap(bMapScaled);
+        }
+        else if(image.equals("phone2.png") || image.equals("phone2")) {
+            v = (ImageView) findViewById(R.id.phone2);
+            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.phone2);
+            bMapScaled = Bitmap.createScaledBitmap(bmp, 100, 100, true);
+            v.setImageBitmap(bMapScaled);
+        }
+        else if(image.equals("whiteboard.png") || image.equals("whiteboard")) {
+            v = (ImageView) findViewById(R.id.prediction);
+            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.whiteboard);
+            bMapScaled = Bitmap.createScaledBitmap(bmp, 100, 100, true);
+            v.setImageBitmap(bMapScaled);
+        }
+        else if(image.equals("user_one.png") || image.equals("user_one")) {
+            v = (ImageView) findViewById(R.id.userone);
+            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.user_one);
+            bMapScaled = Bitmap.createScaledBitmap(bmp, 150, 150, true);
+            v.setImageBitmap(bMapScaled);
+        }
+        else if(image.equals("user_two.png") || image.equals("user_two")) {
+            v = (ImageView) findViewById(R.id.usertwo);
+            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.user_two);
+            bMapScaled = Bitmap.createScaledBitmap(bmp, 150, 150, true);
+            v.setImageBitmap(bMapScaled);
+        }
+    }
+
+    /**
+     * Resize the image using the Bitmap and load the images programmatically rather than in the Layout
+     * */
+    public void resizeImagesUsingBitMap(){
+        String test [] = {"brain.png", "coin.png", "phone2.png", "whiteboard.png", "user_one.png", "user_two.png"};
+        for(int i=0; i<test.length; i++) reduceImageSize(test[i]);
+        setImages();
+    }
+
+    /**
+     * Other large images such as the background and the phone image
+     * */
+    public void setImages(){
+        ImageView v = (ImageView) findViewById(R.id.phone);
+        v.setImageResource(R.drawable.phone);
+        v = (ImageView) findViewById(R.id.firstBackground);
+        v.setImageResource(R.drawable.blueportrait);
+    }
+
     /** Go to the second activity which is the 'Trading' at the front screen */
-    public void gotoBrowsePrediction(View view) {
+    public boolean gotoBrowsePrediction(View view) {
+        this.finish();
         Intent intent = new Intent(this, BrowsePrediction.class);
         startActivity(intent);
+        return true;
     }
 
     /** Create the action menu */
@@ -74,25 +147,35 @@ public class MainActivity extends AppCompatActivity {
     /** Load the log in page */
     public boolean openSignIn() {
         Intent intent = new Intent(this, LoginActivity.class);
-        this.finish(); // close the home page
         startActivity(intent);
+        this.finish();
         return true;
     }
 
     /** Load the Browse Prediction Page */
     public boolean openPrediction() {
         Intent intent = new Intent(this, BrowsePrediction.class);
-        this.finish(); // close the home page
         startActivity(intent);
+        this.finish();
         return true;
     }
 
     /** Load the about us page */
     public boolean openAboutUs() {
         Intent intent = new Intent(this, AboutUs.class);
-        this.finish(); // close the home page
         startActivity(intent);
+        this.finish();
         return true;
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart(); // Always call the superclass method first
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     /**

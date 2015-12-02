@@ -18,7 +18,7 @@ public class MyJSONReader {
 
     private static ArrayList<ContractInfo> browsePrediction = new ArrayList<ContractInfo>(); // browse predictions
     private static ArrayList<ContractInfo> listOfwantedBundle = new ArrayList<ContractInfo>(); // the bundle we want
-
+    private static JsonObject allStuffinJson = null;
     /**
      * Read JSON File from the web given by Don (which update every 5 minutes)
      * At the moment this code open a connection but it should also give a connection timeout if
@@ -38,7 +38,7 @@ public class MyJSONReader {
         JsonParser jp = new JsonParser(); //from gson
         JsonElement root = jp.parse(new InputStreamReader(request.getInputStream())); // all stuff in JSON
         // Export root.toString to text file will shows everything - print in console here only some are shown
-        JsonObject allStuffinJson = root.getAsJsonObject(); // all stuff in JSON
+        allStuffinJson = root.getAsJsonObject(); // all stuff in JSON
         JsonObject categories = allStuffinJson.getAsJsonObject("categories"); // get inside categories
 
         int count = 0;
@@ -49,6 +49,8 @@ public class MyJSONReader {
         request.disconnect();
         bundle(wantedBundle);
     }
+
+    public static JsonObject getJsonObj(){ return allStuffinJson;}
 
     /**
      * Read the Categories and store it in the browse prediction array list

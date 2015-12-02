@@ -96,7 +96,6 @@ public class BrowsePrediction extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
-                this.finish();
                 returnToHome();
                 return true;
         }
@@ -104,6 +103,7 @@ public class BrowsePrediction extends AppCompatActivity {
     }
 
     public void returnToHome(){
+        this.finish();
         Intent upIntent = NavUtils.getParentActivityIntent(this);
         if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
             // This activity is NOT part of this app's task, so create a new task
@@ -122,10 +122,9 @@ public class BrowsePrediction extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){
-        this.finish();
         returnToHome();
     }
-
+    
     /**
      * Checks to see if button is clicked
      */
@@ -165,8 +164,9 @@ public class BrowsePrediction extends AppCompatActivity {
                 // Do all other actions here
                 reloadView(browseValues);
                 // Check whether the network connection is available or not
-                if (selectedCategoriesContract.size() == 0) alertBox("Please select at least one category");
-                else if(isNetworkAvailable()) gotoSearchPage(v);
+                if (selectedCategoriesContract.size() == 0)
+                    alertBox("Please select at least one category");
+                else if (isNetworkAvailable()) gotoSearchPage(v);
                 else alertBox("You have no Internet Connection");
             }
         });
@@ -211,8 +211,8 @@ public class BrowsePrediction extends AppCompatActivity {
      * Go to search page
      * */
     public void gotoSearchPage(View view) {
-        Intent intent = new Intent(this, searchPrediction.class);
         this.finish();
+        Intent intent = new Intent(this, searchPrediction.class);
         intent.putStringArrayListExtra("selectedContract", selectedCategoriesContract);
         startActivity(intent);
     }
@@ -247,4 +247,5 @@ public class BrowsePrediction extends AppCompatActivity {
         adapter = new CustomAdapter(this, modelItems);
         lv.setAdapter(adapter);
     }
+
 }
