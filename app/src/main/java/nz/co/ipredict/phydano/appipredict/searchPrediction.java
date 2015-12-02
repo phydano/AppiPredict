@@ -41,7 +41,7 @@ public class searchPrediction extends AppCompatActivity {
         new GetTask().execute();
     }
 
-    class GetTask extends AsyncTask<String,String,JsonObject> {
+    class GetTask extends AsyncTask<String,String,ArrayList<ContractInfo>> {
         ProgressDialog mDialog;
 
         @Override
@@ -55,16 +55,17 @@ public class searchPrediction extends AppCompatActivity {
         }
 
         @Override
-        protected JsonObject doInBackground(String... args){
+        protected ArrayList<ContractInfo> doInBackground(String... args){
             loadBundle();
-            return MyJSONReader.getJsonObj();
+            return MyJSONReader.getWantedBundle();
         }
 
         @Override
-        protected void onPostExecute(JsonObject json){
+        protected void onPostExecute(ArrayList<ContractInfo> info){
             mDialog.dismiss();
             ExpandableListView();
         }
+
     }
 
 /*    @Override
@@ -192,11 +193,5 @@ public class searchPrediction extends AppCompatActivity {
         for(int i=0; i<listAdapter.getGroupCount(); i++){
             expListView.expandGroup(i);
         }
-    }
-
-    @Override
-    protected void onStop(){
-        super.onStop(); // Always call the superclass method first
-        System.gc();
     }
 }

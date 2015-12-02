@@ -124,7 +124,7 @@ public class BrowsePrediction extends AppCompatActivity {
     public void onBackPressed(){
         returnToHome();
     }
-    
+
     /**
      * Checks to see if button is clicked
      */
