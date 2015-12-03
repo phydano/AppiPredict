@@ -118,6 +118,7 @@ public class BrowsePrediction extends AppCompatActivity {
             // navigate up to the logical parent activity.
             NavUtils.navigateUpTo(this, upIntent);
         }
+        return;
     }
 
     @Override
@@ -162,11 +163,22 @@ public class BrowsePrediction extends AppCompatActivity {
                 mLastClickTime = SystemClock.elapsedRealtime();
 
                 // Do all other actions here
-                reloadView(browseValues);
-                // Check whether the network connection is available or not
-                if (selectedCategoriesContract.size() == 0)
-                    alertBox("Please select at least one category");
-                else if (isNetworkAvailable()) gotoSearchPage(v);
+
+                // First of all it is important to check the Internet connection
+                if (isNetworkAvailable()){
+                    // Called the selected categories to store the items selected
+                    selectedCategories();
+                    // Then check if there is any item selected or not
+                    if(selectedCategoriesContract.size() > 0) {
+                        for(int i=0; i<selectedCategoriesContract.size(); i++){
+                            System.out.println("TAG Categories Selected Item: " + selectedCategoriesContract.get(i));
+                        }
+                        gotoSearchPage(v);
+                    }
+                    // No item is selected
+                    else alertBox("Please select at least one category");
+                }
+                // There is no Internet Connection
                 else alertBox("You have no Internet Connection");
             }
         });
@@ -215,6 +227,7 @@ public class BrowsePrediction extends AppCompatActivity {
         Intent intent = new Intent(this, searchPrediction.class);
         intent.putStringArrayListExtra("selectedContract", selectedCategoriesContract);
         startActivity(intent);
+        return;
     }
 
     /**
@@ -237,15 +250,17 @@ public class BrowsePrediction extends AppCompatActivity {
      * and pass it to the searchPrediction allowing it to gathers all information related
      * to the stocks
      * */
-    public void reloadView(String[] values){
+    public void selectedCategories(){
 
-        for(int i=0; i< values.length;i++){
-            if (adapter.mCheckStates.get(i)){
+        for(int i=0; i< modelItems.length;i++){
+            // Check all the items in the list view to see if it is clicked
+            //
+            if (adapter.mCheckStates.get(i) && !selectedCategoriesContract.contains(modelItems[i].getName())){
                 selectedCategoriesContract.add(modelItems[i].getName());
             }
         }
-        adapter = new CustomAdapter(this, modelItems);
-        lv.setAdapter(adapter);
+        //adapter = new CustomAdapter(this, modelItems);
+        //lv.setAdapter(adapter);
     }
 
 }

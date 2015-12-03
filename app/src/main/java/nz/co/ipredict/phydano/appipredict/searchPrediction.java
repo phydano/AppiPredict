@@ -27,16 +27,15 @@ public class searchPrediction extends AppCompatActivity {
     private ArrayList<ContractInfo> selectedContract = new ArrayList<ContractInfo>();
 
     /** Test for the Expandable list */
-    ExpandableListAdapter listAdapter;
-    ExpandableListView expListView;
-    ArrayList<String> listDataHeader;
-    HashMap<String, ArrayList<StockItem>> listDataChild;
+    static ExpandableListAdapter listAdapter;
+    static ExpandableListView expListView;
+    static ArrayList<String> listDataHeader;
+    static HashMap<String, ArrayList<StockItem>> listDataChild;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_prediction);
-        list.clear();
         list = getIntent().getStringArrayListExtra("selectedContract");
         new GetTask().execute();
     }
@@ -65,7 +64,6 @@ public class searchPrediction extends AppCompatActivity {
             mDialog.dismiss();
             ExpandableListView();
         }
-
     }
 
 /*    @Override
@@ -84,7 +82,7 @@ public class searchPrediction extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
-                MyJSONReader.clearArrayList();
+                //  MyJSONReader.clearArrayList();
                 returnToHome();
                 return true;
         }
@@ -107,32 +105,36 @@ public class searchPrediction extends AppCompatActivity {
             // navigate up to the logical parent activity.
             NavUtils.navigateUpTo(this, upIntent);
         }
+        return;
     }
 
     @Override
     public void onBackPressed(){
-        MyJSONReader.clearArrayList();
+        // MyJSONReader.clearArrayList();
         returnToHome();
     }
+
+/*    @Override
+    protected void onStop() {
+        super.onStop();
+        MyJSONReader.clearArrayList();
+    }*/
 
     /**
      * Call the bundle method from the XMLReader to grab the info from the JSON file.
      * */
     public void loadBundle() {
-        try {
-            for (int i = 0; i < list.size(); i++) {
-                MyJSONReader.JSONReader(list.get(i)); // search for the selected checked box
-                System.out.println("TAG: Bundled Size " + MyJSONReader.getWantedBundle().size());
-            }
-            if(MyJSONReader.getWantedBundle().size() > 0) {
-                for (ContractInfo e : MyJSONReader.getWantedBundle()) {
-                    selectedContract.add(e);
-                }
-            }
-            System.out.println("TAG: " + selectedContract.size());
-        }catch(IOException e){
-            e.printStackTrace();
+        MyJSONReader.EstablishedWebConnection();
+        for (int i = 0; i < list.size(); i++) {
+            MyJSONReader.JSONReader(list.get(i)); // search for the selected checked box
+            System.out.println("TAG: Bundled Size " + MyJSONReader.getWantedBundle().size());
         }
+        if(MyJSONReader.getWantedBundle().size() > 0) {
+            for (ContractInfo e : MyJSONReader.getWantedBundle()) {
+                selectedContract.add(e);
+            }
+        }
+        System.out.println("TAG: " + selectedContract.size());
     }
 
     /**
@@ -193,5 +195,6 @@ public class searchPrediction extends AppCompatActivity {
         for(int i=0; i<listAdapter.getGroupCount(); i++){
             expListView.expandGroup(i);
         }
+        MyJSONReader.clearJsonFile(); // the Json File is too large, get rid of it after completed the work
     }
 }
