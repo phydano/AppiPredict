@@ -1,8 +1,10 @@
 package nz.co.ipredict.phydano.appipredict;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.NavUtils;
@@ -22,14 +24,10 @@ public class BrowsePrediction extends AppCompatActivity {
     private ListView lv; // the list of items to display under the search field with checkbox
     private Model[] modelItems; // our model in each of the row showing the text and checkbox
     // Item to be listed under the first button
-    private String[] browseValues = new String[] {"All Contracts", "Featured",
-            "NZ Foreign Affairs", "NZ Politics", "NZ Economics", "NZ Election 2017",
-            "NZ Vote Share 2017", "International Politics", "NZ Pay Gaps", "NZ Misc Issues",
-            "Pay-the-Searcher", "Commodities", "Financial Markets", "US Politics",
-            "US President", "AUS Economics", "AUS Politics", "Argentina Election",
-            "European Elections", "British Election", "British Politics",
-            "Eurozone Crises", "Science & Tech", "North Korea", "Student Issues",
-            "NZ Long-Term Econ", "NZ Fonterra"};
+    /*private String[] browseValues;*/
+    private String[] browseValues = {"All Contracts", "NZ Politics", "Misc", "Infl 1215",
+            "NZ Misc Issues", "GDP 0615", "GDP 0915", "Ministerial changes", "GDP 1215", "Govop 1617"};
+
     // Item to be listed under the second button
     private String[] sortByValues = new String[] {"Trades", "Movement", "New", "Close Date"};
     private CustomAdapter adapter; // created custom adapter
@@ -43,9 +41,37 @@ public class BrowsePrediction extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browse_prediction);
+        /*new GetTask().execute();*/
         searchView(); // load the search view in this acitvity
         buttonIsClicked(); // load all the buttons in this activity
     }
+
+/*    class GetTask extends AsyncTask<String,String,String[]> {
+        ProgressDialog mDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mDialog = new ProgressDialog(BrowsePrediction.this);
+            mDialog.setMessage("Please wait...");
+            mDialog.setIndeterminate(false);
+            mDialog.setCancelable(true);
+            mDialog.show();
+        }
+
+        @Override
+        protected String[] doInBackground(String... args){
+            browseValues = MyJSONReader.getName();
+            return browseValues;
+        }
+
+        @Override
+        protected void onPostExecute(String[] info){
+            mDialog.dismiss();
+            searchView(); // load the search view in this acitvity
+            buttonIsClicked(); // load all the buttons in this activity
+        }
+    }*/
 
     /**
      * Below is the code for the search view

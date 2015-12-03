@@ -48,6 +48,25 @@ public class MyJSONReader {
         }
     }
 
+/*    public static String[] getName() {
+        String[] allName = {};
+        EstablishedWebConnection();
+        if (root != null) {
+            allStuffinJson = root.getAsJsonObject(); // all stuff in JSON
+            JsonObject categories = allStuffinJson.getAsJsonObject("categories"); // get inside categories
+            int count = 0;
+            while (count < 1500) {
+                if (categories != null) {
+                    JsonObject ObjNumber = categories.getAsJsonObject(Integer.toString(count));
+                    if (ObjNumber != null) {
+                        allName[++count] = ObjNumber.get("name").getAsString();
+                    }
+                }
+            }
+        }
+        return allName;
+    }*/
+
     /**
      * Read JSON File from the web given by Don (which update every 5 minutes)
      * At the moment this code open a connection but it should also give a connection timeout if
