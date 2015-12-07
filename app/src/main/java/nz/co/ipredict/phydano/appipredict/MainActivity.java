@@ -50,57 +50,75 @@ public class MainActivity extends AppCompatActivity {
         if(image.equals("brain.png") || image.equals("brain")) {
             v = (ImageView) findViewById(R.id.brain);
             bmp = BitmapFactory.decodeResource(getResources(), R.drawable.brain);
-            bMapScaled = Bitmap.createScaledBitmap(bmp, 100, 100, true);
+            bMapScaled = Bitmap.createScaledBitmap(bmp, 90, 100, true);
             v.setImageBitmap(bMapScaled);
         }
         else if(image.equals("coin.png") || image.equals("coin")) {
             v = (ImageView) findViewById(R.id.coin);
             bmp = BitmapFactory.decodeResource(getResources(), R.drawable.coin);
-            bMapScaled = Bitmap.createScaledBitmap(bmp, 100, 100, true);
+            bMapScaled = Bitmap.createScaledBitmap(bmp, 90, 100, true);
             v.setImageBitmap(bMapScaled);
         }
         else if(image.equals("phone2.png") || image.equals("phone2")) {
             v = (ImageView) findViewById(R.id.phone2);
             bmp = BitmapFactory.decodeResource(getResources(), R.drawable.phone2);
-            bMapScaled = Bitmap.createScaledBitmap(bmp, 100, 100, true);
+            bMapScaled = Bitmap.createScaledBitmap(bmp, 90, 100, true);
             v.setImageBitmap(bMapScaled);
         }
         else if(image.equals("whiteboard.png") || image.equals("whiteboard")) {
             v = (ImageView) findViewById(R.id.prediction);
             bmp = BitmapFactory.decodeResource(getResources(), R.drawable.whiteboard);
-            bMapScaled = Bitmap.createScaledBitmap(bmp, 100, 100, true);
+            bMapScaled = Bitmap.createScaledBitmap(bmp, 90, 100, true);
             v.setImageBitmap(bMapScaled);
         }
         else if(image.equals("user_one.png") || image.equals("user_one")) {
             v = (ImageView) findViewById(R.id.userone);
             bmp = BitmapFactory.decodeResource(getResources(), R.drawable.user_one);
-            bMapScaled = Bitmap.createScaledBitmap(bmp, 150, 150, true);
+            bMapScaled = Bitmap.createScaledBitmap(bmp, 150, 140, true);
             v.setImageBitmap(bMapScaled);
         }
         else if(image.equals("user_two.png") || image.equals("user_two")) {
             v = (ImageView) findViewById(R.id.usertwo);
             bmp = BitmapFactory.decodeResource(getResources(), R.drawable.user_two);
-            bMapScaled = Bitmap.createScaledBitmap(bmp, 150, 150, true);
+            bMapScaled = Bitmap.createScaledBitmap(bmp, 150, 140, true);
+            v.setImageBitmap(bMapScaled);
+        }
+        else if(image.equals("vic_logo.png") || image.equals("vic_logo")) {
+            v = (ImageView) findViewById(R.id.viclogo);
+            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.vic_logo);
+            bMapScaled = Bitmap.createScaledBitmap(bmp, 400, 150, true);
+            v.setImageBitmap(bMapScaled);
+        }
+        else if(image.equals("phone.png") || image.equals("phone")) {
+            v = (ImageView) findViewById(R.id.phone);
+            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.phone);
+            bMapScaled = Bitmap.createScaledBitmap(bmp, 250, 400, true);
+            v.setImageBitmap(bMapScaled);
+        }
+        else if(image.equals("twitter_logo.png") || image.equals("twitter_logo")) {
+            v = (ImageView) findViewById(R.id.twitterlogo);
+            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.twitter_logo);
+            bMapScaled = Bitmap.createScaledBitmap(bmp, 50, 50, true);
             v.setImageBitmap(bMapScaled);
         }
     }
 
     /**
-     * Resize the image using the Bitmap and load the images programmatically rather than in the Layout
+     * Resize the image using the Bitmap and load the images programmatically rather
+     * than in the XML Layout
      * */
     public void resizeImagesUsingBitMap(){
-        String test [] = {"brain.png", "coin.png", "phone2.png", "whiteboard.png", "user_one.png", "user_two.png"};
+        String test [] = {"brain.png", "coin.png", "phone2.png", "whiteboard.png", "user_one.png",
+                "user_two.png", "vic_logo.png", "phone.png", "twitter_logo.png"};
         for(int i=0; i<test.length; i++) reduceImageSize(test[i]);
-        setImages();
+        setBackgroundImage();
     }
 
     /**
-     * Other large images such as the background and the phone image
+     * Set the blue background image
      * */
-    public void setImages(){
-        ImageView v = (ImageView) findViewById(R.id.phone);
-        v.setImageResource(R.drawable.phone);
-        v = (ImageView) findViewById(R.id.firstBackground);
+    public void setBackgroundImage(){
+        ImageView v = (ImageView) findViewById(R.id.firstBackground);
         v.setImageResource(R.drawable.blueportrait);
     }
 

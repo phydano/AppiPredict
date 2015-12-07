@@ -1,8 +1,12 @@
 package nz.co.ipredict.phydano.appipredict;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -13,11 +17,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
-import android.widget.TextView;
-
-import com.google.gson.JsonObject;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -26,18 +25,13 @@ public class searchPrediction extends AppCompatActivity {
     private ArrayList<String> list = new ArrayList<String>();
     private ArrayList<ContractInfo> selectedContract = new ArrayList<ContractInfo>();
 
-    /** Test for the Expandable list */
-    static ExpandableListAdapter listAdapter;
-    static ExpandableListView expListView;
-    static ArrayList<String> listDataHeader;
-    static HashMap<String, ArrayList<StockItem>> listDataChild;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_prediction);
         list = getIntent().getStringArrayListExtra("selectedContract");
-        new GetTask().execute();
+        if(isNetworkAvailble(this))new GetTask().execute();
+        else alertBox("You have no Internet Connection!!!");
     }
 
     class GetTask extends AsyncTask<String,String,ArrayList<ContractInfo>> {
@@ -63,7 +57,36 @@ public class searchPrediction extends AppCompatActivity {
         protected void onPostExecute(ArrayList<ContractInfo> info){
             mDialog.dismiss();
             ExpandableListView();
+            /*super.cancel(true); // cancel the Asyntask*/
         }
+
+    }
+
+    /**
+     * This is the alert box tp notify the users
+     * @param message the message which we want to display as a pop up
+     **/
+    public void alertBox(String message){
+        AlertDialog.Builder builder = new AlertDialog.Builder(searchPrediction.this);
+        builder.setMessage(message)
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                        returnToHome();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    public boolean isNetworkAvailble(Context ctx){
+        ConnectivityManager cm = (ConnectivityManager)ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if(netInfo != null && netInfo.isConnectedOrConnecting()
+                && cm.getActiveNetworkInfo().isAvailable() && cm.getActiveNetworkInfo().isConnected()) return true;
+        else return false;
     }
 
 /*    @Override
@@ -105,12 +128,10 @@ public class searchPrediction extends AppCompatActivity {
             // navigate up to the logical parent activity.
             NavUtils.navigateUpTo(this, upIntent);
         }
-        return;
     }
 
     @Override
     public void onBackPressed(){
-        // MyJSONReader.clearArrayList();
         returnToHome();
     }
 
@@ -162,9 +183,9 @@ public class searchPrediction extends AppCompatActivity {
     }
 
     public void ExpandableListView() {
-        expListView = (ExpandableListView) findViewById(R.id.lvExp);
-        listDataHeader = new ArrayList<String>();
-        listDataChild = new HashMap<String, ArrayList<StockItem>>();
+        ExpandableListView expListView = (ExpandableListView) findViewById(R.id.lvExp);
+        ArrayList<String> listDataHeader = new ArrayList<String>();
+        HashMap<String, ArrayList<StockItem>> listDataChild = new HashMap<String, ArrayList<StockItem>>();
         String title = "";
 
         for(int i=0 ; i<selectedContract.size(); i++){
@@ -190,7 +211,7 @@ public class searchPrediction extends AppCompatActivity {
             }
         }
 
-        listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
+        ExpandableListAdapter listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
         expListView.setAdapter(listAdapter);
         for(int i=0; i<listAdapter.getGroupCount(); i++){
             expListView.expandGroup(i);

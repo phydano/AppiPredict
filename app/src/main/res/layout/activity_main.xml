@@ -436,10 +436,11 @@
                     android:textStyle="italic" />
 
                 <ImageView
+                    android:id="@+id/viclogo"
                     android:layout_below="@+id/proudlysupport"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/vic_logo" />
+                    />
             </RelativeLayout>
 
             <RelativeLayout
@@ -473,6 +474,7 @@
                     </TextView>
 
                     <ImageView
+                        android:id="@+id/twitterlogo"
                         android:layout_width="80dp"
                         android:layout_marginStart="10dp"
                         android:layout_marginLeft="10dp"
@@ -480,7 +482,6 @@
                         android:layout_marginTop="20dp"
                         android:layout_weight="1"
                         android:layout_height="30dp"
-                        android:src="@drawable/twitter_logo"
                         android:orientation="horizontal">
                     </ImageView>
                 </LinearLayout>

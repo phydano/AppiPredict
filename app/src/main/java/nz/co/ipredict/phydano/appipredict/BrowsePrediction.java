@@ -26,7 +26,30 @@ public class BrowsePrediction extends AppCompatActivity {
     // Item to be listed under the first button
     /*private String[] browseValues;*/
     private String[] browseValues = {"All Contracts", "NZ Politics", "Misc", "Infl 1215",
-            "NZ Misc Issues", "GDP 0615", "GDP 0915", "Ministerial changes", "GDP 1215", "Govop 1617"};
+            "NZ Misc Issues", "GDP 0615", "GDP 0915", "Ministerial changes", "GDP 1215", "Govop 1617",
+            "MPs to Depart", "ExchAU", "New Element", "Len Brown", "RMA", "NextLabLead", "Syria",
+            "Unem 0915", "Unem 1215", "Infl0915", "Newspapers", "Infl0316", "TP Cable", "CAD 0615",
+            "CAD 0915", "CAD 1215", "Lab Dep Leader", "Natlead Key", "NatLead", "OCR0616", "OCR0416",
+            "NASA", "Payout 2016 17", "Payout 2017 18", "Payout 2014 15", "Payout 2015 16", "Wildlife",
+            "Ele WIn 2017", "Burundi", "EC All 2017", "Brazil President", "Infl0616", "Infl0916",
+            "Infl1216", "Next Election", "Aus Leadership", "Rep Nominee", "Election 2016",
+            "Unem 0316", "Greater Wgtn Council", "Minister Depart", "Speaker 2017", "Which Justice",
+            "Marijuana Leg", "Spain", "Election YEAR", "Rep VP Nominee", "Dem Nominee", "Dem VP",
+            "Judith Collins", "GovOp 2015/16", "Greenhouse Gases", "NZ Obesity Rates", "Annl Intl Visitors",
+            "PM HCASE", "By-Elections NZ", "NZ Super Fund", "UBER", "Insurance", "Stats", "NZ1 BoP",
+            "Nth Kor - leadership", "Argentina Election", "Aus.Republic", "Eurozone Departures",
+            "Other Departures", "2016 Election", "GovOp 2014/15", "Shinzo Abe", "NZ Growth 15/16",
+            "NZ Growth 14/15", "NZ u/e 2014/15", "NZ u/e 2015/16", "NZ Infl 2015/16", "Boris",
+            "Fair Fares", "GovOp 2018/19", "Clark UN", "HC to UK", "Can PM", "NZ Rep", "Future NZHOS",
+            "Can Early Elect", "Nominal GDP", "Nominal GDP 2", "OCR0116", "TPPA", "OCR0316", "Lead LAB",
+            "Iran Deal", "EU Membership", "Turnout Next", "Nomination Day", "US Am", "GovOp 2017/18",
+            "VSNZF", "VSGRN", "VSLAB", "VSNAT", "Maurice Williamson", "Auckland Mayor 2016", "Flag Change",
+            "FIREWORKS", "OCR0915", "OCR1015", "OCR1215", "LAB Local Govt", "Google", "TPP Agreement",
+            "BTC/USD", "Trilateral Summit", "Andrew Little Depart", "Millennium Prizes", "Russia President",
+            "GST Bill", "PAC PG", "MAORI PG", "ASIAN PG", "GENDER PG", "Second GE", "NB", "Ontario",
+            "1 Million", "AKL 0815", "Swing States", "Iowa Caucus GOP", "NH PD", "NH PG", "CONGRESS",
+            "AKL 0915", "Iowa Caucus Dem", "CAN MIN GOV", "MAJ votes", "SEATS RANGE", "Seats Liberal",
+            "Seats NDP", "GITMO", "Fed rise", "SC Primary Dem"};
 
     // Item to be listed under the second button
     private String[] sortByValues = new String[] {"Trades", "Movement", "New", "Close Date"};
@@ -191,7 +214,7 @@ public class BrowsePrediction extends AppCompatActivity {
                 // Do all other actions here
 
                 // First of all it is important to check the Internet connection
-                if (isNetworkAvailable()){
+/*                if (isNetworkAvailable()){*/
                     // Called the selected categories to store the items selected
                     selectedCategories();
                     // Then check if there is any item selected or not
@@ -203,9 +226,9 @@ public class BrowsePrediction extends AppCompatActivity {
                     }
                     // No item is selected
                     else alertBox("Please select at least one category");
-                }
+/*                }
                 // There is no Internet Connection
-                else alertBox("You have no Internet Connection");
+                else alertBox("You have no Internet Connection");*/
             }
         });
     }

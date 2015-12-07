@@ -24,6 +24,7 @@ public class MyJSONReader {
     private static ArrayList<ContractInfo> browsePrediction = new ArrayList<ContractInfo>(); // browse predictions
     private static ArrayList<ContractInfo> listOfwantedBundle = new ArrayList<ContractInfo>(); // the bundle we want
     private static JsonObject allStuffinJson = null;
+    private static JsonObject categories = null;
     private static JsonElement root = null;
 
     /**
@@ -78,7 +79,7 @@ public class MyJSONReader {
         if(root != null) {
             // Export root.toString to text file will shows everything - print in console here only some are shown
             allStuffinJson = root.getAsJsonObject(); // all stuff in JSON
-            JsonObject categories = allStuffinJson.getAsJsonObject("categories"); // get inside categories
+            categories = allStuffinJson.getAsJsonObject("categories"); // get inside categories
             int count = 0;
             while (count < 1500) {
                 readJsonObject(categories, Integer.toString(count), wantedBundle);
@@ -164,7 +165,10 @@ public class MyJSONReader {
 
     /** Must clear the list after return back to the browse prediction page */
     public static void clearJsonFile(){
+        // Clear all the stuff that stores JSON
         allStuffinJson = null;
+        root = null;
+        categories = null;
         // Need to clear it to avoid duplicate when search
         listOfwantedBundle.clear();
         browsePrediction.clear();
