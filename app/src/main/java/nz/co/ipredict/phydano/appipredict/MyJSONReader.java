@@ -1,8 +1,5 @@
 package nz.co.ipredict.phydano.appipredict;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -12,8 +9,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by phydano on 25/11/2015.
@@ -29,6 +24,7 @@ public class MyJSONReader {
 
     /**
      * Establish a connection to the web server
+     * Read JSON File from the web given by Don (which update every 5 minutes)
      */
     public static void EstablishedWebConnection(){
         try{
@@ -43,7 +39,7 @@ public class MyJSONReader {
             JsonParser jp = new JsonParser(); //from gson
             root = jp.parse(new InputStreamReader(request.getInputStream())); // all stuff in JSON
 
-            request.disconnect();
+            request.disconnect(); // close the connection
         }catch(IOException e){
             e.printStackTrace();
         }
@@ -69,17 +65,15 @@ public class MyJSONReader {
     }*/
 
     /**
-     * Read JSON File from the web given by Don (which update every 5 minutes)
-     * At the moment this code open a connection but it should also give a connection timeout if
-     * users are not connected to the Internet
+     * Get the JSON info and go through all subcategories under the category that the user checked
+     * @param wantedBundle is the category that the user checked
      */
-    //Todo: to avoid the network connection error to the main activity, it is suggested to use the AsynTask
-
     public static void JSONReader(String wantedBundle) {
         if(root != null) {
             // Export root.toString to text file will shows everything - print in console here only some are shown
             allStuffinJson = root.getAsJsonObject(); // all stuff in JSON
             categories = allStuffinJson.getAsJsonObject("categories"); // get inside categories
+            // Should loop below 1500 times as the ID range from 0-1500
             int count = 0;
             while (count < 1500) {
                 readJsonObject(categories, Integer.toString(count), wantedBundle);
@@ -87,16 +81,13 @@ public class MyJSONReader {
             }
             bundle(wantedBundle);
         }
-        // Could not retrieved the JSON from the web server
-        else{
-            System.out.println("TAG: Could not established an Internet Connection");
-        }
     }
-
-    public static JsonObject getJsonObj(){ return allStuffinJson;}
 
     /**
      * Read the Categories and store it in the browse prediction array list
+     * @param categories is the all the json info we have
+     * @param num is the ID that ranges from 0-1500
+     * @param wantedBundle is the category that user checked
      * */
     public static void readJsonObject (JsonObject categories, String num, String wantedBundle){
         if(categories != null){
@@ -128,8 +119,11 @@ public class MyJSONReader {
                             JsonArray buyOrders = e.getAsJsonObject("book").getAsJsonArray("buyOrders");
                             JsonArray sellOrders = e.getAsJsonObject("book").getAsJsonArray("sellOrders");
 
-                            if(status.equals("2")){ status = "active";}
+                            /** Replace the number string to the corresponding states */
+                            String temp = status;
+                            status = checkStatus(temp);
 
+                            /** Now create the object and it*/
                             ContractInfo contractInfo = new ContractInfo(stockName, title, name, price,
                                     lastTradePrice, todayChange, todayVolume, averageDailyVol, status,
                                     startDate, endDate, lastTradeTime, shortDescription, longDescription,
@@ -140,6 +134,30 @@ public class MyJSONReader {
                 }
                  // System.out.println("TAG: " + browsePrediction.size() + "---" + num); // test
             }
+        }
+    }
+
+    /**
+     * Return the corresponding status depend on the codes
+     * @param status string in which is the code for the status name
+     * */
+    public static String checkStatus(String status){
+        switch(status) {
+            case "1":
+                status = "pending";
+                return status;
+            case "2":
+                status = "active";
+                return status;
+            case "3":
+                status = "suspended";
+                return status;
+            case "4":
+                status = "closed";
+                return status;
+            default:
+                status = "unknown";
+                return status;
         }
     }
 

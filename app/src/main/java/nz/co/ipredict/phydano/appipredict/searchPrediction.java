@@ -30,7 +30,7 @@ public class searchPrediction extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_prediction);
         list = getIntent().getStringArrayListExtra("selectedContract");
-        if(isNetworkAvailble(this))new GetTask().execute();
+        if(isNetworkAvailable(this))new GetTask().execute();
         else alertBox("You have no Internet Connection!!!");
     }
 
@@ -81,7 +81,7 @@ public class searchPrediction extends AppCompatActivity {
         alert.show();
     }
 
-    public boolean isNetworkAvailble(Context ctx){
+    public boolean isNetworkAvailable(Context ctx){
         ConnectivityManager cm = (ConnectivityManager)ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         if(netInfo != null && netInfo.isConnectedOrConnecting()
