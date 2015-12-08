@@ -183,11 +183,12 @@ public class searchPrediction extends AppCompatActivity {
     }
 
     public void ExpandableListView() {
-        ExpandableListView expListView = (ExpandableListView) findViewById(R.id.lvExp);
+        final ExpandableListView expListView = (ExpandableListView) findViewById(R.id.lvExp);
         ArrayList<String> listDataHeader = new ArrayList<String>();
-        HashMap<String, ArrayList<StockItem>> listDataChild = new HashMap<String, ArrayList<StockItem>>();
+        final HashMap<String, ArrayList<StockItem>> listDataChild = new HashMap<String, ArrayList<StockItem>>();
         String title = "";
 
+        if(selectedContract.size() == 0) alertBox("Sorry no results found");
         for(int i=0 ; i<selectedContract.size(); i++){
             // first grab any info on that stock
             String stock = selectedContract.get(i).getStockName().replace("\"", "");
@@ -211,11 +212,43 @@ public class searchPrediction extends AppCompatActivity {
             }
         }
 
-        ExpandableListAdapter listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
+        final ExpandableListAdapter listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
         expListView.setAdapter(listAdapter);
         for(int i=0; i<listAdapter.getGroupCount(); i++){
             expListView.expandGroup(i);
         }
+        // Add a click listener so we can grab the info on that selected subcategory
+        expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                StockItem temp = listAdapter.getChild(groupPosition, childPosition);
+                /*System.out.println("Stock Name: " + temp.getStockName());*/
+                goToResultPage(temp.getStockName());
+                return false;
+            }
+        });
         MyJSONReader.clearJsonFile(); // the Json File is too large, get rid of it after completed the work
+    }
+
+    /**
+     * This method is for taking the user who click on the subcategories of items that
+     * is displayed under the category. Upon selection the info should be pass to the
+     * next activity and the user is directed there
+     * @param subcategory the name of the child
+     * */
+    public void goToResultPage(String subcategory){
+        Intent intent = new Intent(this, ShowResult.class);
+        ContractInfo subcategoryItem = null;
+        for(int i=0; i< MyJSONReader.getWantedBundle().size(); i++) {
+            String temp = MyJSONReader.getWantedBundle().get(i).getStockName();
+            if( temp.equals(subcategory)){
+                subcategoryItem = MyJSONReader.getWantedBundle().get(i);
+            }
+        }
+        if(subcategoryItem != null){
+            // pass the object to the next activity
+            // call the next activity to run
+            // finish the current activity
+        }
     }
 }

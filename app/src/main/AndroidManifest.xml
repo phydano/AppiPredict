@@ -6,19 +6,20 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-<!-- This is for the Gmail API but commented our because not using it
+    <!--
+     This is for the Gmail API but commented our because not using it
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     -->
-
     <application
         android:allowBackup="true"
+        android:configChanges="orientation|screenSize"
         android:icon="@drawable/homeicon"
         android:label="@string/app_name"
-        android:configChanges="orientation|screenSize"
+        android:largeHeap="true"
         android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
@@ -61,6 +62,22 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="nz.co.ipredict.phydano.appipredict.BrowsePrediction" />
+        </activity>
+        <activity
+            android:name=".ShowResult"
+            android:label="@string/title_activity_show_result"
+            android:parentActivityName=".searchPrediction" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="nz.co.ipredict.phydano.appipredict.searchPrediction" />
+        </activity>
+        <activity
+            android:name=".SignUp"
+            android:label="@string/title_activity_sign_up"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="nz.co.ipredict.phydano.appipredict.MainActivity" />
         </activity>
     </application>
 

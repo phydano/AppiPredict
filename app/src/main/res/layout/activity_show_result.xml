@@ -1,0 +1,274 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="nz.co.ipredict.phydano.appipredict.ShowResult">
+
+    <TextView
+        android:id="@+id/resultTileDisplay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="TITLE"/>
+
+    <TextView
+        android:id="@+id/shortDescription"
+        android:layout_below="@+id/resultTileDisplay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="DESCRIPTION"/>
+
+
+    <TextView
+        android:id="@+id/contractInfo"
+        android:layout_below="@+id/shortDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:text="CONTRACT INFO"/>
+
+    <LinearLayout
+        android:id="@+id/firstline"
+        android:layout_below="@+id/contractInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:weightSum="2">
+
+        <TextView
+            android:layout_weight="1"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Last trade price"/>
+
+        <TextView
+            android:layout_weight="1"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Last trade time"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/secondline"
+        android:layout_below="@+id/firstline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:weightSum="2">
+
+        <TextView
+            android:layout_weight="1"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Todays Vol"/>
+
+        <TextView
+            android:layout_weight="1"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Average Daily Vol"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/thirdline"
+        android:layout_below="@+id/secondline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:weightSum="2">
+
+        <TextView
+            android:layout_weight="1"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Todays Change"/>
+
+        <TextView
+            android:layout_weight="1"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Status"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/fourthline"
+        android:layout_below="@+id/thirdline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:weightSum="2">
+
+        <TextView
+            android:layout_weight="1"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Start Date"/>
+
+        <TextView
+            android:layout_weight="1"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="End Date"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/longDescription"
+        android:layout_below="@+id/fourthline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="20dp"
+        android:textStyle="bold"
+        android:text="LONG DESCRIPTION"
+        />
+
+    <TextView
+        android:id="@+id/longDescriptionText"
+        android:layout_below="@id/longDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:gravity="center"
+        android:text="long description text"
+        />
+
+    <TextView
+        android:id="@+id/stockHistory"
+        android:layout_below="@+id/longDescriptionText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="20dp"
+        android:textStyle="bold"
+        android:text="STOCK HISTORY"/>
+
+    <TextView
+        android:id="@+id/currentOrders"
+        android:layout_below="@+id/stockHistory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="20dp"
+        android:textStyle="bold"
+        android:text="CURRENT ORDERS"/>
+
+    <TextView
+        android:id="@+id/judgingCriteria"
+        android:layout_below="@+id/currentOrders"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="20dp"
+        android:textStyle="bold"
+        android:text="JUDING CRITERIA"/>
+
+    <TextView
+        android:id="@+id/judgingCriteriaText"
+        android:layout_below="@+id/judgingCriteria"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="20dp"
+        android:text="judging criteria text"/>
+
+    <TextView
+        android:id="@+id/share"
+        android:layout_below="@+id/judgingCriteriaText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="20dp"
+        android:textStyle="bold"
+        android:text="SHARE"/>
+
+    <LinearLayout
+        android:id="@+id/socialNetworkLinks"
+        android:layout_below="@id/share"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:paddingTop="20dp"
+        android:weightSum="4"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/twitter_logo"/>
+
+        <ImageView
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/twitter_logo"/>
+
+        <ImageView
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_below="@id/socialNetworkLinks"
+        android:id="@+id/threeButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="3"
+        android:orientation="horizontal"
+        android:paddingTop="20dp">
+
+        <Button
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="WATCH"/>
+        <Button
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="BUY AS BUNDLE"/>
+        <Button
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="TRADE"/>
+
+    </LinearLayout>
+
+
+
+
+
+
+
+</RelativeLayout>

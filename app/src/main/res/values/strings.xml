@@ -61,4 +61,6 @@
     <string name="title_activity_search_prediction">searchPrediction</string>
 
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_show_result">ShowResult</string>
+    <string name="title_activity_sign_up">SignUp</string>
 </resources>

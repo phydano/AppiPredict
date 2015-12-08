@@ -1,10 +1,9 @@
 package nz.co.ipredict.phydano.appipredict;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.NavUtils;
@@ -12,6 +11,7 @@ import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -56,6 +56,7 @@ public class BrowsePrediction extends AppCompatActivity {
     private CustomAdapter adapter; // created custom adapter
     private ArrayList<String> selectedCategoriesContract = new ArrayList<String>(); // listed of selected categories
     private long mLastClickTime = 0;
+    private String searchText = "";
 
     /**
      * Runs upon loading the activity
@@ -108,15 +109,26 @@ public class BrowsePrediction extends AppCompatActivity {
         // Text Focus Change Listener
         search.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-            }
+            public void onFocusChange(View v, boolean hasFocus) {}
         });
 
         // Search on Query Text Listener
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             // Text user input in the search field when performing the search
             @Override
-            public boolean onQueryTextSubmit(String query) { return false; }
+            public boolean onQueryTextSubmit(String query) {
+                // Check if no view has focus and hide the soft keyboard
+                View view = getCurrentFocus();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
+                // Add the search text query to the categories we want to search
+                selectedCategoriesContract.add(query);
+                gotoSearchPage();
+                return false;
+            }
+
             // Call when the query text is changed by the user
             @Override
             public boolean onQueryTextChange(String newText) {
@@ -167,7 +179,6 @@ public class BrowsePrediction extends AppCompatActivity {
             // navigate up to the logical parent activity.
             NavUtils.navigateUpTo(this, upIntent);
         }
-        return;
     }
 
     @Override
@@ -215,17 +226,17 @@ public class BrowsePrediction extends AppCompatActivity {
 
                 // First of all it is important to check the Internet connection
 /*                if (isNetworkAvailable()){*/
-                    // Called the selected categories to store the items selected
-                    selectedCategories();
-                    // Then check if there is any item selected or not
-                    if(selectedCategoriesContract.size() > 0) {
-                        for(int i=0; i<selectedCategoriesContract.size(); i++){
-                            System.out.println("TAG Categories Selected Item: " + selectedCategoriesContract.get(i));
-                        }
-                        gotoSearchPage(v);
+                // Called the selected categories to store the items selected
+                selectedCategories();
+                // Then check if there is any item selected or not
+                if (selectedCategoriesContract.size() > 0) {
+                    for (int i = 0; i < selectedCategoriesContract.size(); i++) {
+                        System.out.println("TAG Categories Selected Item: " + selectedCategoriesContract.get(i));
                     }
-                    // No item is selected
-                    else alertBox("Please select at least one category");
+                    gotoSearchPage();
+                }
+                // No item is selected
+                else alertBox("Please select at least one category or search");
 /*                }
                 // There is no Internet Connection
                 else alertBox("You have no Internet Connection");*/
@@ -271,12 +282,11 @@ public class BrowsePrediction extends AppCompatActivity {
     /**
      * Go to search page
      * */
-    public void gotoSearchPage(View view) {
+    public void gotoSearchPage() {
         this.finish();
         Intent intent = new Intent(this, searchPrediction.class);
         intent.putStringArrayListExtra("selectedContract", selectedCategoriesContract);
         startActivity(intent);
-        return;
     }
 
     /**
@@ -300,16 +310,20 @@ public class BrowsePrediction extends AppCompatActivity {
      * to the stocks
      * */
     public void selectedCategories(){
-
-        for(int i=0; i< modelItems.length;i++){
-            // Check all the items in the list view to see if it is clicked
-            //
-            if (adapter.mCheckStates.get(i) && !selectedCategoriesContract.contains(modelItems[i].getName())){
-                selectedCategoriesContract.add(modelItems[i].getName());
+        // Check to see if the first state is selected
+        // This is a special state where it should add all categories
+        if (adapter.mCheckStates.get(0)){
+            for(Model m : modelItems){
+                selectedCategoriesContract.add(m.getName());
             }
         }
-        //adapter = new CustomAdapter(this, modelItems);
-        //lv.setAdapter(adapter);
+        else {
+            for (int i = 0; i < modelItems.length; i++) {
+                // Check all the items in the list view to see if it is clicked
+                if (adapter.mCheckStates.get(i) && !selectedCategoriesContract.contains(modelItems[i].getName())) {
+                    selectedCategoriesContract.add(modelItems[i].getName());
+                }
+            }
+        }
     }
-
 }

@@ -153,6 +153,9 @@ public class MainActivity extends AppCompatActivity {
         else if(id == R.id.action_about) { // gets you to the about us page
             return openAboutUs();
         }
+        else if(id == R.id.action_register) { // gets you to the registration page
+            return signup();
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -175,6 +178,14 @@ public class MainActivity extends AppCompatActivity {
     /** Load the about us page */
     public boolean openAboutUs() {
         Intent intent = new Intent(this, AboutUs.class);
+        startActivity(intent);
+        this.finish();
+        return true;
+    }
+
+    /** Load the registration page */
+    public boolean signup(){
+        Intent intent = new Intent(this, SignUp.class);
         startActivity(intent);
         this.finish();
         return true;
