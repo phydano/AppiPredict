@@ -24,14 +24,44 @@ public class searchPrediction extends AppCompatActivity {
 
     private ArrayList<String> list = new ArrayList<String>();
     private ArrayList<ContractInfo> selectedContract = new ArrayList<ContractInfo>();
+    private ArrayList<String> listDataHeader;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_prediction);
-        list = getIntent().getStringArrayListExtra("selectedContract");
-        if(isNetworkAvailable(this))new GetTask().execute();
-        else alertBox("You have no Internet Connection!!!");
+        // Activity on the first time
+        if(savedInstanceState == null) {
+            System.out.println("Test: Application loaded for the first time !!!");
+            if (getIntent().getStringArrayListExtra("selectedContract") != null)
+                list = getIntent().getStringArrayListExtra("selectedContract");
+            System.out.println("Execution of selected contract Test: " + selectedContract.size());
+            if (isNetworkAvailable(this)) new GetTask().execute();
+            else alertBox("You have no Internet Connection!!!");
+        }
+        // Activity reloaded back
+        else{
+            selectedContract = savedInstanceState.getParcelableArrayList("Test");
+            ExpandableListView();
+            System.out.println("Test: Application reloaded here !!!");
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putParcelableArrayList("Test", selectedContract);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        // Restore UI state from the savedInstanceState.
+        // This bundle has also been passed to onCreate.
+        selectedContract = savedInstanceState.getParcelableArrayList("Test");
+        ExpandableListView();
     }
 
     class GetTask extends AsyncTask<String,String,ArrayList<ContractInfo>> {
@@ -57,7 +87,7 @@ public class searchPrediction extends AppCompatActivity {
         protected void onPostExecute(ArrayList<ContractInfo> info){
             mDialog.dismiss();
             ExpandableListView();
-            /*super.cancel(true); // cancel the Asyntask*/
+            super.cancel(true); // cancel the Asyntask
         }
 
     }
@@ -106,7 +136,7 @@ public class searchPrediction extends AppCompatActivity {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
                 //  MyJSONReader.clearArrayList();
-                returnToHome();
+                NavUtils.navigateUpFromSameTask(this);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -132,7 +162,8 @@ public class searchPrediction extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){
-        returnToHome();
+        super.onBackPressed();
+        NavUtils.navigateUpFromSameTask(this);
     }
 
 /*    @Override
@@ -184,7 +215,7 @@ public class searchPrediction extends AppCompatActivity {
 
     public void ExpandableListView() {
         final ExpandableListView expListView = (ExpandableListView) findViewById(R.id.lvExp);
-        ArrayList<String> listDataHeader = new ArrayList<String>();
+        listDataHeader = new ArrayList<String>();
         final HashMap<String, ArrayList<StockItem>> listDataChild = new HashMap<String, ArrayList<StockItem>>();
         String title = "";
 
@@ -237,18 +268,22 @@ public class searchPrediction extends AppCompatActivity {
      * @param subcategory the name of the child
      * */
     public void goToResultPage(String subcategory){
-        Intent intent = new Intent(this, ShowResult.class);
+        Bundle myBundle = new Bundle();
         ContractInfo subcategoryItem = null;
-        for(int i=0; i< MyJSONReader.getWantedBundle().size(); i++) {
-            String temp = MyJSONReader.getWantedBundle().get(i).getStockName();
+        for(int i=0; i< selectedContract.size(); i++) {
+            String temp = selectedContract.get(i).getStockName().replace("\"", "");;
             if( temp.equals(subcategory)){
-                subcategoryItem = MyJSONReader.getWantedBundle().get(i);
+                subcategoryItem = selectedContract.get(i);
             }
         }
         if(subcategoryItem != null){
+            Intent intent = new Intent(this, ShowResult.class);
             // pass the object to the next activity
+            intent.putExtra("myObject", subcategoryItem);
             // call the next activity to run
+            startActivity(intent);
             // finish the current activity
+            // this.finish(); // not a good idea here, better leave it in the stack
         }
     }
 }

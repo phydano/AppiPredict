@@ -1,11 +1,16 @@
 package nz.co.ipredict.phydano.appipredict;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.JsonArray;
+
+import java.io.Serializable;
 
 /**
  * Created by phydano on 24/11/2015.
  */
-public class ContractInfo {
+public class ContractInfo implements Parcelable {
 
     private String stockName;
     private String title;
@@ -66,4 +71,64 @@ public class ContractInfo {
     public String getJudgeStatement(){ return this.judgeStatement;}
     public JsonArray getBuyOrders(){ return this.buyOrders;}
     public JsonArray getSellOrders(){ return this.sellOrders;}
+
+    // Parcelling part
+    public ContractInfo(Parcel in){
+        this.stockName = in.readString();
+        this.title = in.readString();
+        this.name = in.readString();
+        this.price = in.readString();
+        this.lastTradePrice = in.readString();
+        this.todaysChange = in.readString();
+        this.todaysVolume = in.readString();
+        this.averageDailyVol = in.readString();
+        this.status = in.readString();
+        this.startDate = in.readString();
+        this.endDate = in.readString();
+        this.lastTradeTime = in.readString();
+        this.shortDescription = in.readString();
+        this.longDescription = in.readString();
+        this.judgeStatement = in.readString();
+    }
+
+    @Override
+    public int describeContents(){
+        return 0;
+    }
+
+/*    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+        dest.writeStringArray(new String[]{this.stockName, this.title, this.name, this.price,
+                this.lastTradePrice, this.todaysChange, this.todaysVolume, this.averageDailyVol,
+                this.status, this.startDate, this.endDate, this.lastTradeTime, this.shortDescription,
+                this.longDescription, this.judgeStatement});
+
+    }*/
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.stockName);
+        dest.writeString(this.title);
+        dest.writeString(this.name);
+        dest.writeString(this.price);
+        dest.writeString(this.lastTradePrice);
+        dest.writeString(this.todaysChange);
+        dest.writeString(this.todaysVolume);
+        dest.writeString(this.averageDailyVol);
+        dest.writeString(this.status);
+        dest.writeString(this.startDate);
+        dest.writeString(this.endDate);
+        dest.writeString(this.lastTradeTime);
+        dest.writeString(this.shortDescription);
+        dest.writeString(this.longDescription);
+        dest.writeString(this.judgeStatement);
+    }
+
+    public static final Parcelable.Creator<ContractInfo> CREATOR = new Parcelable.Creator<ContractInfo>() {
+        public ContractInfo createFromParcel(Parcel in) {return new ContractInfo(in);}
+        public ContractInfo[] newArray(int size) {
+            throw new UnsupportedOperationException();
+        }
+    };
 }

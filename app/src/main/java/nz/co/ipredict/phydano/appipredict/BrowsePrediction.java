@@ -157,13 +157,13 @@ public class BrowsePrediction extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
-                returnToHome();
+                NavUtils.navigateUpFromSameTask(this);
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    public void returnToHome(){
+    /*public void returnToHome(){
         this.finish();
         Intent upIntent = NavUtils.getParentActivityIntent(this);
         if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
@@ -179,11 +179,12 @@ public class BrowsePrediction extends AppCompatActivity {
             // navigate up to the logical parent activity.
             NavUtils.navigateUpTo(this, upIntent);
         }
-    }
+    }*/
 
     @Override
     public void onBackPressed(){
-        returnToHome();
+        super.onBackPressed();
+        NavUtils.navigateUpFromSameTask(this);
     }
 
     /**
@@ -283,7 +284,6 @@ public class BrowsePrediction extends AppCompatActivity {
      * Go to search page
      * */
     public void gotoSearchPage() {
-        this.finish();
         Intent intent = new Intent(this, searchPrediction.class);
         intent.putStringArrayListExtra("selectedContract", selectedCategoriesContract);
         startActivity(intent);
