@@ -1,9 +1,13 @@
 package nz.co.ipredict.phydano.appipredict;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.NavUtils;
@@ -24,7 +28,7 @@ public class BrowsePrediction extends AppCompatActivity {
     private ListView lv; // the list of items to display under the search field with checkbox
     private Model[] modelItems; // our model in each of the row showing the text and checkbox
     // Item to be listed under the first button
-    /*private String[] browseValues;*/
+    private ArrayList<String> browseValuesTest = new ArrayList<String>();
     private String[] browseValues = {"All Contracts", "NZ Politics", "Misc", "Infl 1215",
             "NZ Misc Issues", "GDP 0615", "GDP 0915", "Ministerial changes", "GDP 1215", "Govop 1617",
             "MPs to Depart", "ExchAU", "New Element", "Len Brown", "RMA", "NextLabLead", "Syria",
@@ -64,12 +68,19 @@ public class BrowsePrediction extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browse_prediction);
-        /*new GetTask().execute();*/
+        if (isNetworkAvailable(this) && MyJSONReader.getCategories()==null) new GetTask().execute();
+        else browseValuesTest = MyJSONReader.getName();
         searchView(); // load the search view in this acitvity
         buttonIsClicked(); // load all the buttons in this activity
     }
 
-/*    class GetTask extends AsyncTask<String,String,String[]> {
+    @Override
+    protected void onRestart(){
+        super.onRestart();
+        selectedCategoriesContract.clear();
+    }
+
+    class GetTask extends AsyncTask<String,String,ArrayList<String>> {
         ProgressDialog mDialog;
 
         @Override
@@ -83,18 +94,28 @@ public class BrowsePrediction extends AppCompatActivity {
         }
 
         @Override
-        protected String[] doInBackground(String... args){
-            browseValues = MyJSONReader.getName();
-            return browseValues;
+        protected ArrayList<String> doInBackground(String... args){
+            MyJSONReader.EstablishedWebConnection();
+            MyJSONReader.JSONReader("All");
+            browseValuesTest = MyJSONReader.getName();
+            return browseValuesTest;
         }
 
         @Override
-        protected void onPostExecute(String[] info){
+        protected void onPostExecute(ArrayList<String> info){
             mDialog.dismiss();
             searchView(); // load the search view in this acitvity
             buttonIsClicked(); // load all the buttons in this activity
         }
-    }*/
+    }
+
+    public boolean isNetworkAvailable(Context ctx){
+        ConnectivityManager cm = (ConnectivityManager)ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if(netInfo != null && netInfo.isConnectedOrConnecting()
+                && cm.getActiveNetworkInfo().isAvailable() && cm.getActiveNetworkInfo().isConnected()) return true;
+        else return false;
+    }
 
     /**
      * Below is the code for the search view
@@ -172,16 +193,16 @@ public class BrowsePrediction extends AppCompatActivity {
         final Button clearButton = (Button) findViewById(R.id.clearButton);
         final Button searchButton = (Button) findViewById(R.id.searchButton);
 
-        loadView(browseValues); // by default load this list
+        loadView(browseValuesTest); // by default load this list
         // Change the list view depends on what button the user clicked
         browseButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                loadView(browseValues);
+                loadView(browseValuesTest);
             }
         });
         sortByButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                loadView(sortByValues);
+               /* loadView(sortByValues);*/
             }
         });
         // These are the two buttons located at the bottom of the activity
@@ -252,12 +273,22 @@ public class BrowsePrediction extends AppCompatActivity {
      * ListView of items for the Browse section and Sort By section
      * @param values takes in the array of values
      * */
-    public void loadView(String[] values){
+/*    public void loadView(String[] values){
 
         lv = (ListView) findViewById(R.id.listView1);
         modelItems = new Model[values.length];
         for(int i=0; i<values.length; i++){
             modelItems[i] = new Model(values[i],0);
+        }
+        adapter = new CustomAdapter(this, modelItems);
+        lv.setAdapter(adapter);
+    }*/
+
+    public void loadView(ArrayList<String> values){
+        lv = (ListView) findViewById(R.id.listView1);
+        modelItems = new Model[values.size()];
+        for(int i=0; i<values.size(); i++){
+            modelItems[i] = new Model(values.get(i),0);
         }
         adapter = new CustomAdapter(this, modelItems);
         lv.setAdapter(adapter);
@@ -293,7 +324,6 @@ public class BrowsePrediction extends AppCompatActivity {
     public void clearView(){
         for(int i=0; i<modelItems.length;i++){
             if(adapter.isChecked(i)){
-                System.out.println("test: Does it ever get here?");
                 adapter.setChecked(i, false); // turn checked item(s) off
                 lv.setAdapter(adapter); // set the adapter to show the changes
             }

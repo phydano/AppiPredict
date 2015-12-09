@@ -18,15 +18,15 @@ public class MyJSONReader {
 
     private static ArrayList<ContractInfo> browsePrediction = new ArrayList<ContractInfo>(); // browse predictions
     private static ArrayList<ContractInfo> listOfwantedBundle = new ArrayList<ContractInfo>(); // the bundle we want
-    private static JsonObject allStuffinJson = null;
     private static JsonObject categories = null;
-    private static JsonElement root = null;
+    private static ArrayList<String> allCategoriesName = new ArrayList<String>();
 
     /**
      * Establish a connection to the web server
      * Read JSON File from the web given by Don (which update every 5 minutes)
      */
     public static void EstablishedWebConnection(){
+        JsonElement root;
         try{
             String sURL = "http://ipredict-test.elasticbeanstalk.com/beta/ajax/Browse/Categories.php?includeContracts=true";
             // Connect to the URL using java's native library
@@ -38,6 +38,8 @@ public class MyJSONReader {
             // Convert to a JSON object to print data
             JsonParser jp = new JsonParser(); //from gson
             root = jp.parse(new InputStreamReader(request.getInputStream())); // all stuff in JSON
+            // get object twice because of object inside object
+            categories = root.getAsJsonObject().getAsJsonObject("categories"); // get inside categories
 
             request.disconnect(); // close the connection
         }catch(IOException e){
@@ -45,34 +47,13 @@ public class MyJSONReader {
         }
     }
 
-/*    public static String[] getName() {
-        String[] allName = {};
-        EstablishedWebConnection();
-        if (root != null) {
-            allStuffinJson = root.getAsJsonObject(); // all stuff in JSON
-            JsonObject categories = allStuffinJson.getAsJsonObject("categories"); // get inside categories
-            int count = 0;
-            while (count < 1500) {
-                if (categories != null) {
-                    JsonObject ObjNumber = categories.getAsJsonObject(Integer.toString(count));
-                    if (ObjNumber != null) {
-                        allName[++count] = ObjNumber.get("name").getAsString();
-                    }
-                }
-            }
-        }
-        return allName;
-    }*/
-
     /**
      * Get the JSON info and go through all subcategories under the category that the user checked
      * @param wantedBundle is the category that the user checked
      */
     public static void JSONReader(String wantedBundle) {
-        if(root != null) {
+        if(categories != null) {
             // Export root.toString to text file will shows everything - print in console here only some are shown
-            allStuffinJson = root.getAsJsonObject(); // all stuff in JSON
-            categories = allStuffinJson.getAsJsonObject("categories"); // get inside categories
             // Should loop below 1500 times as the ID range from 0-1500
             int count = 0;
             while (count < 1500) {
@@ -96,6 +77,7 @@ public class MyJSONReader {
                 JsonArray contracts = ObjNumber.getAsJsonArray("contracts");
                 String title = ObjNumber.get("desc").getAsString();
                 String name = ObjNumber.get("name").getAsString();
+                allCategoriesName.add(name);
                 if(contracts != null && name.equals(wantedBundle)){
                     for(int i=0; i<contracts.size(); i++){
                         JsonObject e = contracts.get(i).getAsJsonObject();
@@ -181,12 +163,16 @@ public class MyJSONReader {
         return listOfwantedBundle;
     }
 
+    public static ArrayList<String> getName(){ return allCategoriesName; }
+
+    public static JsonObject getCategories(){ return categories;}
+
     /** Must clear the list after return back to the browse prediction page */
     public static void clearJsonFile(){
-        // Clear all the stuff that stores JSON
-        allStuffinJson = null;
-        root = null;
         categories = null;
+    }
+
+    public static void clearList(){
         // Need to clear it to avoid duplicate when search
         listOfwantedBundle.clear();
         browsePrediction.clear();

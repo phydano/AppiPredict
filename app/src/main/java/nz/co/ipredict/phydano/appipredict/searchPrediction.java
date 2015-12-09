@@ -31,6 +31,7 @@ public class searchPrediction extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_prediction);
+        MyJSONReader.clearList(); // the Json File is too large, get rid of it after completed the work
         // Activity on the first time
         if(savedInstanceState == null) {
             System.out.println("Test: Application loaded for the first time !!!");
@@ -113,7 +114,7 @@ public class searchPrediction extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
-                        NavUtils.navigateUpFromSameTask(searchPrediction.this);
+                        onBackPressed();
                     }
                 });
         AlertDialog alert = builder.create();
@@ -155,7 +156,6 @@ public class searchPrediction extends AppCompatActivity {
      * Call the bundle method from the XMLReader to grab the info from the JSON file.
      * */
     public void loadBundle() {
-        MyJSONReader.EstablishedWebConnection();
         for (int i = 0; i < list.size(); i++) {
             MyJSONReader.JSONReader(list.get(i)); // search for the selected checked box
             System.out.println("TAG: Bundled Size " + MyJSONReader.getWantedBundle().size());
@@ -237,7 +237,6 @@ public class searchPrediction extends AppCompatActivity {
                 return false;
             }
         });
-        MyJSONReader.clearJsonFile(); // the Json File is too large, get rid of it after completed the work
     }
 
     /**
