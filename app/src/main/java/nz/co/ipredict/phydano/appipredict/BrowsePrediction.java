@@ -56,7 +56,6 @@ public class BrowsePrediction extends AppCompatActivity {
     private CustomAdapter adapter; // created custom adapter
     private ArrayList<String> selectedCategoriesContract = new ArrayList<String>(); // listed of selected categories
     private long mLastClickTime = 0;
-    private String searchText = "";
 
     /**
      * Runs upon loading the activity
@@ -157,7 +156,7 @@ public class BrowsePrediction extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
+                this.onBackPressed();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -180,12 +179,6 @@ public class BrowsePrediction extends AppCompatActivity {
             NavUtils.navigateUpTo(this, upIntent);
         }
     }*/
-
-    @Override
-    public void onBackPressed(){
-        super.onBackPressed();
-        NavUtils.navigateUpFromSameTask(this);
-    }
 
     /**
      * Checks to see if button is clicked

@@ -48,18 +48,27 @@ public class searchPrediction extends AppCompatActivity {
         }
     }
 
+    /**
+     * Saved the activity state to restore when screen orientation changes
+     * */
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         // Always call the superclass so it can save the view hierarchy state
         super.onSaveInstanceState(savedInstanceState);
+        System.out.println("Test: Anything saved at all?");
         savedInstanceState.putParcelableArrayList("Test", selectedContract);
     }
 
+    /**
+     * Restore the activity state back when the screen orientation changes
+     * but not when we moved to the other activity and came back....
+     * */
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         // Restore UI state from the savedInstanceState.
         // This bundle has also been passed to onCreate.
+        System.out.println("Test: Is someone loading something?");
         selectedContract = savedInstanceState.getParcelableArrayList("Test");
         ExpandableListView();
     }
@@ -104,7 +113,7 @@ public class searchPrediction extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
-                        returnToHome();
+                        NavUtils.navigateUpFromSameTask(searchPrediction.this);
                     }
                 });
         AlertDialog alert = builder.create();
@@ -136,34 +145,19 @@ public class searchPrediction extends AppCompatActivity {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
                 //  MyJSONReader.clearArrayList();
-                NavUtils.navigateUpFromSameTask(this);
+                NavUtils.navigateUpTo(this, NavUtils.getParentActivityIntent(this));
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    public void returnToHome(){
-        this.finish();
-        Intent upIntent = NavUtils.getParentActivityIntent(this);
-        if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
-            // This activity is NOT part of this app's task, so create a new task
-            // when navigating up, with a synthesized back stack.
-            TaskStackBuilder.create(this)
-                    // Add all of this activity's parents to the back stack
-                    .addNextIntentWithParentStack(upIntent)
-                            // Navigate up to the closest parent
-                    .startActivities();
-        } else {
-            // This activity is part of this app's task, so simply
-            // navigate up to the logical parent activity.
-            NavUtils.navigateUpTo(this, upIntent);
-        }
-    }
-
+    /**
+     * Clear the state of the previous activity when go back
+     * */
     @Override
     public void onBackPressed(){
         super.onBackPressed();
-        NavUtils.navigateUpFromSameTask(this);
+        NavUtils.navigateUpTo(this, NavUtils.getParentActivityIntent(this));
     }
 
 /*    @Override
@@ -268,7 +262,6 @@ public class searchPrediction extends AppCompatActivity {
      * @param subcategory the name of the child
      * */
     public void goToResultPage(String subcategory){
-        Bundle myBundle = new Bundle();
         ContractInfo subcategoryItem = null;
         for(int i=0; i< selectedContract.size(); i++) {
             String temp = selectedContract.get(i).getStockName().replace("\"", "");;
@@ -280,6 +273,7 @@ public class searchPrediction extends AppCompatActivity {
             Intent intent = new Intent(this, ShowResult.class);
             // pass the object to the next activity
             intent.putExtra("myObject", subcategoryItem);
+            intent.putParcelableArrayListExtra("savedInstance",selectedContract);
             // call the next activity to run
             startActivity(intent);
             // finish the current activity

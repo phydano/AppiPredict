@@ -124,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
 
     /** Go to the second activity which is the 'Trading' at the front screen */
     public boolean gotoBrowsePrediction(View view) {
-        this.finish();
         Intent intent = new Intent(this, BrowsePrediction.class);
         startActivity(intent);
         return true;
@@ -163,7 +162,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean openSignIn() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
-        this.finish();
         return true;
     }
 
@@ -171,7 +169,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean openPrediction() {
         Intent intent = new Intent(this, BrowsePrediction.class);
         startActivity(intent);
-        this.finish();
         return true;
     }
 
@@ -179,7 +176,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean openAboutUs() {
         Intent intent = new Intent(this, AboutUs.class);
         startActivity(intent);
-        this.finish();
         return true;
     }
 
@@ -187,18 +183,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean signup(){
         Intent intent = new Intent(this, SignUp.class);
         startActivity(intent);
-        this.finish();
         return true;
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart(); // Always call the superclass method first
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
     }
 
     /**

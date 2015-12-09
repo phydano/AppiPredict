@@ -50,7 +50,7 @@ public class ShowResult extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
+                this.onBackPressed();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -73,12 +73,6 @@ public class ShowResult extends AppCompatActivity {
             NavUtils.navigateUpTo(this, upIntent);
         }
     }*/
-
-    @Override
-    public void onBackPressed(){
-        super.onBackPressed();
-        NavUtils.navigateUpFromSameTask(this);
-    }
 
 /*    public void loadWebView(){
         WebView wv = (WebView) findViewById(R.id.stockflashgraph);
