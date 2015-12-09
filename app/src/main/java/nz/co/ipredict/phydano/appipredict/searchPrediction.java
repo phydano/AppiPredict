@@ -145,26 +145,11 @@ public class searchPrediction extends AppCompatActivity {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
                 //  MyJSONReader.clearArrayList();
-                NavUtils.navigateUpTo(this, NavUtils.getParentActivityIntent(this));
+                this.onBackPressed();
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
-
-    /**
-     * Clear the state of the previous activity when go back
-     * */
-    @Override
-    public void onBackPressed(){
-        super.onBackPressed();
-        NavUtils.navigateUpTo(this, NavUtils.getParentActivityIntent(this));
-    }
-
-/*    @Override
-    protected void onStop() {
-        super.onStop();
-        MyJSONReader.clearArrayList();
-    }*/
 
     /**
      * Call the bundle method from the XMLReader to grab the info from the JSON file.

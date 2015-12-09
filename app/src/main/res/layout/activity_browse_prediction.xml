@@ -66,12 +66,12 @@
             android:layout_weight="0.001"
             android:weightSum="2">
             <Button
-                android:id="@+id/cancelButton"
+                android:id="@+id/clearButton"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:clickable="true"
-                android:text="Cancel"
+                android:text="Clear"
                 android:layout_gravity="bottom"
                 android:textColor="#FFFFFF"
                 android:background="@layout/mybutton4"

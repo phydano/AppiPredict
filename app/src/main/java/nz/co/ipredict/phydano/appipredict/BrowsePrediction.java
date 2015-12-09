@@ -162,24 +162,6 @@ public class BrowsePrediction extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /*public void returnToHome(){
-        this.finish();
-        Intent upIntent = NavUtils.getParentActivityIntent(this);
-        if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
-            // This activity is NOT part of this app's task, so create a new task
-            // when navigating up, with a synthesized back stack.
-            TaskStackBuilder.create(this)
-                    // Add all of this activity's parents to the back stack
-                    .addNextIntentWithParentStack(upIntent)
-                            // Navigate up to the closest parent
-                    .startActivities();
-        } else {
-            // This activity is part of this app's task, so simply
-            // navigate up to the logical parent activity.
-            NavUtils.navigateUpTo(this, upIntent);
-        }
-    }*/
-
     /**
      * Checks to see if button is clicked
      */
@@ -187,7 +169,7 @@ public class BrowsePrediction extends AppCompatActivity {
         // All the buttons that should be in this activity
         final Button browseButton = (Button) findViewById(R.id.browseButton);
         final Button sortByButton = (Button) findViewById(R.id.sortByButton);
-        final Button cancelButton = (Button) findViewById(R.id.cancelButton);
+        final Button clearButton = (Button) findViewById(R.id.clearButton);
         final Button searchButton = (Button) findViewById(R.id.searchButton);
 
         loadView(browseValues); // by default load this list
@@ -203,9 +185,9 @@ public class BrowsePrediction extends AppCompatActivity {
             }
         });
         // These are the two buttons located at the bottom of the activity
-        cancelButton.setOnClickListener(new View.OnClickListener() {
+        clearButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                onBackPressed(); // return back to the main activity
+                clearView();
             }
         });
         searchButton.setOnClickListener(new View.OnClickListener() {
@@ -257,24 +239,8 @@ public class BrowsePrediction extends AppCompatActivity {
     }
 
     /**
-     * Check to see if there is a connection by testing ping to Google
-     * */
-    public boolean isNetworkAvailable(){
-        try {
-            Process p1 = java.lang.Runtime.getRuntime().exec("ping -c 1    www.google.com");
-            int returnVal = p1.waitFor();
-            boolean reachable = (returnVal==0);
-            if(reachable){
-                return reachable;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    /**
-     * Go to search page
+     * Go to search page and store the arraylist of string to use it in the next activity
+     * This is the list of the contracts that is being selected in the browse page
      * */
     public void gotoSearchPage() {
         Intent intent = new Intent(this, searchPrediction.class);
@@ -316,6 +282,20 @@ public class BrowsePrediction extends AppCompatActivity {
                 if (adapter.mCheckStates.get(i) && !selectedCategoriesContract.contains(modelItems[i].getName())) {
                     selectedCategoriesContract.add(modelItems[i].getName());
                 }
+            }
+        }
+    }
+
+    /**
+     * Clear the view - the selected items will be cleared
+     * First of all checked the states, if any item is checked then clear that
+     * */
+    public void clearView(){
+        for(int i=0; i<modelItems.length;i++){
+            if(adapter.isChecked(i)){
+                System.out.println("test: Does it ever get here?");
+                adapter.setChecked(i, false); // turn checked item(s) off
+                lv.setAdapter(adapter); // set the adapter to show the changes
             }
         }
     }
