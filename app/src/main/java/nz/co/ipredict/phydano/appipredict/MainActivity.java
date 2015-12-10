@@ -24,9 +24,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main); // load the main activity layout
         resizeImagesUsingBitMap();
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
         usersComment();
+    }
+
+    /**
+     * Saved the activity state to restore when screen orientation changes
+     * */
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(savedInstanceState);
+        System.out.println("Test: Anything saved at all?");
+    }
+
+    /**
+     * Restore the activity state back when the screen orientation changes
+     * but not when we moved to the other activity and came back....
+     * */
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        // Restore UI state from the savedInstanceState.
+        // This bundle has also been passed to onCreate.
+        System.out.println("Test: Is someone loading something?");
     }
 
     /**
@@ -184,6 +204,12 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, SignUp.class);
         startActivity(intent);
         return true;
+    }
+
+    @Override
+    public void onBackPressed(){
+        // moveTaskToBack(true); // use this if don't want to destroy the activity
+        System.exit(0); // close the app completely
     }
 
     /**
