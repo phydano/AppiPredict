@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
 
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 
 public class BrowsePrediction extends AppCompatActivity {
@@ -29,34 +30,9 @@ public class BrowsePrediction extends AppCompatActivity {
     private Model[] modelItems; // our model in each of the row showing the text and checkbox
     // Item to be listed under the first button
     private ArrayList<String> browseValuesTest = new ArrayList<String>();
-    private String[] browseValues = {"All Contracts", "NZ Politics", "Misc", "Infl 1215",
-            "NZ Misc Issues", "GDP 0615", "GDP 0915", "Ministerial changes", "GDP 1215", "Govop 1617",
-            "MPs to Depart", "ExchAU", "New Element", "Len Brown", "RMA", "NextLabLead", "Syria",
-            "Unem 0915", "Unem 1215", "Infl0915", "Newspapers", "Infl0316", "TP Cable", "CAD 0615",
-            "CAD 0915", "CAD 1215", "Lab Dep Leader", "Natlead Key", "NatLead", "OCR0616", "OCR0416",
-            "NASA", "Payout 2016 17", "Payout 2017 18", "Payout 2014 15", "Payout 2015 16", "Wildlife",
-            "Ele WIn 2017", "Burundi", "EC All 2017", "Brazil President", "Infl0616", "Infl0916",
-            "Infl1216", "Next Election", "Aus Leadership", "Rep Nominee", "Election 2016",
-            "Unem 0316", "Greater Wgtn Council", "Minister Depart", "Speaker 2017", "Which Justice",
-            "Marijuana Leg", "Spain", "Election YEAR", "Rep VP Nominee", "Dem Nominee", "Dem VP",
-            "Judith Collins", "GovOp 2015/16", "Greenhouse Gases", "NZ Obesity Rates", "Annl Intl Visitors",
-            "PM HCASE", "By-Elections NZ", "NZ Super Fund", "UBER", "Insurance", "Stats", "NZ1 BoP",
-            "Nth Kor - leadership", "Argentina Election", "Aus.Republic", "Eurozone Departures",
-            "Other Departures", "2016 Election", "GovOp 2014/15", "Shinzo Abe", "NZ Growth 15/16",
-            "NZ Growth 14/15", "NZ u/e 2014/15", "NZ u/e 2015/16", "NZ Infl 2015/16", "Boris",
-            "Fair Fares", "GovOp 2018/19", "Clark UN", "HC to UK", "Can PM", "NZ Rep", "Future NZHOS",
-            "Can Early Elect", "Nominal GDP", "Nominal GDP 2", "OCR0116", "TPPA", "OCR0316", "Lead LAB",
-            "Iran Deal", "EU Membership", "Turnout Next", "Nomination Day", "US Am", "GovOp 2017/18",
-            "VSNZF", "VSGRN", "VSLAB", "VSNAT", "Maurice Williamson", "Auckland Mayor 2016", "Flag Change",
-            "FIREWORKS", "OCR0915", "OCR1015", "OCR1215", "LAB Local Govt", "Google", "TPP Agreement",
-            "BTC/USD", "Trilateral Summit", "Andrew Little Depart", "Millennium Prizes", "Russia President",
-            "GST Bill", "PAC PG", "MAORI PG", "ASIAN PG", "GENDER PG", "Second GE", "NB", "Ontario",
-            "1 Million", "AKL 0815", "Swing States", "Iowa Caucus GOP", "NH PD", "NH PG", "CONGRESS",
-            "AKL 0915", "Iowa Caucus Dem", "CAN MIN GOV", "MAJ votes", "SEATS RANGE", "Seats Liberal",
-            "Seats NDP", "GITMO", "Fed rise", "SC Primary Dem"};
 
     // Item to be listed under the second button
-    private String[] sortByValues = new String[] {"Trades", "Movement", "New", "Close Date"};
+    private ArrayList<String> sortByValues = new ArrayList<String>();
     private CustomAdapter adapter; // created custom adapter
     private ArrayList<String> selectedCategoriesContract = new ArrayList<String>(); // listed of selected categories
     private long mLastClickTime = 0;
@@ -68,7 +44,8 @@ public class BrowsePrediction extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browse_prediction);
-        if (isNetworkAvailable(this) && MyJSONReader.getCategories()==null) new GetTask().execute();
+        if(!isNetworkAvailable(this) && browseValuesTest.isEmpty()) optionalAlertBox("No Internet Connection");
+        else if (isNetworkAvailable(this) && MyJSONReader.getCategories()==null) new GetTask().execute();
         else browseValuesTest = MyJSONReader.getName();
         searchView(); // load the search view in this acitvity
         buttonIsClicked(); // load all the buttons in this activity
@@ -95,9 +72,13 @@ public class BrowsePrediction extends AppCompatActivity {
 
         @Override
         protected ArrayList<String> doInBackground(String... args){
-            MyJSONReader.EstablishedWebConnection();
-            MyJSONReader.JSONReader("All");
-            browseValuesTest = MyJSONReader.getName();
+            try {
+                MyJSONReader.EstablishedWebConnection();
+                MyJSONReader.JSONReader("All");
+                browseValuesTest = MyJSONReader.getName();
+            }catch(SocketTimeoutException e){
+                optionalAlertBox("No Internet Connection");
+            }
             return browseValuesTest;
         }
 
@@ -202,7 +183,13 @@ public class BrowsePrediction extends AppCompatActivity {
         });
         sortByButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-               /* loadView(sortByValues);*/
+                if(sortByValues.isEmpty()){
+                    sortByValues.add("Trades");
+                    sortByValues.add("Movement");
+                    sortByValues.add("New");
+                    sortByValues.add("Close Date");
+                }
+                loadView(sortByValues);
             }
         });
         // These are the two buttons located at the bottom of the activity
@@ -260,6 +247,39 @@ public class BrowsePrediction extends AppCompatActivity {
     }
 
     /**
+     * This is slightly different from the normal alert box
+     * have 2 buttons where one is the same but the other can allow users to retry
+     * the Internet Connection
+     * @param message the text to display on the alert box
+     * */
+    public void optionalAlertBox(String message){
+        AlertDialog.Builder builder = new AlertDialog.Builder(BrowsePrediction.this);
+        builder.setMessage(message)
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                        onBackPressed();
+                    }
+                })
+                .setNegativeButton("Retry", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (isNetworkAvailable(BrowsePrediction.this) && MyJSONReader.getCategories()==null) {
+                            new GetTask().execute();
+                            dialog.cancel();
+                        }
+                        else {
+                            optionalAlertBox("No Internet Connection");
+                        }
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    /**
      * Go to search page and store the arraylist of string to use it in the next activity
      * This is the list of the contracts that is being selected in the browse page
      * */
@@ -301,21 +321,21 @@ public class BrowsePrediction extends AppCompatActivity {
      * */
     public void selectedCategories(){
         // Check to see if the first state is selected
-        // This is a special state where it should add all categories
+/*        // This is a special state where it should add all categories
         if (adapter.mCheckStates.get(0)){
             for(Model m : modelItems){
                 selectedCategoriesContract.add(m.getName());
             }
         }
-        else {
-            for (int i = 0; i < modelItems.length; i++) {
-                // Check all the items in the list view to see if it is clicked
-                if (adapter.mCheckStates.get(i) && !selectedCategoriesContract.contains(modelItems[i].getName())) {
-                    selectedCategoriesContract.add(modelItems[i].getName());
-                }
+        else {*/
+        for (int i = 0; i < modelItems.length; i++) {
+            // Check all the items in the list view to see if it is clicked
+            if (adapter.mCheckStates.get(i) && !selectedCategoriesContract.contains(modelItems[i].getName())) {
+                selectedCategoriesContract.add(modelItems[i].getName());
             }
         }
     }
+/*    }*/
 
     /**
      * Clear the view - the selected items will be cleared

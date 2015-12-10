@@ -38,8 +38,7 @@ public class searchPrediction extends AppCompatActivity {
             if (getIntent().getStringArrayListExtra("selectedContract") != null)
                 list = getIntent().getStringArrayListExtra("selectedContract");
             System.out.println("Execution of selected contract Test: " + selectedContract.size());
-            if (isNetworkAvailable(this)) new GetTask().execute();
-            else alertBox("You have no Internet Connection!!!");
+            new GetTask().execute();
         }
         // Activity reloaded back
         else{
@@ -119,14 +118,6 @@ public class searchPrediction extends AppCompatActivity {
                 });
         AlertDialog alert = builder.create();
         alert.show();
-    }
-
-    public boolean isNetworkAvailable(Context ctx){
-        ConnectivityManager cm = (ConnectivityManager)ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if(netInfo != null && netInfo.isConnectedOrConnecting()
-                && cm.getActiveNetworkInfo().isAvailable() && cm.getActiveNetworkInfo().isConnected()) return true;
-        else return false;
     }
 
 /*    @Override

@@ -7,6 +7,7 @@ import com.google.gson.JsonParser;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -25,7 +26,7 @@ public class MyJSONReader {
      * Establish a connection to the web server
      * Read JSON File from the web given by Don (which update every 5 minutes)
      */
-    public static void EstablishedWebConnection(){
+    public static void EstablishedWebConnection() throws SocketTimeoutException{
         JsonElement root;
         try{
             String sURL = "http://ipredict-test.elasticbeanstalk.com/beta/ajax/Browse/Categories.php?includeContracts=true";

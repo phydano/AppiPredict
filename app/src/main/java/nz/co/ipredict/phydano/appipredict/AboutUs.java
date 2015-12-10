@@ -2,6 +2,8 @@ package nz.co.ipredict.phydano.appipredict;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
@@ -11,6 +13,8 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
+
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -44,6 +48,7 @@ public class AboutUs extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_us);
+        resizeImagesUsingBitMap();
         scrollTextEdit();
 
 /*        // Initialize credentials and service object.
@@ -68,6 +73,57 @@ public class AboutUs extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void reduceImageSize(String image){
+        Bitmap bmp;
+        Bitmap bMapScaled;
+        ImageView v;
+
+        if(image.equals("don_w300px_h350px.png") || image.equals("don_w300px_h350px")) {
+            v = (ImageView) findViewById(R.id.don);
+            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.don_w300px_h350px);
+            bMapScaled = Bitmap.createScaledBitmap(bmp, 280, 300, true);
+            v.setImageBitmap(bMapScaled);
+        }
+        else if(image.equals("emily_w300px_h350px.png") || image.equals("emily_w300px_h350px")) {
+            v = (ImageView) findViewById(R.id.emily);
+            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.emily_w300px_h350px);
+            bMapScaled = Bitmap.createScaledBitmap(bmp, 280, 300, true);
+            v.setImageBitmap(bMapScaled);
+        }
+        else if(image.equals("ian_w300px_h350px.png") || image.equals("ian_w300px_h350px")) {
+            v = (ImageView) findViewById(R.id.ian);
+            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ian_w300px_h350px);
+            bMapScaled = Bitmap.createScaledBitmap(bmp, 130, 150, true);
+            v.setImageBitmap(bMapScaled);
+        }
+        else if(image.equals("kate_w300px_h350px.png") || image.equals("kate_w300px_h350px")) {
+            v = (ImageView) findViewById(R.id.kate);
+            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.kate_w300px_h350px);
+            bMapScaled = Bitmap.createScaledBitmap(bmp, 130, 150, true);
+            v.setImageBitmap(bMapScaled);
+        }
+        else if(image.equals("lewis_w300px_h350px.png") || image.equals("lewis_w300px_h350px")) {
+            v = (ImageView) findViewById(R.id.lewis);
+            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.lewis_w300px_h350px);
+            bMapScaled = Bitmap.createScaledBitmap(bmp, 130, 150, true);
+            v.setImageBitmap(bMapScaled);
+        }
+    }
+
+    public void resizeImagesUsingBitMap(){
+        String test [] = {"don_w300px_h350px.png", "emily_w300px_h350px.png",
+                "ian_w300px_h350px.png", "kate_w300px_h350px.png", "lewis_w300px_h350px.png"};
+        for(int i=0; i<test.length; i++) reduceImageSize(test[i]);
+        setBackgroundImage();
+    }
+
+    public void setBackgroundImage(){
+        ImageView v = (ImageView) findViewById(R.id.firstBackgroundAboutUs);
+        v.setImageResource(R.drawable.blueportrait);
+        v = (ImageView) findViewById(R.id.thirdLinear);
+        v.setImageResource(R.drawable.blueportrait);
     }
 
     /**
