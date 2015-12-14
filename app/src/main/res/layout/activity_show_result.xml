@@ -42,6 +42,7 @@
             android:weightSum="2">
 
             <TextView
+                android:id="@+id/lastTradePrice"
                 android:layout_weight="1"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
@@ -50,6 +51,7 @@
                 android:text="Last trade price"/>
 
             <TextView
+                android:id="@+id/lastTradeTime"
                 android:layout_weight="1"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
@@ -68,6 +70,7 @@
             android:weightSum="2">
 
             <TextView
+                android:id="@+id/todaysVol"
                 android:layout_weight="1"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
@@ -76,6 +79,7 @@
                 android:text="Todays Vol"/>
 
             <TextView
+                android:id="@+id/avgVolume"
                 android:layout_weight="1"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
@@ -94,6 +98,7 @@
             android:weightSum="2">
 
             <TextView
+                android:id="@+id/todaysChange"
                 android:layout_weight="1"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
@@ -102,6 +107,7 @@
                 android:text="Todays Change"/>
 
             <TextView
+                android:id="@+id/status"
                 android:layout_weight="1"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
@@ -120,6 +126,7 @@
             android:weightSum="2">
 
             <TextView
+                android:id="@+id/startDate"
                 android:layout_weight="1"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
@@ -128,6 +135,7 @@
                 android:text="Start Date"/>
 
             <TextView
+                android:id="@+id/endDate"
                 android:layout_weight="1"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
@@ -187,9 +195,104 @@
             android:textStyle="bold"
             android:text="CURRENT ORDERS"/>
 
+        <LinearLayout
+            android:layout_below="@id/currentOrders"
+            android:id="@+id/mytable"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" >
+            <TableLayout
+                android:id="@+id/buyOrdersTable"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:stretchColumns="*"
+                android:layout_gravity="start">
+
+                <TableRow
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:text="Current top 10 buy orders"
+                        />
+
+                    </TableRow>
+
+                <TableRow
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.25"
+                        android:text="Stocks"
+                        />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.25"
+                        android:text="Price(ea)"
+                        />
+                </TableRow>
+            </TableLayout>
+
+            <TableLayout
+                android:id="@+id/sellOrdersTable"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:stretchColumns="*"
+                android:layout_gravity="end">
+
+                <TableRow
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:text="Current top 10 sell orders"
+                        />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25"
+                    android:text="Stocks"
+                    />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25"
+                    android:text="Price(ea)"
+                    />
+                </TableRow>
+                </TableLayout>
+        </LinearLayout>
+
         <TextView
             android:id="@+id/judgingCriteria"
-            android:layout_below="@+id/currentOrders"
+            android:layout_below="@+id/mytable"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"

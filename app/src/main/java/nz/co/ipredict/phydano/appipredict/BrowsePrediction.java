@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
 
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 
@@ -76,7 +77,7 @@ public class BrowsePrediction extends AppCompatActivity {
                 MyJSONReader.EstablishedWebConnection();
                 MyJSONReader.JSONReader("All");
                 browseValuesTest = MyJSONReader.getName();
-            }catch(SocketTimeoutException e){
+            }catch(SocketTimeoutException | SocketException e) {
                 optionalAlertBox("No Internet Connection");
             }
             return browseValuesTest;

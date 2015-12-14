@@ -7,9 +7,13 @@ import com.google.gson.JsonParser;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by phydano on 25/11/2015.
@@ -26,7 +30,7 @@ public class MyJSONReader {
      * Establish a connection to the web server
      * Read JSON File from the web given by Don (which update every 5 minutes)
      */
-    public static void EstablishedWebConnection() throws SocketTimeoutException{
+    public static void EstablishedWebConnection() throws SocketTimeoutException, SocketException{
         JsonElement root;
         try{
             String sURL = "http://ipredict-test.elasticbeanstalk.com/beta/ajax/Browse/Categories.php?includeContracts=true";
@@ -72,6 +76,9 @@ public class MyJSONReader {
      * @param wantedBundle is the category that user checked
      * */
     public static void readJsonObject (JsonObject categories, String num, String wantedBundle){
+        Pattern br = Pattern.compile("\\[br]"); // the newline pattern in HTML
+        Pattern apostrophe = Pattern.compile("&#039;"); // the apostrophe in HTML
+        Pattern quote = Pattern.compile("&quot;");
         if(categories != null){
             JsonObject ObjNumber = categories.getAsJsonObject(num);
             if(ObjNumber != null){
@@ -84,33 +91,56 @@ public class MyJSONReader {
                         JsonObject e = contracts.get(i).getAsJsonObject();
                         if(e != null){
                             /** Contract Info */
-                            String stockName = e.get("symbol").toString(); // stock Name
-                            String lastTradePrice = e.getAsJsonObject("tradingData").get("lastTradePrice").toString(); // last Trade price
-                            String todayChange = e.getAsJsonObject("tradingData").get("todaysChange").toString();
-                            String todayVolume = e.getAsJsonObject("tradingData").get("todaysVolume").toString();
-                            String averageDailyVol = e.getAsJsonObject("tradingData").get("averageDailyVolume").toString();
-                            String status = e.get("status").toString();
-                            String startDate = e.get("dateCreated").toString();
-                            String endDate = e.get("dateDue").toString();
-                            String lastTradeTime = e.getAsJsonObject("tradingData").get("lastTradeTime").toString();
-                            String shortDescription = e.get("shortDescription").toString();
-                            String longDescription = e.get("longDescription").toString();
-                            String judgeStatement = e.get("judgeStatement").toString();
-                            String price = e.get("price").toString();
+                            String stockName = e.get("symbol").toString().replace("\"", ""); // stock Name
+                            String lastTradePrice = e.getAsJsonObject("tradingData").get("lastTradePrice").toString().replace("\"", ""); // last Trade price
+                            String todayChange = e.getAsJsonObject("tradingData").get("todaysChange").toString().replace("\"", "");
+                            String todayVolume = e.getAsJsonObject("tradingData").get("todaysVolume").toString().replace("\"", "");
+                            String averageDailyVol = e.getAsJsonObject("tradingData").get("averageDailyVolume").toString().replace("\"", "");
+                            String status = e.get("status").toString().replace("\"", "");
+                            String startDate = e.get("dateCreated").toString().replace("\"", "");
+                            String endDate = e.get("dateDue").toString().replace("\"", "");
+                            String lastTradeTime = e.getAsJsonObject("tradingData").get("lastTradeTime").toString().replace("\"", "");
+                            String shortDescription = e.get("shortDescription").toString().replace("\"", "");
+                            String longDescription = e.get("longDescription").toString().replace("\"", "");
+                            String judgeStatement = e.get("judgeStatement").toString().replace("\"", "");
+                            String price = e.get("price").toString().replace("\"", "");
 
                             /** Buy order and Sell order */
                             JsonArray buyOrders = e.getAsJsonObject("book").getAsJsonArray("buyOrders");
                             JsonArray sellOrders = e.getAsJsonObject("book").getAsJsonArray("sellOrders");
 
+                            List<BookAndStock> listOfBuyOrders = turnOrdersToList(buyOrders);
+                            List<BookAndStock> listOfSellOrders = turnOrdersToList(sellOrders);
+
                             /** Replace the number string to the corresponding states */
                             String temp = status;
                             status = checkStatus(temp);
 
+                            /** Changes the breaking [br] and apostrophe in a correct format */
+                            // match the break [br] and replace with new line
+                            Matcher matcher = br.matcher(judgeStatement);
+                            String judgeS = matcher.replaceAll("\n");
+                            // then replace the apostrophe
+                            matcher = apostrophe.matcher(judgeS);
+                            String alteredJudegeStatement = matcher.replaceAll("'");
+                            // then replace the quote mark
+                            matcher = quote.matcher(alteredJudegeStatement);
+                            String furtherAlteredJudgeStatement = matcher.replaceAll("\"");
+                            // match the break [br] and replace with new line
+                            matcher = br.matcher(longDescription);
+                            String longDes = matcher.replaceAll("\n");
+                            // then replace the apostrophe
+                            matcher = apostrophe.matcher(longDes);
+                            String alteredLongDes = matcher.replaceAll("'");
+                            // match and replace the apostrophe
+                            matcher = apostrophe.matcher(shortDescription);
+                            String alteredShortDes = matcher.replaceAll("'");
+
                             /** Now create the object and it*/
                             ContractInfo contractInfo = new ContractInfo(stockName, title, name, price,
                                     lastTradePrice, todayChange, todayVolume, averageDailyVol, status,
-                                    startDate, endDate, lastTradeTime, shortDescription, longDescription,
-                                    judgeStatement, buyOrders, sellOrders);
+                                    startDate, endDate, lastTradeTime, alteredShortDes, alteredLongDes,
+                                    furtherAlteredJudgeStatement, listOfBuyOrders, listOfSellOrders);
                             browsePrediction.add(contractInfo);
                         }
                     }
@@ -118,6 +148,18 @@ public class MyJSONReader {
                  // System.out.println("TAG: " + browsePrediction.size() + "---" + num); // test
             }
         }
+    }
+
+    public static List<BookAndStock> turnOrdersToList(JsonArray book){
+        List<BookAndStock> myTempListOfBuyandSell = new ArrayList<BookAndStock>();
+        for(int i=0; i<book.size(); i++){
+            JsonObject temp = book.get(i).getAsJsonObject();
+            String price = temp.get("price").toString().replace("\"", "");
+            String quantity = temp.get("quantity").toString().replace("\"", "");
+            String type = temp.get("type").toString().replace("\"", "");
+            myTempListOfBuyandSell.add(new BookAndStock(type, quantity, price));
+        }
+        return myTempListOfBuyandSell;
     }
 
     /**

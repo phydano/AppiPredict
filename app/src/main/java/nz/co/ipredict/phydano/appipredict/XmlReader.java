@@ -328,25 +328,25 @@ public class XmlReader {
         }
     }
 
-    /**
+/*    *//**
      * Read the order book which contains sell and buy of the stock
-     * */
+     * *//*
     public void readBookAndStock(String info){
         NodeList quantityN, priceN, stockN;
         Element quantityE, priceE, stockE;
         String orderType;
 
         try{
-            /** Open the connection to the XML online */
+            *//** Open the connection to the XML online *//*
             URL url = new URL("https://www.ipredict.co.nz/app.php?do=api&action=book&stock=" + info);
             URLConnection conn = url.openConnection();
 
-            /** Build the document */
+            *//** Build the document *//*
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document doc = builder.parse(conn.getInputStream());
 
-            /** Read the XML by the tag name and read each of the items and create an object */
+            *//** Read the XML by the tag name and read each of the items and create an object *//*
             NodeList nodes = doc.getElementsByTagName("order");
             stockN = doc.getElementsByTagName("stock");
             stockE = (Element) stockN.item(0);
@@ -376,7 +376,7 @@ public class XmlReader {
         }catch (Exception e){
             e.printStackTrace();
         }
-    }
+    }*/
 
     /** Loop through all the current price items in the array list and print */
     public void printCurrentprice(){
@@ -434,7 +434,7 @@ public class XmlReader {
         else System.out.println("The stock appears to be no longer available");
     }
 
-    /** Loop through the buy and sell of the stock */
+/*    *//** Loop through the buy and sell of the stock *//*
     public void booking(){
         if(book.size() > 0){
             for(BookAndStock b: book){
@@ -453,7 +453,7 @@ public class XmlReader {
             }
         }
         else System.out.println("The stock appears to be no longer available");
-    }
+    }*/
 
     /** Find the maximum stock trade price */
     public double maxStockPrice(){
@@ -532,7 +532,7 @@ public class XmlReader {
         readStockInfo("OCR.10DEC15.D25");
         readStockInfo("OCR.10SEP15.D25");
         readTradeHistory(1, "OCR.10SEP15.D25");
-        readBookAndStock("OCR.10SEP15.D25");
+        /*readBookAndStock("OCR.10SEP15.D25");*/
     }
 
     /**

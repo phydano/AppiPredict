@@ -6,6 +6,8 @@ import android.os.Parcelable;
 import com.google.gson.JsonArray;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by phydano on 24/11/2015.
@@ -27,14 +29,14 @@ public class ContractInfo implements Parcelable {
     private String shortDescription;
     private String longDescription;
     private String judgeStatement;
-    private JsonArray buyOrders;
-    private JsonArray sellOrders;
+    private List<BookAndStock> buyOrders;
+    private List<BookAndStock> sellOrders;
 
     public ContractInfo(String stockName, String title, String name, String price, String lastTradePrice, String todaysChange,
                         String todaysVolume, String averageDailyVol, String status,
                         String startDate, String endDate, String lastTradeTime,
                         String shortDescription, String longDescription,
-                        String judgeStatement, JsonArray buyOrders, JsonArray sellOrders){
+                        String judgeStatement, List<BookAndStock> buyOrders, List<BookAndStock> sellOrders){
         this.stockName = stockName;
         this.title = title;
         this.name = name;
@@ -69,8 +71,8 @@ public class ContractInfo implements Parcelable {
     public String getShortDescription(){ return this.shortDescription;}
     public String getLongDescription(){ return this.longDescription;}
     public String getJudgeStatement(){ return this.judgeStatement;}
-    public JsonArray getBuyOrders(){ return this.buyOrders;}
-    public JsonArray getSellOrders(){ return this.sellOrders;}
+    public List<BookAndStock> getBuyOrders(){ return this.buyOrders;}
+    public List<BookAndStock> getSellOrders(){ return this.sellOrders;}
 
     // Parcelling part
     public ContractInfo(Parcel in){
@@ -89,22 +91,16 @@ public class ContractInfo implements Parcelable {
         this.shortDescription = in.readString();
         this.longDescription = in.readString();
         this.judgeStatement = in.readString();
+        this.buyOrders = new ArrayList<BookAndStock>();
+        this.sellOrders = new ArrayList<BookAndStock>();
+        in.readTypedList(this.buyOrders, BookAndStock.CREATOR);
+        in.readTypedList(this.sellOrders, BookAndStock.CREATOR);
     }
 
     @Override
     public int describeContents(){
         return 0;
     }
-
-/*    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-
-        dest.writeStringArray(new String[]{this.stockName, this.title, this.name, this.price,
-                this.lastTradePrice, this.todaysChange, this.todaysVolume, this.averageDailyVol,
-                this.status, this.startDate, this.endDate, this.lastTradeTime, this.shortDescription,
-                this.longDescription, this.judgeStatement});
-
-    }*/
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
@@ -123,12 +119,12 @@ public class ContractInfo implements Parcelable {
         dest.writeString(this.shortDescription);
         dest.writeString(this.longDescription);
         dest.writeString(this.judgeStatement);
+        dest.writeTypedList(this.buyOrders);
+        dest.writeTypedList(this.sellOrders);
     }
 
     public static final Parcelable.Creator<ContractInfo> CREATOR = new Parcelable.Creator<ContractInfo>() {
         public ContractInfo createFromParcel(Parcel in) {return new ContractInfo(in);}
-        public ContractInfo[] newArray(int size) {
-            throw new UnsupportedOperationException();
-        }
+        public ContractInfo[] newArray(int size) {return new ContractInfo [size];}
     };
 }
