@@ -12,6 +12,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:paddingBottom="10dp"
             android:text="TITLE"/>
 
         <TextView
@@ -20,22 +23,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:paddingBottom="10dp"
             android:text="DESCRIPTION"/>
 
+        <LinearLayout
+            android:id="@+id/contractDetatails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/shortDescription"
+            android:orientation="vertical"
+            android:background="#d9d9d9">
 
         <TextView
             android:id="@+id/contractInfo"
-            android:layout_below="@+id/shortDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="20dp"
+            android:paddingTop="10dp"
             android:gravity="center"
             android:textStyle="bold"
+            android:paddingBottom="10dp"
             android:text="CONTRACT INFO"/>
 
         <LinearLayout
             android:id="@+id/firstline"
-            android:layout_below="@+id/contractInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
@@ -44,26 +54,35 @@
             <TextView
                 android:id="@+id/lastTradePrice"
                 android:layout_weight="1"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
                 android:layout_width="0dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_height="wrap_content"
+                android:background="#FFFFFF"
                 android:text="Last trade price"/>
 
             <TextView
                 android:id="@+id/lastTradeTime"
                 android:layout_weight="1"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
                 android:layout_width="0dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_height="wrap_content"
+                android:background="#FFFFFF"
                 android:text="Last trade time"/>
 
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/secondline"
-            android:layout_below="@+id/firstline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
@@ -72,26 +91,35 @@
             <TextView
                 android:id="@+id/todaysVol"
                 android:layout_weight="1"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
                 android:layout_width="0dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_height="wrap_content"
+                android:background="#FFFFFF"
                 android:text="Todays Vol"/>
 
             <TextView
                 android:id="@+id/avgVolume"
                 android:layout_weight="1"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
                 android:layout_width="0dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_height="wrap_content"
+                android:background="#FFFFFF"
                 android:text="Average Daily Vol"/>
 
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/thirdline"
-            android:layout_below="@+id/secondline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
@@ -100,18 +128,28 @@
             <TextView
                 android:id="@+id/todaysChange"
                 android:layout_weight="1"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
                 android:layout_width="0dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_height="wrap_content"
+                android:background="#FFFFFF"
                 android:text="Todays Change"/>
 
             <TextView
                 android:id="@+id/status"
                 android:layout_weight="1"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
                 android:layout_width="0dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="#FFFFFF"
                 android:layout_height="wrap_content"
                 android:text="Status"/>
 
@@ -119,7 +157,6 @@
 
         <LinearLayout
             android:id="@+id/fourthline"
-            android:layout_below="@+id/thirdline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
@@ -128,26 +165,35 @@
             <TextView
                 android:id="@+id/startDate"
                 android:layout_weight="1"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:background="#FFFFFF"
                 android:text="Start Date"/>
 
             <TextView
                 android:id="@+id/endDate"
                 android:layout_weight="1"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
                 android:layout_width="0dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_height="wrap_content"
+                android:background="#FFFFFF"
                 android:text="End Date"/>
 
         </LinearLayout>
 
         <TextView
             android:id="@+id/longDescription"
-            android:layout_below="@+id/fourthline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -158,17 +204,26 @@
 
         <TextView
             android:id="@+id/longDescriptionText"
-            android:layout_below="@id/longDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="20dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
             android:gravity="center"
+            android:paddingBottom="10dp"
+            android:background="#FFFFFF"
             android:text="long description text"
             />
 
+        </LinearLayout>
+
         <TextView
             android:id="@+id/stockHistory"
-            android:layout_below="@+id/longDescriptionText"
+            android:layout_below="@+id/contractDetatails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -192,6 +247,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:paddingTop="20dp"
+            android:paddingBottom="20dp"
             android:textStyle="bold"
             android:text="CURRENT ORDERS"/>
 
@@ -207,9 +263,10 @@
                 android:id="@+id/buyOrdersTable"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_weight="0.5"
-                android:stretchColumns="*"
-                android:layout_gravity="start">
+                android:stretchColumns="*">
 
                 <TableRow
                     android:layout_width="0dp"
@@ -220,6 +277,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
+                        android:background="#b3c6ff"
+                        android:gravity="center"
                         android:text="Current top 10 buy orders"
                         />
 
@@ -234,6 +293,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.25"
+                        android:background="#a6a6a6"
+                        android:gravity="center"
                         android:text="Stocks"
                         />
 
@@ -241,6 +302,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.25"
+                        android:background="#a6a6a6"
+                        android:gravity="center"
                         android:text="Price(ea)"
                         />
                 </TableRow>
@@ -251,8 +314,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:stretchColumns="*"
-                android:layout_gravity="end">
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
+                android:stretchColumns="*">
 
                 <TableRow
                     android:layout_width="0dp"
@@ -263,6 +327,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
+                        android:gravity="center"
+                        android:background="#b3c6ff"
                         android:text="Current top 10 sell orders"
                         />
 
@@ -277,6 +343,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.25"
+                    android:background="#a6a6a6"
+                    android:gravity="center"
                     android:text="Stocks"
                     />
 
@@ -284,6 +352,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.25"
+                    android:background="#a6a6a6"
+                    android:gravity="center"
                     android:text="Price(ea)"
                     />
                 </TableRow>
@@ -307,6 +377,14 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:paddingTop="20dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="#FFFFFF"
+            android:paddingBottom="10dp"
             android:text="judging criteria text"/>
 
         <TextView

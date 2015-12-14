@@ -83,31 +83,31 @@ public class AboutUs extends AppCompatActivity {
         if(image.equals("don_w300px_h350px.png") || image.equals("don_w300px_h350px")) {
             v = (ImageView) findViewById(R.id.don);
             bmp = BitmapFactory.decodeResource(getResources(), R.drawable.don_w300px_h350px);
-            bMapScaled = Bitmap.createScaledBitmap(bmp, 280, 300, true);
+            bMapScaled = Bitmap.createScaledBitmap(bmp, 330, 350, true);
             v.setImageBitmap(bMapScaled);
         }
         else if(image.equals("emily_w300px_h350px.png") || image.equals("emily_w300px_h350px")) {
             v = (ImageView) findViewById(R.id.emily);
             bmp = BitmapFactory.decodeResource(getResources(), R.drawable.emily_w300px_h350px);
-            bMapScaled = Bitmap.createScaledBitmap(bmp, 280, 300, true);
+            bMapScaled = Bitmap.createScaledBitmap(bmp, 330, 350, true);
             v.setImageBitmap(bMapScaled);
         }
         else if(image.equals("ian_w300px_h350px.png") || image.equals("ian_w300px_h350px")) {
             v = (ImageView) findViewById(R.id.ian);
             bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ian_w300px_h350px);
-            bMapScaled = Bitmap.createScaledBitmap(bmp, 130, 150, true);
+            bMapScaled = Bitmap.createScaledBitmap(bmp, 180, 200, true);
             v.setImageBitmap(bMapScaled);
         }
         else if(image.equals("kate_w300px_h350px.png") || image.equals("kate_w300px_h350px")) {
             v = (ImageView) findViewById(R.id.kate);
             bmp = BitmapFactory.decodeResource(getResources(), R.drawable.kate_w300px_h350px);
-            bMapScaled = Bitmap.createScaledBitmap(bmp, 130, 150, true);
+            bMapScaled = Bitmap.createScaledBitmap(bmp, 180, 200, true);
             v.setImageBitmap(bMapScaled);
         }
         else if(image.equals("lewis_w300px_h350px.png") || image.equals("lewis_w300px_h350px")) {
             v = (ImageView) findViewById(R.id.lewis);
             bmp = BitmapFactory.decodeResource(getResources(), R.drawable.lewis_w300px_h350px);
-            bMapScaled = Bitmap.createScaledBitmap(bmp, 130, 150, true);
+            bMapScaled = Bitmap.createScaledBitmap(bmp, 180, 200, true);
             v.setImageBitmap(bMapScaled);
         }
     }

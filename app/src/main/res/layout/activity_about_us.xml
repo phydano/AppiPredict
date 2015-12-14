@@ -65,7 +65,7 @@
             <LinearLayout
                 android:id="@+id/firstLinear"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_below="@+id/textViewPeople"
                 android:weightSum="2">
 
@@ -73,20 +73,20 @@
                     android:id="@+id/emily"
                     android:layout_weight="1"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="match_parent" />
 
 
                 <ImageView
                     android:id="@+id/don"
                     android:layout_weight="1"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="match_parent" />
 
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/secondLinear"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_below="@+id/firstLinear"
                 android:weightSum="3">
 
@@ -94,19 +94,19 @@
                     android:id="@+id/ian"
                     android:layout_weight="1"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="match_parent" />
 
                 <ImageView
                     android:id="@+id/kate"
                     android:layout_weight="1"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="match_parent" />
 
                 <ImageView
                     android:id="@+id/lewis"
                     android:layout_weight="1"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="match_parent" />
             </LinearLayout>
 
             <ImageView

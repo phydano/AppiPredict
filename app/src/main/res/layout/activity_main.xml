@@ -88,7 +88,8 @@
                 android:id="@+id/phone"
                 android:layout_below="@+id/textViewAboutUsContent"
                 android:layout_width="200dp"
-                android:layout_height="wrap_content"
+                android:layout_height="300dp"
+                android:paddingBottom="20dp"
                 android:layout_centerHorizontal="true"
                  />
 
@@ -330,7 +331,7 @@
                     android:id="@+id/usertwo"
                     android:layout_width="match_parent"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="horizontal">
                 </ImageView>
 
@@ -375,7 +376,7 @@
                     android:id="@+id/userone"
                     android:layout_width="match_parent"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="horizontal">
                 </ImageView>
             </LinearLayout>
