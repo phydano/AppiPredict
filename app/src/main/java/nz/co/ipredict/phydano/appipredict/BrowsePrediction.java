@@ -140,17 +140,6 @@ public class BrowsePrediction extends AppCompatActivity {
     }
 
     /**
-     * It depends on whether we need the option menu or not. According to the design of the app
-     * apparently it is not needed
-     * */
-/*    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_browse_prediction, menu);
-        return super.onCreateOptionsMenu(menu);
-    }*/
-
-    /**
      * Item in the option menu. There would be varies case depend on the selection
      * The code here allow us to go back to the home page (parent activity)
      * */
@@ -207,24 +196,14 @@ public class BrowsePrediction extends AppCompatActivity {
                 }
                 mLastClickTime = SystemClock.elapsedRealtime();
 
-                // Do all other actions here
-
-                // First of all it is important to check the Internet connection
-/*                if (isNetworkAvailable()){*/
                 // Called the selected categories to store the items selected
                 selectedCategories();
                 // Then check if there is any item selected or not
                 if (selectedCategoriesContract.size() > 0) {
-                    for (int i = 0; i < selectedCategoriesContract.size(); i++) {
-                        System.out.println("TAG Categories Selected Item: " + selectedCategoriesContract.get(i));
-                    }
                     gotoSearchPage();
                 }
                 // No item is selected
                 else alertBox("Please select at least one category or search");
-/*                }
-                // There is no Internet Connection
-                else alertBox("You have no Internet Connection");*/
             }
         });
     }
@@ -291,20 +270,9 @@ public class BrowsePrediction extends AppCompatActivity {
     }
 
     /**
-     * ListView of items for the Browse section and Sort By section
-     * @param values takes in the array of values
+     * Load the items to the list view
+     * @param values list of items we want to add to our list view
      * */
-/*    public void loadView(String[] values){
-
-        lv = (ListView) findViewById(R.id.listView1);
-        modelItems = new Model[values.length];
-        for(int i=0; i<values.length; i++){
-            modelItems[i] = new Model(values[i],0);
-        }
-        adapter = new CustomAdapter(this, modelItems);
-        lv.setAdapter(adapter);
-    }*/
-
     public void loadView(ArrayList<String> values){
         lv = (ListView) findViewById(R.id.listView1);
         modelItems = new Model[values.size()];
@@ -321,14 +289,6 @@ public class BrowsePrediction extends AppCompatActivity {
      * to the stocks
      * */
     public void selectedCategories(){
-        // Check to see if the first state is selected
-/*        // This is a special state where it should add all categories
-        if (adapter.mCheckStates.get(0)){
-            for(Model m : modelItems){
-                selectedCategoriesContract.add(m.getName());
-            }
-        }
-        else {*/
         for (int i = 0; i < modelItems.length; i++) {
             // Check all the items in the list view to see if it is clicked
             if (adapter.mCheckStates.get(i) && !selectedCategoriesContract.contains(modelItems[i].getName())) {
@@ -336,7 +296,6 @@ public class BrowsePrediction extends AppCompatActivity {
             }
         }
     }
-/*    }*/
 
     /**
      * Clear the view - the selected items will be cleared

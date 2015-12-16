@@ -1,16 +1,9 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="0dp"
-    android:paddingLeft="0dp"
-    android:paddingRight="0dp"
-    android:paddingTop="0dp"
     tools:context="nz.co.ipredict.phydano.appipredict.AboutUs">
-
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -81,8 +74,8 @@
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent" />
-
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/secondLinear"
                 android:layout_width="match_parent"
@@ -153,7 +146,7 @@
                 android:imeOptions="flagNoExtractUi"
                 android:layout_below="@+id/email"
                 android:id="@+id/email_address"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@android:color/transparent"
                 android:textCursorDrawable="@null"
@@ -204,10 +197,10 @@
                 android:layout_centerHorizontal="true"
                 android:layout_below="@+id/thirdLinear"
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:text="@string/submit_message"
-                android:onClick="submitMessage" />
+                android:onClick="submitMessage"
+                android:textColor="#000000" />
 
         </RelativeLayout>
     </ScrollView>
-</RelativeLayout>

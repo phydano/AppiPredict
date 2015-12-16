@@ -17,10 +17,27 @@ public class StockItem {
         this.change = change;
     }
 
-    /** Get the name of the stock */
-    public String getStockName(){ return stockName;}
-    /** Get the price of the stock */
-    public String getPrice(){ return price;}
-    /** Get the change of the stock */
-    public String getChange(){ return change;}
+    /**
+     * Get the name of the stock
+     * @return the name of the stock
+     * */
+    public String getStockName(){
+        return stockName;
+    }
+
+    /**
+     * Get the price of the stock
+     * @return the price of the stock
+     * */
+    public String getPrice(){
+        return price;
+    }
+
+    /**
+     * Get the change of the stock
+     * @return the change in the stock
+     * */
+    public String getChange(){
+        return change;
+    }
 }

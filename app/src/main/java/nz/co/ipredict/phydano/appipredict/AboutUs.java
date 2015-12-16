@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.GestureDetector;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -29,6 +30,7 @@ public class AboutUs extends AppCompatActivity {
     /**
      * Item in the option menu. There would be varies case depend on the selection
      * The code here allow us to go back to the home page (parent activity)
+     * @param item the items in the action menu
      * */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -41,7 +43,10 @@ public class AboutUs extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /***/
+    /**
+     * Scaled the images using Bitmap to reduce the image size
+     * @param image the image we want to scale
+     * */
     public void reduceImageSize(String image){
         Bitmap bmp;
         Bitmap bMapScaled;
@@ -80,6 +85,9 @@ public class AboutUs extends AppCompatActivity {
         }
     }
 
+    /**
+     * Given set of images and use that to reduce the image size
+     * */
     public void resizeImagesUsingBitMap(){
         String images [] = {"don_w300px_h350px.png", "emily_w300px_h350px.png",
                 "ian_w300px_h350px.png", "kate_w300px_h350px.png", "lewis_w300px_h350px.png"};
@@ -87,6 +95,9 @@ public class AboutUs extends AppCompatActivity {
         setBackgroundImage();
     }
 
+    /**
+     * Set the background images programmatically to reduce the memory usage
+     * */
     public void setBackgroundImage(){
         ImageView v = (ImageView) findViewById(R.id.firstBackgroundAboutUs);
         v.setImageResource(R.drawable.blueportrait);
@@ -96,21 +107,31 @@ public class AboutUs extends AppCompatActivity {
 
     /**
      * Code got from: http://stackoverflow.com/questions/10896839/scroll-inside-an-edittext-which-is-in-a-scrollview
-     * This allows the edittext to be scrollable
+     * This allows the edittext to be scrollable once you clicked on it and typed something in
+     * that leads to overflow in text.
      * */
     public void scrollTextEdit(){
-        EditText dwEdit = (EditText) findViewById(R.id.message);
-        dwEdit.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View view, MotionEvent event) {
-                if (view.getId() ==R.id.message) {
-                    view.getParent().requestDisallowInterceptTouchEvent(true);
-                    switch (event.getAction()&MotionEvent.ACTION_MASK){
-                        case MotionEvent.ACTION_UP:
-                            view.getParent().requestDisallowInterceptTouchEvent(false);
-                            break;
+
+        final EditText dwEdit = (EditText) findViewById(R.id.message);
+
+        dwEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dwEdit.setOnTouchListener(new View.OnTouchListener() {
+                    public boolean onTouch(View view, MotionEvent event) {
+                        if (view.getId() == R.id.message) {
+                            // When you keep scrolling
+                            view.getParent().requestDisallowInterceptTouchEvent(true);
+                            switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                                // Once you stopped scrolling
+                                case MotionEvent.ACTION_UP:
+                                    view.getParent().requestDisallowInterceptTouchEvent(false);
+                                    break;
+                            }
+                        }
+                        return false;
                     }
-                }
-                return false;
+                });
             }
         });
     }
@@ -118,35 +139,34 @@ public class AboutUs extends AppCompatActivity {
     /**
      * This method read the text from the editText and send over to the help@ipredict.co.nz
      * Here are some useful sites to help with this:
-     * http://stackoverflow.com/questions/2020088/sending-email-in-android-using-javamail-api-without-using-the-default-built-in-a
-     *
+     * Code from: http://stackoverflow.com/questions/2020088/sending-email-in-android-using-javamail-api-without-using-the-default-built-in-a
+     * Code from: http://stackoverflow.com/questions/6817616/open-gmail-message-intent
+     * @param view for handling drawing
      * */
     public void submitMessage (View view) {
-        //Todo: Here should send the feedback to help@ipredict.co.nz.
+        // Edit text fields taking in the message and subject field (like email address)
         EditText emailAddr = (EditText) findViewById(R.id.email_address);
         EditText messageContent = (EditText) findViewById(R.id.message);
 
+        // Grab the values entered by the users
         String emailAddrValue = emailAddr.getText().toString();
         String messageContentValue = messageContent.getText().toString();
 
         // Launch the Gmail App
-        //Todo: The problem here it launches Gmail App not under the same iPredict App.
-        //Todo: Don't forget to change the Email Addr to help@ipredict.co.nz
-        /**
-         * Code from: http://stackoverflow.com/questions/6817616/open-gmail-message-intent
-         * */
         Intent sendIntent = getPackageManager().getLaunchIntentForPackage("com.google.android.gm");
+        // If the user have a Gmail app installed
         if (sendIntent != null) {
             // We found the activity now start the activity
             sendIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             sendIntent.setType("plain/text");
             sendIntent.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
-            sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"dano@ipredict.co.nz"});
+            sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"help@ipredict.co.nz"});
             sendIntent.putExtra(Intent.EXTRA_SUBJECT, "RE: " + emailAddrValue);
             sendIntent.putExtra(Intent.EXTRA_TEXT, messageContentValue);
             startActivity(sendIntent);
-        } else {
-            // Bring user to the market or let them choose an app?
+        }
+        // If the app is not installed, take users to the market
+        else {
             sendIntent = new Intent(Intent.ACTION_VIEW);
             sendIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             sendIntent.setData(Uri.parse("market://details?id=" + "com.google.android.gm"));
