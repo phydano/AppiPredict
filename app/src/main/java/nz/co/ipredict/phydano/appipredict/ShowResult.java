@@ -1,61 +1,42 @@
 package nz.co.ipredict.phydano.appipredict;
 
-import android.content.Intent;
-import android.graphics.Color;
-import android.support.v4.app.NavUtils;
-import android.support.v4.app.TaskStackBuilder;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.Gravity;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-
+/**
+ * Created by phydano
+ * This is the activity that shows the result of the selected subcategories, that is the
+ * contract that we wanted to see its entire information. These info is passed from the
+ * previous activity which is the 'searchPrediction' in which the info is gathered from
+ * the JSON file provided by Don.
+ * */
 public class ShowResult extends AppCompatActivity {
 
-    private ContractInfo selectedContract;
+    private ContractInfo selectedContract; // this is the object that contains the contract info we want
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_result);
+        // first of all check whether the object is null just in case
         if(getIntent().getExtras().getParcelable("myObject") != null) {
-            selectedContract = getIntent().getExtras().getParcelable("myObject");
+            selectedContract = getIntent().getExtras().getParcelable("myObject"); // load it all in
             loadContractInfo(selectedContract);
-            sellOrdersTable(selectedContract.getSellOrders());
-            buyOrdersTable(selectedContract.getBuyOrders());
-            System.out.println("Test: Size of the buy orders " + selectedContract.getBuyOrders().size());
-            System.out.println("Test: Size of the sell orders " + selectedContract.getSellOrders().size());
+            sellOrdersTable(selectedContract.getSellOrders()); // dealing with sell order table
+            buyOrdersTable(selectedContract.getBuyOrders()); // dealing with buy order table
         }
-        System.out.println("Test: Show result: " + selectedContract.getName());
-/*        loadWebView();*/
     }
-
-/*    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_show_result, menu);
-        return true;
-    }*/
 
     /**
      * Item in the option menu. There would be varies case depend on the selection
@@ -72,6 +53,10 @@ public class ShowResult extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Loading all the info from the contract and display it according to the layout
+     * @param contract the selected contract
+     * */
     public void loadContractInfo(ContractInfo contract){
         // name of the stock
         TextView title = (TextView) findViewById(R.id.resultTileDisplay);
@@ -90,7 +75,7 @@ public class ShowResult extends AppCompatActivity {
         title.setText(Html.fromHtml("<b>Todays Vol</b> " + "<br>" + "<font color='#0066cc'><b>" + contract.getTodaysVolume() + "</b></font>"));
         // average volume of the stock
         title = (TextView) findViewById(R.id.avgVolume);
-        title.setText(Html.fromHtml("<b>Average Daily Vol</b> " + "<br>" + "<font color='#0066cc'><b>" + contract.getAverageDailyVol() + "</b></font>"));
+        title.setText(Html.fromHtml("<b>Average Daily Vol</b> " + "<br>" + "<font color='#0066cc'><b>" + changeDecimal(contract.getAverageDailyVol()) + "</b></font>"));
         // today's change of the stock
         title = (TextView) findViewById(R.id.todaysChange);
         title.setText(Html.fromHtml("<b>Todays Change</b> " + "<br>" + "<font color='#29a329'><b>" + contract.getTodaysChange() + "</b></font>"));
@@ -108,94 +93,126 @@ public class ShowResult extends AppCompatActivity {
         title.setText(contract.getLongDescription());
         // judinging criteria
         title = (TextView) findViewById(R.id.judgingCriteriaText);
+        // Some of the Judge statments in the contract is empty - so it is good to say 'Empty' rather than '[]'
         if(contract.getJudgeStatement().equals("") || contract.getJudgeStatement().equals("[]")) title.setText("Empty");
         else title.setText(contract.getJudgeStatement());
     }
 
+    /**
+     * Deal with buy order table and display it according to the layout
+     * @param buyOrder the list of buy order items gathered from the list
+     * */
     public void buyOrdersTable(List<BookAndStock> buyOrder){
         // get a reference to the table layout
         TableLayout orderTable = (TableLayout) findViewById(R.id.buyOrdersTable);
-        // Making sure that the size of buy order and sell order are the same
 
+        // loop through all the items in the list of buy order
         for(int i=0; i<buyOrder.size(); i++) {
             // create a new row to be added
             TableRow tr = new TableRow(this);
             tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
 
+            // the buy order quantity text field
             TextView buyOrderQuantity = new TextView(this);
             buyOrderQuantity.setText(buyOrder.get(i).getQuantiity());
             buyOrderQuantity.setGravity(Gravity.CENTER);
 
+            // the buy order price text field
             TextView buyOrderPrice = new TextView(this);
-            buyOrderPrice.setText(buyOrder.get(i).getPrice());
+            buyOrderPrice.setText(changeDecimal(buyOrder.get(i).getPrice()));
             buyOrderPrice.setGravity(Gravity.CENTER);
 
+            // add both to the row
             tr.addView(buyOrderQuantity);
             tr.addView(buyOrderPrice);
 
+            // add to the layout
             orderTable.addView(tr, new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
         }
     }
 
+    /**
+     * Deal with sell order table and display it according to the layout
+     * @param sellOrder the list of sell order items gathered from the list
+     * */
     public void sellOrdersTable(List<BookAndStock> sellOrder){
         // get a reference to the table layout
         TableLayout orderTable = (TableLayout) findViewById(R.id.sellOrdersTable);
-        // Making sure that the size of buy order and sell order are the same
 
+        // loop through all the items in the list of sell order
         for(int i=0; i<sellOrder.size(); i++) {
             // create a new row to be added
             TableRow tr = new TableRow(this);
             tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
 
+            // the sell order quantity text field
             TextView sellOrderQuantity = new TextView(this);
             sellOrderQuantity.setText(sellOrder.get(i).getQuantiity());
             sellOrderQuantity.setGravity(Gravity.CENTER);
 
+            // the sell order price text field
             TextView sellOrderPrice = new TextView(this);
-            sellOrderPrice.setText(sellOrder.get(i).getPrice());
+            sellOrderPrice.setText(changeDecimal(sellOrder.get(i).getPrice()));
             sellOrderPrice.setGravity(Gravity.CENTER);
 
+            // add both to the row
             tr.addView(sellOrderQuantity);
             tr.addView(sellOrderPrice);
 
+            // add to the layout
             orderTable.addView(tr, new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
         }
     }
 
+    /**
+     * The date time from the JSON is not suitable to display.
+     * This method basically converts it to a date/month/year format.
+     * @param dateTime the date time format we want to convert
+     * */
     public String convertDate(String dateTime){
-        SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-        SimpleDateFormat output = new SimpleDateFormat("dd-MMM-yyyy");
         String dateTimeReformat = "";
         Date d;
 
         try {
+            // if empty date/time then just return back empty string
             if(dateTime.equals("[]")) return dateTimeReformat;
-            d = input.parse(dateTime);
-            dateTimeReformat = output.format(d);
+            // do the conversion
+            d = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").parse(dateTime);
+            dateTimeReformat = new SimpleDateFormat("dd-MMM-yyyy").format(d);
         }catch(ParseException e){
             e.printStackTrace();
         }
         return dateTimeReformat;
     }
 
+    /**
+     * The date time from JSON is not suitable to display.
+     * This method basically converts it to a time format
+     * @param dateTime the date time format we want to convert
+     * */
     public String convertTime (String dateTime){
-        SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-        SimpleDateFormat output = new SimpleDateFormat("h:mm a");
         String dateTimeReformat = "";
         Date d;
 
         try {
+            // if empty date/time then just return back empty string
             if(dateTime.equals("[]")) return dateTimeReformat;
-            d = input.parse(dateTime);
-            dateTimeReformat = output.format(d);
+            // do the conversion
+            d = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").parse(dateTime);
+            dateTimeReformat = new SimpleDateFormat("h:mm a").format(d);
         }catch(ParseException e){
             e.printStackTrace();
         }
         return dateTimeReformat;
     }
 
-/*    public void loadWebView(){
-        WebView wv = (WebView) findViewById(R.id.stockflashgraph);
-    }*/
+    /**
+     * Limits the decimal to 4 decimal place.
+     * @param convert the number we want to convert
+     * */
+    public String changeDecimal(String convert){
+        return Double.toString(Double.valueOf(
+                new DecimalFormat("#.####").format(Double.parseDouble(convert))));
 
+    }
 }

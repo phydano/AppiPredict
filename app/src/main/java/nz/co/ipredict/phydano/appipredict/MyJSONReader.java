@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.SocketException;
@@ -21,34 +22,46 @@ import java.util.regex.Pattern;
  */
 public class MyJSONReader {
 
-    private static ArrayList<ContractInfo> browsePrediction = new ArrayList<ContractInfo>(); // browse predictions
-    private static ArrayList<ContractInfo> listOfwantedBundle = new ArrayList<ContractInfo>(); // the bundle we want
-    private static JsonObject categories = null;
-    private static ArrayList<String> allCategoriesName = new ArrayList<String>();
+    private static ArrayList<ContractInfo> browsePrediction = new ArrayList<ContractInfo>(); // list of all subcategories
+    private static ArrayList<ContractInfo> listOfwantedBundle = new ArrayList<ContractInfo>(); // list of items user selected
+    private static JsonObject categories = null; // our json object that contains every info
+    private static ArrayList<String> allCategoriesName = new ArrayList<String>(); // list of categories name
 
     /**
      * Establish a connection to the web server
      * Read JSON File from the web given by Don (which update every 5 minutes)
      */
     public static void EstablishedWebConnection() throws SocketTimeoutException, SocketException{
-        JsonElement root;
+        InputStreamReader is = null;
+        HttpURLConnection request = null;
         try{
+            // This URL will no longer available when iPredict is completely shut down
             String sURL = "http://ipredict-test.elasticbeanstalk.com/beta/ajax/Browse/Categories.php?includeContracts=true";
             // Connect to the URL using java's native library
             URL url = new URL(sURL);
-            HttpURLConnection request = (HttpURLConnection) url.openConnection();
+            request = (HttpURLConnection) url.openConnection();
             request.setConnectTimeout(60000); //If can't connect, time out in 60 seconds
             request.connect(); // establish connection
 
             // Convert to a JSON object to print data
             JsonParser jp = new JsonParser(); //from gson
-            root = jp.parse(new InputStreamReader(request.getInputStream())); // all stuff in JSON
+            is = new InputStreamReader(request.getInputStream());  // read the content
+            JsonElement root = jp.parse(is); // all stuff in JSON
             // get object twice because of object inside object
             categories = root.getAsJsonObject().getAsJsonObject("categories"); // get inside categories
-
-            request.disconnect(); // close the connection
-        }catch(IOException e){
+        }catch(Exception e){
             e.printStackTrace();
+        } finally {
+            if(is != null){
+                try {
+                    is.close(); // close the input stream
+                }catch(IOException e){
+                    e.printStackTrace();
+                }
+            }
+            if(request != null){
+                request.disconnect(); //close the connection
+            }
         }
     }
 
@@ -76,17 +89,22 @@ public class MyJSONReader {
      * @param wantedBundle is the category that user checked
      * */
     public static void readJsonObject (JsonObject categories, String num, String wantedBundle){
+        // Since text in JSON file are in HTML form, these must be converted properly
         Pattern br = Pattern.compile("\\[br]"); // the newline pattern in HTML
         Pattern apostrophe = Pattern.compile("&#039;"); // the apostrophe in HTML
-        Pattern quote = Pattern.compile("&quot;");
+        Pattern quote = Pattern.compile("&quot;"); // the quotation in HTML
+        // first of all checked whether the JsonObject we retrieved is null or not
         if(categories != null){
+            /** JsonObject in the web always have a specific id */
             JsonObject ObjNumber = categories.getAsJsonObject(num);
             if(ObjNumber != null){
+                /** Under each id, there are info we can fetched */
                 JsonArray contracts = ObjNumber.getAsJsonArray("contracts");
                 String title = ObjNumber.get("desc").getAsString();
                 String name = ObjNumber.get("name").getAsString();
-                allCategoriesName.add(name);
+                allCategoriesName.add(name); // store all categories name
                 if(contracts != null && name.equals(wantedBundle)){
+                    /** Now we are entering the subcategories */
                     for(int i=0; i<contracts.size(); i++){
                         JsonObject e = contracts.get(i).getAsJsonObject();
                         if(e != null){
@@ -109,6 +127,7 @@ public class MyJSONReader {
                             JsonArray buyOrders = e.getAsJsonObject("book").getAsJsonArray("buyOrders");
                             JsonArray sellOrders = e.getAsJsonObject("book").getAsJsonArray("sellOrders");
 
+                            /** Turn JsonArray into a list */
                             List<BookAndStock> listOfBuyOrders = turnOrdersToList(buyOrders);
                             List<BookAndStock> listOfSellOrders = turnOrdersToList(sellOrders);
 
@@ -116,7 +135,7 @@ public class MyJSONReader {
                             String temp = status;
                             status = checkStatus(temp);
 
-                            /** Changes the breaking [br] and apostrophe in a correct format */
+                            /** Changes the breaking [br]/apostrophe/quotation into a correct format */
                             // match the break [br] and replace with new line
                             Matcher matcher = br.matcher(judgeStatement);
                             String judgeS = matcher.replaceAll("\n");
@@ -136,7 +155,7 @@ public class MyJSONReader {
                             matcher = apostrophe.matcher(shortDescription);
                             String alteredShortDes = matcher.replaceAll("'");
 
-                            /** Now create the object and it*/
+                            /** Now create the object and add it to the list */
                             ContractInfo contractInfo = new ContractInfo(stockName, title, name, price,
                                     lastTradePrice, todayChange, todayVolume, averageDailyVol, status,
                                     startDate, endDate, lastTradeTime, alteredShortDes, alteredLongDes,
@@ -145,11 +164,14 @@ public class MyJSONReader {
                         }
                     }
                 }
-                 // System.out.println("TAG: " + browsePrediction.size() + "---" + num); // test
             }
         }
     }
 
+    /**
+     * Turning the JsonArray to an arraylist of buyorders and sellorders
+     * @param book the jsonarray for the booking
+     **/
     public static List<BookAndStock> turnOrdersToList(JsonArray book){
         List<BookAndStock> myTempListOfBuyandSell = new ArrayList<BookAndStock>();
         for(int i=0; i<book.size(); i++){
@@ -165,7 +187,7 @@ public class MyJSONReader {
     /**
      * Return the corresponding status depend on the codes
      * @param status string in which is the code for the status name
-     * */
+     **/
     public static String checkStatus(String status){
         switch(status) {
             case "1":
@@ -189,35 +211,51 @@ public class MyJSONReader {
     /**
      * Store the bundle contracts in the array list so that we can use it in search prediction page
      * @param wantedBundle give the string of the stock name and we can grab its info from the list
-     * */
+     **/
     public static void bundle(String wantedBundle){
-        System.out.println("TAG: Browse Prediction size : " + browsePrediction.size());
+        // Go through all the subcategories
         for(int i=0; i<browsePrediction.size();i++){
-            System.out.println("TAG: Prediction Name " + browsePrediction.get(i).getName());
-            System.out.println("TAG: The bundle we wanted" + wantedBundle);
             if(browsePrediction.get(i).getName().equals(wantedBundle)){ // grab list of specific contract
                 listOfwantedBundle.add(browsePrediction.get(i));
             }
         }
     }
 
-    /** Get the list of bundle that wa want */
-    public static ArrayList<ContractInfo> getWantedBundle (){
-        return listOfwantedBundle;
-    }
+    /**
+     * Get the list of bundle that wa want
+     **/
+    public static ArrayList<ContractInfo> getWantedBundle (){ return listOfwantedBundle; }
 
+    /**
+     * Return all the categories name
+     **/
     public static ArrayList<String> getName(){ return allCategoriesName; }
 
+    /**
+     * Return the JsonObject that contains everything
+     **/
     public static JsonObject getCategories(){ return categories;}
 
-    /** Must clear the list after return back to the browse prediction page */
-    public static void clearJsonFile(){
-        categories = null;
-    }
-
+    /**
+     * Must clear the list after return back to the browse prediction page
+     **/
     public static void clearList(){
         // Need to clear it to avoid duplicate when search
         listOfwantedBundle.clear();
         browsePrediction.clear();
     }
+
+    /**
+     * Note: Reading the whole JSON file and store it is taking too much time and space.
+     * An improvement I could think of here is just read the whole JSON file but only
+     * the categories name and only store that, not any subcategories. When the user select
+     * the category(ies) then we should get the name of the selected category(ies) and match
+     * that to the JSON file, once it is matched then we should grab the info and store it.
+     * This way we can retrieve fast info and use less space for the app. The only issue
+     * here is that the connection need to established each time the request is made by the users.
+     * Where as at the moment, the info only need to retrieve once and users can access info easily.
+     * Upon these two approaches, we still need to retrieved new info from the JSON every 5 minutes
+     * as it is the rate at which the website refreshed at. But do note the time the web refresh
+     * is not the same as the time the app refresh, so it needs to somehow synchronise with the web.
+     **/
 }

@@ -1,12 +1,9 @@
 package nz.co.ipredict.phydano.appipredict;
-import android.content.Context;
+
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.support.v4.app.NavUtils;
-import android.support.v4.app.TaskStackBuilder;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -15,49 +12,18 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.client.util.ExponentialBackOff;
-import com.google.api.services.gmail.Gmail;
-import com.google.api.services.gmail.model.Message;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.google.api.services.gmail.GmailScopes;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Properties;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import org.apache.commons.codec.binary.Base64;
-
 /**
+ * Created by phydano
  * This is the about us page which is the iPredict info page on the company
  **/
 public class AboutUs extends AppCompatActivity {
-/*    GoogleAccountCredential mCredential;
-    private static final String PREF_ACCOUNT_NAME = "accountName";
-    private static final String[] SCOPES = { GmailScopes.GMAIL_LABELS };
-    private com.google.api.services.gmail.Gmail mService = null;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_us);
-        resizeImagesUsingBitMap();
-        scrollTextEdit();
-
-/*        // Initialize credentials and service object.
-        SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
-        mCredential = GoogleAccountCredential.usingOAuth2(
-                getApplicationContext(), Arrays.asList(SCOPES))
-                .setBackOff(new ExponentialBackOff())
-                .setSelectedAccountName(settings.getString(PREF_ACCOUNT_NAME, null));
-                */
+        resizeImagesUsingBitMap(); // Scaled the images
+        scrollTextEdit(); // make text scrollable in text field when its overflow
     }
 
     /**
@@ -75,47 +41,49 @@ public class AboutUs extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /***/
     public void reduceImageSize(String image){
         Bitmap bmp;
         Bitmap bMapScaled;
         ImageView v;
 
-        if(image.equals("don_w300px_h350px.png") || image.equals("don_w300px_h350px")) {
-            v = (ImageView) findViewById(R.id.don);
-            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.don_w300px_h350px);
-            bMapScaled = Bitmap.createScaledBitmap(bmp, 330, 350, true);
-            v.setImageBitmap(bMapScaled);
-        }
-        else if(image.equals("emily_w300px_h350px.png") || image.equals("emily_w300px_h350px")) {
-            v = (ImageView) findViewById(R.id.emily);
-            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.emily_w300px_h350px);
-            bMapScaled = Bitmap.createScaledBitmap(bmp, 330, 350, true);
-            v.setImageBitmap(bMapScaled);
-        }
-        else if(image.equals("ian_w300px_h350px.png") || image.equals("ian_w300px_h350px")) {
-            v = (ImageView) findViewById(R.id.ian);
-            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ian_w300px_h350px);
-            bMapScaled = Bitmap.createScaledBitmap(bmp, 180, 200, true);
-            v.setImageBitmap(bMapScaled);
-        }
-        else if(image.equals("kate_w300px_h350px.png") || image.equals("kate_w300px_h350px")) {
-            v = (ImageView) findViewById(R.id.kate);
-            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.kate_w300px_h350px);
-            bMapScaled = Bitmap.createScaledBitmap(bmp, 180, 200, true);
-            v.setImageBitmap(bMapScaled);
-        }
-        else if(image.equals("lewis_w300px_h350px.png") || image.equals("lewis_w300px_h350px")) {
-            v = (ImageView) findViewById(R.id.lewis);
-            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.lewis_w300px_h350px);
-            bMapScaled = Bitmap.createScaledBitmap(bmp, 180, 200, true);
-            v.setImageBitmap(bMapScaled);
+        switch(image){
+            case "don_w300px_h350px.png":
+                v = (ImageView) findViewById(R.id.don);
+                bmp = BitmapFactory.decodeResource(getResources(), R.drawable.don_w300px_h350px);
+                bMapScaled = Bitmap.createScaledBitmap(bmp, 330, 350, true);
+                v.setImageBitmap(bMapScaled);
+                return;
+            case "emily_w300px_h350px.png":
+                v = (ImageView) findViewById(R.id.emily);
+                bmp = BitmapFactory.decodeResource(getResources(), R.drawable.emily_w300px_h350px);
+                bMapScaled = Bitmap.createScaledBitmap(bmp, 330, 350, true);
+                v.setImageBitmap(bMapScaled);
+                return;
+            case "ian_w300px_h350px.png":
+                v = (ImageView) findViewById(R.id.ian);
+                bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ian_w300px_h350px);
+                bMapScaled = Bitmap.createScaledBitmap(bmp, 180, 200, true);
+                v.setImageBitmap(bMapScaled);
+                return;
+            case "kate_w300px_h350px.png":
+                v = (ImageView) findViewById(R.id.kate);
+                bmp = BitmapFactory.decodeResource(getResources(), R.drawable.kate_w300px_h350px);
+                bMapScaled = Bitmap.createScaledBitmap(bmp, 180, 200, true);
+                v.setImageBitmap(bMapScaled);
+                return;
+            case "lewis_w300px_h350px.png":
+                v = (ImageView) findViewById(R.id.lewis);
+                bmp = BitmapFactory.decodeResource(getResources(), R.drawable.lewis_w300px_h350px);
+                bMapScaled = Bitmap.createScaledBitmap(bmp, 180, 200, true);
+                v.setImageBitmap(bMapScaled);
         }
     }
 
     public void resizeImagesUsingBitMap(){
-        String test [] = {"don_w300px_h350px.png", "emily_w300px_h350px.png",
+        String images [] = {"don_w300px_h350px.png", "emily_w300px_h350px.png",
                 "ian_w300px_h350px.png", "kate_w300px_h350px.png", "lewis_w300px_h350px.png"};
-        for(int i=0; i<test.length; i++) reduceImageSize(test[i]);
+        for(String image : images) reduceImageSize(image);
         setBackgroundImage();
     }
 
@@ -185,73 +153,4 @@ public class AboutUs extends AppCompatActivity {
             startActivity(sendIntent);
         }
     }
-
-/*    public void submitMessage(View view){
-        GoogleAccountCredential mCredential;
-        String userId = "464470648798-9to9fcfks8ndh8fu64njsehs31q2agav.apps.googleusercontent.com";
-        try {
-            HttpTransport transport = AndroidHttp.newCompatibleTransport();
-            JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
-            SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
-            mCredential = GoogleAccountCredential.usingOAuth2(
-                    getApplicationContext(), Arrays.asList(SCOPES))
-                    .setBackOff(new ExponentialBackOff())
-                    .setSelectedAccountName(settings.getString(PREF_ACCOUNT_NAME, null));
-
-            mService = new com.google.api.services.gmail.Gmail.Builder(
-                    transport, jsonFactory, mCredential)
-                    .setApplicationName("Gmail API")
-                    .build();
-
-            sendMessage(mService, userId, createEmail("dano@ipredict.co.nz",
-                    "dano@ipredict.co.nz", "Hello", "Testing"));
-
-        }catch(MessagingException | IOException e){
-            System.out.println("Error: " + e.toString());
-        }
-    }*/
-
-    /**
-     * Create an Email using the Java API imported
-     * Code is from: https://developers.google.com/gmail/api/guides/sending
-     * */
-/*    public static MimeMessage createEmail (String to, String from, String subject,
-                                           String bodyText) throws MessagingException {
-        Properties props = new Properties();
-        Session session = Session.getDefaultInstance(props, null);
-        MimeMessage email = new MimeMessage(session);
-
-        // Setting the sender, receiver addr,add subject and text
-        email.setFrom(new InternetAddress(from));
-        email.addRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(to));
-        email.setSubject(subject);
-        email.setText(bodyText);
-        System.out.println("These are the recipients: " + email.getAllRecipients());
-        return email;
-    }*/
-
-    /**
-     * Sending Email
-     * */
-/*    public static void sendMessage(Gmail service, String userId, MimeMessage email)
-            throws MessagingException, IOException{
-        Message message = createMessageWithEmail(email);
-        message = service.users().messages().send(userId, message).execute();
-
-        System.out.println("Message id: " + message.getId());
-        System.out.println(message.toPrettyString());
-    }*/
-
-    /**
-     * Encode the MimeMessage
-     * */
-/*    public static Message createMessageWithEmail(MimeMessage email)
-            throws MessagingException, IOException{
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        email.writeTo(bytes);
-        String encodedEmail = Base64.encodeBase64URLSafeString(bytes.toByteArray());
-        Message message = new Message();
-        message.setRaw(encodedEmail);
-        return message;
-    }*/
 }

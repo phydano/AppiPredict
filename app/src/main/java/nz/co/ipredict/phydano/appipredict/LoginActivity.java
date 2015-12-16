@@ -1,15 +1,14 @@
 package nz.co.ipredict.phydano.appipredict;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-
+/**
+ * Created by phydano
+ * This is a login activity where users can login
+ */
 public class LoginActivity extends AppCompatActivity {
 
     @Override
@@ -29,9 +28,8 @@ public class LoginActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void logIn(View view) {
-        //TODO: If the login details are correct, user should redirect to their portfolio page
-        /*Intent intent = new Intent(this, MainActivity2.class);
-        startActivity(intent);*/
-    }
+    /**
+     * If the login details are correct, user should redirect to their portfolio page
+     * */
+    public void logIn(View view) {}
 }

@@ -2,30 +2,26 @@ package nz.co.ipredict.phydano.appipredict;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ExpandableListView;
-import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Created by phydano
+ * This is the search prediction page which displays the result of the search based on what
+ * the users selected in the browse prediction page
+ */
 public class searchPrediction extends AppCompatActivity {
 
-    private ArrayList<String> list = new ArrayList<String>();
+    private ArrayList<String> list = new ArrayList<String>(); // list of contracts
     private ArrayList<ContractInfo> selectedContract = new ArrayList<ContractInfo>();
-    private ArrayList<String> listDataHeader;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +30,8 @@ public class searchPrediction extends AppCompatActivity {
         MyJSONReader.clearList(); // the Json File is too large, get rid of it after completed the work
         // Activity on the first time
         if(savedInstanceState == null) {
-            System.out.println("Test: Application loaded for the first time !!!");
             if (getIntent().getStringArrayListExtra("selectedContract") != null)
                 list = getIntent().getStringArrayListExtra("selectedContract");
-            System.out.println("Execution of selected contract Test: " + selectedContract.size());
             new GetTask().execute();
         }
         // Activity reloaded back
@@ -159,33 +153,9 @@ public class searchPrediction extends AppCompatActivity {
         System.out.println("TAG: " + selectedContract.size());
     }
 
-    /**
-     * Add items to the listview and display them
-     **/
-    public void displayListView(){
-        ArrayList<StockItem> myList = new ArrayList<StockItem>();
-        // Loop through the contracts and just grab any infomation necessary to display
-        for(ContractInfo e : selectedContract){
-            String stock = e.getStockName().replace("\"", "");
-            String price = "$" + e.getPrice().replace("\"", "");
-            String change = e.getTodaysChange().replace("\"", "");
-            StockItem temp = new StockItem(stock, price, change);
-            myList.add(temp);
-        }
-
-        final ListView myBundlesList = (ListView) findViewById(R.id.listOfStocks);
-        myBundlesList.setAdapter(new SearchViewCustomAdapter(this, myList));
-        myBundlesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-        });
-    }
-
     public void ExpandableListView() {
         final ExpandableListView expListView = (ExpandableListView) findViewById(R.id.lvExp);
-        listDataHeader = new ArrayList<String>();
+        final ArrayList<String> listDataHeader = new ArrayList<String>();
         final HashMap<String, ArrayList<StockItem>> listDataChild = new HashMap<String, ArrayList<StockItem>>();
         String title = "";
 

@@ -10,8 +10,6 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.support.v4.app.NavUtils;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,68 +17,70 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
-
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 
+/**
+ * Created by phydano
+ * This is the browse prediction page that loads the information from the json file via URL
+ * */
 public class BrowsePrediction extends AppCompatActivity {
 
-    private SearchView search; // the search field
     private ListView lv; // the list of items to display under the search field with checkbox
     private Model[] modelItems; // our model in each of the row showing the text and checkbox
-    // Item to be listed under the first button
-    private ArrayList<String> browseValuesTest = new ArrayList<String>();
-
-    // Item to be listed under the second button
-    private ArrayList<String> sortByValues = new ArrayList<String>();
+    private ArrayList<String> browseValues = new ArrayList<String>(); // Item to be listed under the first button (Browse)
+    private ArrayList<String> sortByValues = new ArrayList<String>(); // Item to be listed under the second button (Sort)
     private CustomAdapter adapter; // created custom adapter
     private ArrayList<String> selectedCategoriesContract = new ArrayList<String>(); // listed of selected categories
     private long mLastClickTime = 0;
 
-    /**
-     * Runs upon loading the activity
-     **/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browse_prediction);
-        if(!isNetworkAvailable(this) && browseValuesTest.isEmpty()) optionalAlertBox("No Internet Connection");
+        // Check whether the network is available and list of browse items
+        if(!isNetworkAvailable(this) && browseValues.isEmpty()) optionalAlertBox("No Internet Connection");
         else if (isNetworkAvailable(this) && MyJSONReader.getCategories()==null) new GetTask().execute();
-        else browseValuesTest = MyJSONReader.getName();
-        searchView(); // load the search view in this acitvity
+        else browseValues = MyJSONReader.getName();
+        searchView(); // load the search view
         buttonIsClicked(); // load all the buttons in this activity
     }
 
     @Override
     protected void onRestart(){
         super.onRestart();
-        selectedCategoriesContract.clear();
+        selectedCategoriesContract.clear(); // clear the list upon restart
     }
 
+    /**
+     * Internal class AysyncTask - UI thread allowing to perform the background operations
+     *
+     * */
     class GetTask extends AsyncTask<String,String,ArrayList<String>> {
         ProgressDialog mDialog;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            // create a dialog showing that the app is loading to retrieve the info
             mDialog = new ProgressDialog(BrowsePrediction.this);
             mDialog.setMessage("Please wait...");
-            mDialog.setIndeterminate(false);
-            mDialog.setCancelable(true);
-            mDialog.show();
+            mDialog.setIndeterminate(false); // play the loop animation
+            mDialog.setCancelable(true); // allow user to cancel
+            mDialog.show(); // show the dialog
         }
 
         @Override
         protected ArrayList<String> doInBackground(String... args){
             try {
-                MyJSONReader.EstablishedWebConnection();
-                MyJSONReader.JSONReader("All");
-                browseValuesTest = MyJSONReader.getName();
+                MyJSONReader.EstablishedWebConnection(); // establish connection to the web server and store the result
+                MyJSONReader.JSONReader("All"); // load the result above and grab all the categories name
+                browseValues = MyJSONReader.getName(); // now store all the categories name
             }catch(SocketTimeoutException | SocketException e) {
                 optionalAlertBox("No Internet Connection");
             }
-            return browseValuesTest;
+            return browseValues;
         }
 
         @Override
@@ -103,7 +103,7 @@ public class BrowsePrediction extends AppCompatActivity {
      * Below is the code for the search view
      * */
     public void searchView(){
-        search = (SearchView) findViewById(R.id.searchView);
+        SearchView search = (SearchView) findViewById(R.id.searchView);
         search.setQueryHint("Search by keyword"); // show the hint in the search area
         search.setIconifiedByDefault(false); // turn off iconified
         search.setFocusable(false); // hide the keyboard upon load
@@ -175,11 +175,11 @@ public class BrowsePrediction extends AppCompatActivity {
         final Button clearButton = (Button) findViewById(R.id.clearButton);
         final Button searchButton = (Button) findViewById(R.id.searchButton);
 
-        loadView(browseValuesTest); // by default load this list
+        loadView(browseValues); // by default load this list
         // Change the list view depends on what button the user clicked
         browseButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                loadView(browseValuesTest);
+                loadView(browseValues);
             }
         });
         sortByButton.setOnClickListener(new View.OnClickListener() {

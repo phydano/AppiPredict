@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.StrictMode;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.Menu;
@@ -12,41 +12,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
+ * Created by phydano
  * This is the main activity in which is the Home Page of iPredict.
- **/
+ * */
 public class MainActivity extends AppCompatActivity {
+    boolean doubleBackToExitPressedOnce = false;
 
-    // Load upon opening the app
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main); // load the main activity layout
-        resizeImagesUsingBitMap();
-        usersComment();
-    }
-
-    /**
-     * Saved the activity state to restore when screen orientation changes
-     * */
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        // Always call the superclass so it can save the view hierarchy state
-        super.onSaveInstanceState(savedInstanceState);
-        System.out.println("Test: Anything saved at all?");
-    }
-
-    /**
-     * Restore the activity state back when the screen orientation changes
-     * but not when we moved to the other activity and came back....
-     * */
-    @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        // Restore UI state from the savedInstanceState.
-        // This bundle has also been passed to onCreate.
-        System.out.println("Test: Is someone loading something?");
+        setContentView(R.layout.activity_main);
+        resizeImagesUsingBitMap(); // resize the image with Bitmap
+        usersComment(); // load the users comments
     }
 
     /**
@@ -62,64 +42,68 @@ public class MainActivity extends AppCompatActivity {
         t2.setText(Html.fromHtml(userCommentTwo + "<br/>" + username));
     }
 
-    /** Use bitmap to resize images **/
+    /**
+     * Use bitmap to resize images
+     * @param image the name of the image
+     **/
     public void reduceImageSize(String image){
         Bitmap bmp;
         Bitmap bMapScaled;
         ImageView v;
-        if(image.equals("brain.png") || image.equals("brain")) {
-            v = (ImageView) findViewById(R.id.brain);
-            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.brain);
-            bMapScaled = Bitmap.createScaledBitmap(bmp, 90, 100, true);
-            v.setImageBitmap(bMapScaled);
-        }
-        else if(image.equals("coin.png") || image.equals("coin")) {
-            v = (ImageView) findViewById(R.id.coin);
-            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.coin);
-            bMapScaled = Bitmap.createScaledBitmap(bmp, 90, 100, true);
-            v.setImageBitmap(bMapScaled);
-        }
-        else if(image.equals("phone2.png") || image.equals("phone2")) {
-            v = (ImageView) findViewById(R.id.phone2);
-            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.phone2);
-            bMapScaled = Bitmap.createScaledBitmap(bmp, 90, 100, true);
-            v.setImageBitmap(bMapScaled);
-        }
-        else if(image.equals("whiteboard.png") || image.equals("whiteboard")) {
-            v = (ImageView) findViewById(R.id.prediction);
-            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.whiteboard);
-            bMapScaled = Bitmap.createScaledBitmap(bmp, 90, 100, true);
-            v.setImageBitmap(bMapScaled);
-        }
-        else if(image.equals("user_one.png") || image.equals("user_one")) {
-            v = (ImageView) findViewById(R.id.userone);
-            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.user_one);
-            bMapScaled = Bitmap.createScaledBitmap(bmp, 150, 140, true);
-            v.setImageBitmap(bMapScaled);
-        }
-        else if(image.equals("user_two.png") || image.equals("user_two")) {
-            v = (ImageView) findViewById(R.id.usertwo);
-            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.user_two);
-            bMapScaled = Bitmap.createScaledBitmap(bmp, 150, 140, true);
-            v.setImageBitmap(bMapScaled);
-        }
-        else if(image.equals("vic_logo.png") || image.equals("vic_logo")) {
-            v = (ImageView) findViewById(R.id.viclogo);
-            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.vic_logo);
-            bMapScaled = Bitmap.createScaledBitmap(bmp, 400, 150, true);
-            v.setImageBitmap(bMapScaled);
-        }
-        else if(image.equals("phone.png") || image.equals("phone")) {
-            v = (ImageView) findViewById(R.id.phone);
-            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.phone);
-            bMapScaled = Bitmap.createScaledBitmap(bmp, 250, 400, true);
-            v.setImageBitmap(bMapScaled);
-        }
-        else if(image.equals("twitter_logo.png") || image.equals("twitter_logo")) {
-            v = (ImageView) findViewById(R.id.twitterlogo);
-            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.twitter_logo);
-            bMapScaled = Bitmap.createScaledBitmap(bmp, 50, 50, true);
-            v.setImageBitmap(bMapScaled);
+        switch(image) {
+            case "brain.png":
+                v = (ImageView) findViewById(R.id.brain);
+                bmp = BitmapFactory.decodeResource(getResources(), R.drawable.brain);
+                bMapScaled = Bitmap.createScaledBitmap(bmp, 90, 100, true);
+                v.setImageBitmap(bMapScaled);
+                return;
+            case "coin.png":
+                v = (ImageView) findViewById(R.id.coin);
+                bmp = BitmapFactory.decodeResource(getResources(), R.drawable.coin);
+                bMapScaled = Bitmap.createScaledBitmap(bmp, 90, 100, true);
+                v.setImageBitmap(bMapScaled);
+                return;
+            case "phone2.png":
+                v = (ImageView) findViewById(R.id.phone2);
+                bmp = BitmapFactory.decodeResource(getResources(), R.drawable.phone2);
+                bMapScaled = Bitmap.createScaledBitmap(bmp, 90, 100, true);
+                v.setImageBitmap(bMapScaled);
+                return;
+            case "whiteboard.png":
+                v = (ImageView) findViewById(R.id.prediction);
+                bmp = BitmapFactory.decodeResource(getResources(), R.drawable.whiteboard);
+                bMapScaled = Bitmap.createScaledBitmap(bmp, 90, 100, true);
+                v.setImageBitmap(bMapScaled);
+                return;
+            case "user_one.png":
+                v = (ImageView) findViewById(R.id.userone);
+                bmp = BitmapFactory.decodeResource(getResources(), R.drawable.user_one);
+                bMapScaled = Bitmap.createScaledBitmap(bmp, 150, 140, true);
+                v.setImageBitmap(bMapScaled);
+                return;
+            case "user_two.png":
+                v = (ImageView) findViewById(R.id.usertwo);
+                bmp = BitmapFactory.decodeResource(getResources(), R.drawable.user_two);
+                bMapScaled = Bitmap.createScaledBitmap(bmp, 150, 140, true);
+                v.setImageBitmap(bMapScaled);
+                return;
+            case "vic_logo.png":
+                v = (ImageView) findViewById(R.id.viclogo);
+                bmp = BitmapFactory.decodeResource(getResources(), R.drawable.vic_logo);
+                bMapScaled = Bitmap.createScaledBitmap(bmp, 400, 150, true);
+                v.setImageBitmap(bMapScaled);
+                return;
+            case "phone.png":
+                v = (ImageView) findViewById(R.id.phone);
+                bmp = BitmapFactory.decodeResource(getResources(), R.drawable.phone);
+                bMapScaled = Bitmap.createScaledBitmap(bmp, 250, 400, true);
+                v.setImageBitmap(bMapScaled);
+                return;
+            case "twitter_logo.png":
+                v = (ImageView) findViewById(R.id.twitterlogo);
+                bmp = BitmapFactory.decodeResource(getResources(), R.drawable.twitter_logo);
+                bMapScaled = Bitmap.createScaledBitmap(bmp, 50, 50, true);
+                v.setImageBitmap(bMapScaled);
         }
     }
 
@@ -128,9 +112,9 @@ public class MainActivity extends AppCompatActivity {
      * than in the XML Layout
      * */
     public void resizeImagesUsingBitMap(){
-        String test [] = {"brain.png", "coin.png", "phone2.png", "whiteboard.png", "user_one.png",
+        String images[] = {"brain.png", "coin.png", "phone2.png", "whiteboard.png", "user_one.png",
                 "user_two.png", "vic_logo.png", "phone.png", "twitter_logo.png"};
-        for(int i=0; i<test.length; i++) reduceImageSize(test[i]);
+        for(String image : images) reduceImageSize(image);
         setBackgroundImage();
     }
 
@@ -142,14 +126,18 @@ public class MainActivity extends AppCompatActivity {
         v.setImageResource(R.drawable.blueportrait);
     }
 
-    /** Go to the second activity which is the 'Trading' at the front screen */
+    /**
+     * Go to the second activity which is the 'Trading' at the front screen
+     * */
     public boolean gotoBrowsePrediction(View view) {
         Intent intent = new Intent(this, BrowsePrediction.class);
         startActivity(intent);
         return true;
     }
 
-    /** Create the action menu */
+    /**
+     * Create the action menu
+     * */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -157,75 +145,85 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    /** Determine which of the action button is clicked and handle that event */
+    /**
+     * Determine which of the action button is clicked and handle that event
+     * */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
         // Action depends on what item you selected in the menu
-        if (id == R.id.action_signIn) { // gets you to the sign in page
-            return openSignIn();
-        }
-        else if(id == R.id.action_browse) { // gets you to the browse prediction page
-            return openPrediction();
-        }
-        else if(id == R.id.action_about) { // gets you to the about us page
-            return openAboutUs();
-        }
-        else if(id == R.id.action_register) { // gets you to the registration page
-            return signup();
+        switch (item.getItemId()) {
+            // Sign in page
+            case R.id.action_signIn:
+                return openSignIn();
+            // Browse prediction page
+            case R.id.action_browse:
+                return openPrediction();
+            // About us page
+            case R.id.action_about:
+                return openAboutUs();
+            // Registration page for user who wants to sign up
+            case R.id.action_register:
+                return signup();
         }
         return super.onOptionsItemSelected(item);
     }
 
-    /** Load the log in page */
+    /**
+     * Load the log in page
+     * */
     public boolean openSignIn() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         return true;
     }
 
-    /** Load the Browse Prediction Page */
+    /**
+     * Load the Browse Prediction Page
+     * */
     public boolean openPrediction() {
         Intent intent = new Intent(this, BrowsePrediction.class);
         startActivity(intent);
         return true;
     }
 
-    /** Load the about us page */
+    /**
+     * Load the about us page
+     * */
     public boolean openAboutUs() {
         Intent intent = new Intent(this, AboutUs.class);
         startActivity(intent);
         return true;
     }
 
-    /** Load the registration page */
+    /**
+     * Load the registration page
+     * */
     public boolean signup(){
         Intent intent = new Intent(this, SignUp.class);
         startActivity(intent);
         return true;
     }
 
+    /**
+     * The app is completely close when pressed back button on the home page
+     * Two back clicked to exit the app
+     * Code from: http://stackoverflow.com/questions/8430805/android-clicking-twice-the-back-button-to-exit-activity
+     * */
     @Override
     public void onBackPressed(){
-        // moveTaskToBack(true); // use this if don't want to destroy the activity
-        System.exit(0); // close the app completely
-    }
-
-    /**
-     * This is the action overflow menu if needed to use
-     **/
-/*    private void makeActionOverflowMenuShown() {
-        //devices with hardware menu button (e.g. Samsung Note) don't show action overflow menu
-        try {
-            ViewConfiguration config = ViewConfiguration.get(this);
-            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
-            if (menuKeyField != null) {
-                menuKeyField.setAccessible(true);
-                menuKeyField.setBoolean(config, false);
-            }
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+        // close the app completely if clicked twice
+        if (doubleBackToExitPressedOnce) {
+            System.exit(0);
+            return;
         }
-    }*/
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+        // Given 2 seconds for users to pressed back to exit the app
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+    }
 }
