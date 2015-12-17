@@ -11,7 +11,7 @@
         <RelativeLayout
             android:id="@+id/verticalScrollView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/resultTileDisplay"
                 android:layout_width="match_parent"
@@ -19,8 +19,7 @@
                 android:gravity="center"
                 android:textStyle="bold"
                 android:textSize="18sp"
-                android:paddingBottom="10dp"
-                android:text="TITLE"/>
+                android:paddingBottom="10dp" />
 
             <TextView
                 android:id="@+id/shortDescription"
@@ -28,8 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:paddingBottom="10dp"
-                android:text="DESCRIPTION"/>
+                android:paddingBottom="10dp" />
 
             <LinearLayout
                 android:id="@+id/contractDetatails"
@@ -47,7 +45,7 @@
                     android:gravity="center"
                     android:textStyle="bold"
                     android:paddingBottom="10dp"
-                    android:text="CONTRACT INFO"/>
+                    android:text="@string/contractinfo"/>
 
                 <LinearLayout
                     android:id="@+id/firstline"
@@ -68,8 +66,7 @@
                         android:layout_marginEnd="10dp"
                         android:paddingBottom="10dp"
                         android:layout_height="wrap_content"
-                        android:background="#FFFFFF"
-                        android:text="Last trade price"/>
+                        android:background="#FFFFFF" />
 
                     <TextView
                         android:id="@+id/lastTradeTime"
@@ -83,8 +80,7 @@
                         android:layout_marginEnd="10dp"
                         android:paddingBottom="10dp"
                         android:layout_height="wrap_content"
-                        android:background="#FFFFFF"
-                        android:text="Last trade time"/>
+                        android:background="#FFFFFF" />
 
                 </LinearLayout>
 
@@ -107,8 +103,7 @@
                         android:layout_marginEnd="10dp"
                         android:paddingBottom="10dp"
                         android:layout_height="wrap_content"
-                        android:background="#FFFFFF"
-                        android:text="Todays Vol"/>
+                        android:background="#FFFFFF" />
 
                     <TextView
                         android:id="@+id/avgVolume"
@@ -122,8 +117,7 @@
                         android:layout_marginEnd="10dp"
                         android:paddingBottom="10dp"
                         android:layout_height="wrap_content"
-                        android:background="#FFFFFF"
-                        android:text="Average Daily Vol"/>
+                        android:background="#FFFFFF" />
 
                 </LinearLayout>
 
@@ -146,8 +140,7 @@
                         android:layout_marginEnd="10dp"
                         android:paddingBottom="10dp"
                         android:layout_height="wrap_content"
-                        android:background="#FFFFFF"
-                        android:text="Todays Change"/>
+                        android:background="#FFFFFF" />
 
                     <TextView
                         android:id="@+id/status"
@@ -161,8 +154,7 @@
                         android:layout_marginEnd="10dp"
                         android:paddingBottom="10dp"
                         android:background="#FFFFFF"
-                        android:layout_height="wrap_content"
-                        android:text="Status"/>
+                        android:layout_height="wrap_content" />
 
                 </LinearLayout>
 
@@ -185,8 +177,7 @@
                         android:paddingBottom="10dp"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:background="#FFFFFF"
-                        android:text="Start Date"/>
+                        android:background="#FFFFFF" />
 
                     <TextView
                         android:id="@+id/endDate"
@@ -200,8 +191,7 @@
                         android:layout_marginEnd="10dp"
                         android:paddingBottom="10dp"
                         android:layout_height="wrap_content"
-                        android:background="#FFFFFF"
-                        android:text="End Date"/>
+                        android:background="#FFFFFF" />
 
                 </LinearLayout>
 
@@ -211,9 +201,9 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
                     android:textStyle="bold"
-                    android:text="LONG DESCRIPTION"
-                    />
+                    android:text="@string/longdes" />
 
                 <TextView
                     android:id="@+id/longDescriptionText"
@@ -228,9 +218,7 @@
                     android:layout_marginEnd="10dp"
                     android:gravity="center_horizontal"
                     android:paddingBottom="10dp"
-                    android:background="#FFFFFF"
-                    android:text="long description text"
-                    />
+                    android:background="#FFFFFF" />
 
             </LinearLayout>
 
@@ -242,15 +230,15 @@
                 android:gravity="center"
                 android:paddingTop="20dp"
                 android:textStyle="bold"
-                android:text="STOCK HISTORY"/>
+                android:text="@string/stockhistory"/>
 
-            <WebView
+            <ImageView
                 android:layout_below="@id/stockHistory"
                 android:id="@+id/stockflashgraph"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            </WebView>
+                android:layout_height="wrap_content"
+                android:background="@drawable/blank_image"
+                android:contentDescription="@string/desc" />
 
             <TextView
                 android:id="@+id/currentOrders"
@@ -261,7 +249,7 @@
                 android:paddingTop="20dp"
                 android:paddingBottom="20dp"
                 android:textStyle="bold"
-                android:text="CURRENT ORDERS"/>
+                android:text="@string/currentorders"/>
 
             <LinearLayout
                 android:layout_below="@id/currentOrders"
@@ -291,8 +279,7 @@
                             android:layout_weight="0.5"
                             android:background="#b3c6ff"
                             android:gravity="center"
-                            android:text="Current top 10 buy orders"
-                            />
+                            android:text="@string/toptenbuy" />
 
                     </TableRow>
 
@@ -307,8 +294,7 @@
                             android:layout_weight="0.25"
                             android:background="#a6a6a6"
                             android:gravity="center"
-                            android:text="Stocks"
-                            />
+                            android:text="@string/stocks" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -316,8 +302,8 @@
                             android:layout_weight="0.25"
                             android:background="#a6a6a6"
                             android:gravity="center"
-                            android:text="Price(ea)"
-                            />
+                            android:text="@string/prices" />
+
                     </TableRow>
                 </TableLayout>
 
@@ -396,8 +382,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginEnd="10dp"
                 android:background="#FFFFFF"
-                android:paddingBottom="10dp"
-                android:text="judging criteria text"/>
+                android:paddingBottom="10dp" />
 
             <TextView
                 android:id="@+id/share"
@@ -422,26 +407,28 @@
                 <ImageView
                     android:layout_weight="1"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/desc"/>
 
                 <ImageView
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="80dp"
-                    android:background="@drawable/twitter_logo"/>
+                    android:background="@drawable/twitter_logo"
+                    android:contentDescription="@string/desc"/>
 
                 <ImageView
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="80dp"
+                    android:contentDescription="@string/desc"
                     android:background="@drawable/twitter_logo"/>
 
                 <ImageView
                     android:layout_weight="1"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content" />
-
-
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/desc"/>
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>

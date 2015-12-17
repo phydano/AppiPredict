@@ -61,7 +61,7 @@
     <string name="title_activity_search_prediction">searchPrediction</string>
     <string name="title_activity_show_result">ShowResult</string>
     <string name="title_activity_sign_up">SignUp</string>
-    <string name="desc">Unable to display Image</string>
+    <string name="desc">Some text to represent the image</string>
     <string name="contactus">CONTACT US</string>
     <string name="team">TEAM</string>
     <string name="aboutus">ABOUT US</string>
@@ -83,4 +83,11 @@
     <string name="predictions">OVER 100 \n PREDICTIONS</string>
     <string name="whyipredict">WHY USE IPREDICT?</string>
     <string name="whatipredict">WHAT IS IPREDICT?</string>
+    <string name="contractinfo">CONTRACT INFO</string>
+    <string name="longdes">LONG DESCRIPTION</string>
+    <string name="stockhistory">STOCK HISTORY</string>
+    <string name="currentorders">CURRENT ORDERS</string>
+    <string name="toptenbuy">Current top 10 buy orders</string>
+    <string name="stocks">Stocks</string>
+    <string name="prices">Price(ea)</string>
 </resources>
