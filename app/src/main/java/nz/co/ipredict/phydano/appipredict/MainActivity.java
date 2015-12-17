@@ -129,10 +129,9 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Go to the second activity which is the 'Trading' at the front screen
      * */
-    public boolean gotoBrowsePrediction(View view) {
+    public void gotoBrowsePrediction(View view) {
         Intent intent = new Intent(this, BrowsePrediction.class);
         startActivity(intent);
-        return true;
     }
 
     /**

@@ -19,27 +19,28 @@
         android:id="@+id/LinearLayout"
         android:layout_below="@+id/searchView"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent">
+        android:layout_width="match_parent"
+        android:weightSum="2">
         <Button
             android:id="@+id/browseButton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            style="?android:attr/borderlessButtonStyle"
             android:background="@layout/mybutton3"
             android:layout_weight="1"
             android:clickable="true"
-            android:text="BROWSE"
-            android:onClick="browse">
-        </Button>
+            android:text="@string/browse"/>
+
         <Button
             android:id="@+id/sortByButton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            style="?android:attr/borderlessButtonStyle"
             android:background="@layout/mybutton3"
             android:layout_weight="1"
             android:clickable="true"
-            android:text="SORT BY"
-            android:onClick="sortBy">
-        </Button>
+            android:text="@string/sortby" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -49,14 +50,14 @@
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:weightSum="1">
-    <ListView
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:id="@+id/listView1"
-        android:layout_weight="0.999"
-        android:layout_width="match_parent"
-        android:layout_height="0dp">
-    </ListView>
+        <ListView
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:id="@+id/listView1"
+            android:layout_weight="0.999"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+        </ListView>
 
         <LinearLayout
             android:id="@+id/LinearLayout3"
@@ -64,34 +65,30 @@
             android:layout_gravity="bottom"
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_weight="0.001"
-            android:weightSum="2">
+            android:layout_weight="0.001">
             <Button
                 android:id="@+id/clearButton"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:clickable="true"
-                android:text="Clear"
+                android:text="@string/clear"
                 android:layout_gravity="bottom"
                 android:textColor="#FFFFFF"
-                android:background="@layout/mybutton4"
-                android:onClick="">
-            </Button>
+                style="?android:attr/borderlessButtonStyle"
+                android:background="@layout/mybutton4"/>
+
             <Button
                 android:id="@+id/searchButton"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:clickable="true"
-                android:text="SEARCH"
+                android:text="@string/search"
                 android:layout_gravity="bottom"
                 android:textColor="#FFFFFF"
-                android:background="@layout/mybutton4"
-                android:onClick="">
-            </Button>
+                style="?android:attr/borderlessButtonStyle"
+                android:background="@layout/mybutton4"/>
         </LinearLayout>
     </LinearLayout>
-
-
 </RelativeLayout>

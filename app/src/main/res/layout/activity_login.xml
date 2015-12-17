@@ -21,7 +21,7 @@
             <TextView android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#372c24"
-                android:text="Trading Name:"/>
+                android:text="@string/tradingname"/>
 
             <AutoCompleteTextView
                 android:id="@+id/email"
@@ -35,7 +35,7 @@
             <TextView android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#372c24"
-                android:text="Password:"/>
+                android:text="@string/password"/>
 
             <EditText android:id="@+id/password" android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:hint="@string/prompt_password"

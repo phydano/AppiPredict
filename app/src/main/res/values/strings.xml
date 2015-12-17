@@ -59,8 +59,28 @@
         ECONOMIC EVENTS
     </string>
     <string name="title_activity_search_prediction">searchPrediction</string>
-
-    <string name="hello_world">Hello world!</string>
     <string name="title_activity_show_result">ShowResult</string>
     <string name="title_activity_sign_up">SignUp</string>
+    <string name="desc">Unable to display Image</string>
+    <string name="contactus">CONTACT US</string>
+    <string name="team">TEAM</string>
+    <string name="aboutus">ABOUT US</string>
+    <string name="search">SEARCH</string>
+    <string name="browse">BROWSE</string>
+    <string name="sortby">SORT BY</string>
+    <string name="clear">CLEAR</string>
+    <string name="tradingname">Trading Name:</string>
+    <string name="password">"Password:</string>
+    <string name="privacy">TERMS &amp; PRIVACY</string>
+    <string name="copyright">&#169; 2015 iPredict Limited</string>
+    <string name="proudlysupport">Proudly Supported by</string>
+    <string name="tradenow">TRADE NOW</string>
+    <string name="startnow">START TODAY \n WITH A FREE ACCOUNT</string>
+    <string name="ourusers">WHAT DO OUR USERS THINK?</string>
+    <string name="realmoney">EARN REAL \n MONEY</string>
+    <string name="knowledge">TEST YOUR \n KNOWLEDGE</string>
+    <string name="trade">TRADE \n ANYWHERE</string>
+    <string name="predictions">OVER 100 \n PREDICTIONS</string>
+    <string name="whyipredict">WHY USE IPREDICT?</string>
+    <string name="whatipredict">WHAT IS IPREDICT?</string>
 </resources>
