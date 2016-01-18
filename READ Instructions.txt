@@ -1,0 +1,200 @@
+This document explains the Activities and Classes used in the project plus how to install/run the program. 
+
+Name of the Project: App iPredict
+
+
+Activities:
+----------
+ 
+- AboutUs
+- BrowsePrediction
+- LoginActivity [Not complete implementation]
+- MainActivity
+- myPortfolio 
+- searchPrediction
+- ShowResult 
+- SignUp [Not complete implementation]
+
+
+---------------------------------------------------------------------------------------------------------
+
+
+AboutUs:
+This is an activity which shows the about us page of iPredict in which contains the info of the company.
+This page is almost completed but there are few bugs visible there. The bugs I have found so far is that
+it is not good in landscape mode, text goes out of the box. If the cusor is visible in the textbox then
+we cannot scroll to anywhere. User can send feedback but this will loads a mail app, further improvement
+is to have just a click and the text is sent. 
+
+BrowsePrediction:
+This is an activity that display the info from the JSON file. These info are read from the web under 'MyJSONReader'. 
+The Json only gets from the web once which means there are no updates. This need to fix as we need to get the update
+every 5 minutes. Other boxes such as 'Sort' and 'All' is not done yet. The search by text at the moment only does a 
+simple search such as name of the stock but not complicated search. At the moment reading from web is really slow
+because of the large JSON file. Sometimes the app crash when the Internet Connection lost half way, this is important
+and need to investigate. 
+
+LoginActivity:
+This is an activity that takes in the login info so that it can directs the user to their own portfolio page.
+This is however incomplete as I have no database to read the users info from as iPredict is winding down. 
+Temporary this page just directs the user to the portfolio page. 
+
+MainActivity:
+
+This is the home page of the app. The tweet button currently does nothing and the phone image may need to
+replace to something else. 
+
+myPortfolio:
+
+This is the porfolio page of the user where all info of the user are displayed here. 
+
+searchPrediction:
+This is an activity that loads and display the predictions that users selected from the 'BrowsePrediction' page.
+Need to add picture next to the stock name according to the design. 
+
+ShowResult:
+This page shows the result of the stock selected previously at the 'searchPrediction' page. All the info here are
+displayed properly except the graph. 
+
+Signup: 
+This page is for the user to sign up.
+
+
+---------------------------------------------------------------------------------------------------------
+
+
+Classes:
+-------
+
+- BookAndStock
+- ContractInfo
+- CustomAdapter
+- ExpanableListAdapter 
+- Model
+- MyJSONReader
+- StockItem
+
+
+---------------------------------------------------------------------------------------------------------
+
+
+BookAndStock: 
+This class constructs object which is the stock that is to buy or sell. 
+
+ContractInfo:
+This class constructs the contract object where it contains all the info of the contract that got from JSON online.
+
+CustomAdapter:
+This is a custom adapter use in the listview to display the text together with the checkbox.
+
+ExpandableListAdapter:
+This is another custom adapter which is use to display the items in the list view in which we want them to be expandable. 
+
+Model:
+This model class can contructs the object which has the name and its value. This value tells us whether the checkbox
+is selected or not. 
+
+MyJSONReader:
+This is a class that reads the info from the JSON file in the web. 
+
+StockItem:
+This class store the stock info of the selected categories. 
+
+
+---------------------------------------------------------------------------------------------------------
+
+
+Layout:
+-------
+
+- activity_about_us
+- activity_browse_prediction
+- activity_login
+- activity_main
+- activity_my_portfolio
+- activity_search_prediction
+- activity_show_result
+- activity_sign_up
+- border
+- grouplist
+- mybutton
+- mybutton2
+- mybutton3
+- mybutton4 
+- result_prediction_row
+- row
+
+
+---------------------------------------------------------------------------------------------------------
+
+
+activity_about_us:
+This is the layout for the about us activity. 
+
+activity_browse_prediction:
+This is the layout for the browse prediction activity.
+
+activity_login:
+This is the layout for the login activity.
+
+activity_main:
+This is the layout for the main activity. 
+
+activity_my_portfolio:
+This is the layout for my portfolio activity. 
+
+activity_search_prediction:
+This is the layout for the search predicion activity. 
+
+activity_show_result:
+This is the layout for the show result activity. 
+
+activity_sign_up:
+This is the layout for the sign up activity. 
+
+border:
+This is a custom drawing which is a border that is use to wrap around text in the 'About Us' page. 
+
+mybutton / mybutton2 / mybutton3 / mybutton4:
+This is just a custom button design which use throughout the app. 
+
+result_prediction_row:
+This is a text view of stock name together with its price and change. This is needed to put
+under the list view which require the use of the expandable list adapter. 
+
+row:
+This is a texgt view together with a text box. This is needed to put under the list view 
+which require the use of the custom adapter. 
+
+
+---------------------------------------------------------------------------------------------------------
+
+
+Install/Run Instruction:
+-----------------------
+
+I have wrote the code under the Android Studio. There are three ways that I knew how to run the program:
+
+
+1. Run the program via the emulator within the app. 
+
+2. Connect the Android phone via USB and ran the program via the connected device. 
+
+3. Run the program by export the APK file and test under the Android phone.
+
+
+For 1)
+
+- Choose an appropriate emulator to run the program.
+- Do note that using the emulator is not like testing on the real device. They tend to be slower and some functions
+are not working as expected. 
+
+For 2)
+
+- Ran via USB connection. Instead of emulator, just connect the Android phone and ran.
+
+For 3)
+
+- Export the release version of the app and put it to the phone.
+- On the Android phone, just click on the app to proceed the installation process. The app do not require any authentication
+nor does it collect any info. The permission it asked is just the Interntet Connection. 
