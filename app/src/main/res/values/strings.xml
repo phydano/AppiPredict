@@ -90,4 +90,7 @@
     <string name="toptenbuy">Current top 10 buy orders</string>
     <string name="stocks">Stocks</string>
     <string name="prices">Price(ea)</string>
+    <string name="title_activity_my_portfolio">myPortfolio</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>

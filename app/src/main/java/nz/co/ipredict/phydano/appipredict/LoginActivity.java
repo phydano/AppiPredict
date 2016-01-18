@@ -1,9 +1,12 @@
 package nz.co.ipredict.phydano.appipredict;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 
 /**
  * Created by phydano
@@ -30,6 +33,17 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * If the login details are correct, user should redirect to their portfolio page
+     * Note: this is just using the dummy data
      * */
-    public void logIn(View view) {}
+    public void logIn(View view) {
+        AutoCompleteTextView emailAddr = (AutoCompleteTextView) findViewById(R.id.email);
+        String email = emailAddr.getText().toString();
+        System.out.println("TAG: " + email);
+        EditText myPassword = (EditText) findViewById(R.id.password);
+        String password = myPassword.getText().toString();
+        System.out.println("TAG: " + password);
+
+        Intent intent = new Intent(this, myPortfolio.class);
+        startActivity(intent);
+    }
 }

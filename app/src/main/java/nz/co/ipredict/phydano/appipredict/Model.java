@@ -2,7 +2,7 @@ package nz.co.ipredict.phydano.appipredict;
 
 /**
  * Created by phydano on 17/11/2015.
- * This is a model class that is use for the listview where ther is text and checkbox
+ * This is a model class that is use for the listview where there is text and checkbox
  */
 public class Model {
     String name; // category name

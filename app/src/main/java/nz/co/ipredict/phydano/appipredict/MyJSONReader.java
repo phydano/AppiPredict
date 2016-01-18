@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 
 /**
  * Created by phydano on 25/11/2015.
- * This is the class to read the JSON file from web provided by Don
+ * This is the class to read the JSON file from web provided by Donald
  */
 public class MyJSONReader {
 
