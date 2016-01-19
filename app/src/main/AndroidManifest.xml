@@ -86,6 +86,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="nz.co.ipredict.phydano.appipredict.MainActivity" />
         </activity>
+        <activity
+            android:name=".Ranking"
+            android:label="@string/title_activity_ranking"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="nz.co.ipredict.phydano.appipredict.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
