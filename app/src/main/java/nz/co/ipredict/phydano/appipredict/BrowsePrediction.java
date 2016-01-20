@@ -91,7 +91,7 @@ public class BrowsePrediction extends AppCompatActivity {
         }
     }
 
-    public boolean isNetworkAvailable(Context ctx){
+    public static boolean isNetworkAvailable(Context ctx){
         ConnectivityManager cm = (ConnectivityManager)ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         if(netInfo != null && netInfo.isConnectedOrConnecting()

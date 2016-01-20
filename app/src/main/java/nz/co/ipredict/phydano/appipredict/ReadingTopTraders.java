@@ -3,10 +3,8 @@ package nz.co.ipredict.phydano.appipredict;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -16,15 +14,18 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 /**
  * Created by phydano on 19/01/2016.
- * This class read the XML from the web on the top traders.
+ * This class read the XML from the web on the top traders - ROI and Networth.
  */
 public class ReadingTopTraders {
 
-    private static List<Traders> topTradersRoi = new ArrayList<Traders>(); // list of traders
-    private static List<Traders> topTradersNetworth = new ArrayList<Traders>(); // list of traders
+    private static List<Traders> topTradersRoi = new ArrayList<Traders>(); // list the top roi traders
+    private static List<Traders> topTradersNetworth = new ArrayList<Traders>(); // list the top networth traders
 
     /**
-     * Read the order book which contains sell and buy of the stock
+     * Read the ranking information from the web URL which is in XML form
+     * @param date is the current day (E.g. 2016-01-18)
+     * @param numRow is the number of row we want to show the users
+     * @param type is either the Roi or networth
      * */
     public static void readRankingInfo(String date, String numRow, String type){
 
@@ -60,6 +61,8 @@ public class ReadingTopTraders {
                 roiE = (Element) roiN.item(0);
                 networthE = (Element) networthN.item(0);
                 networthChangeE = (Element) networthChangeN.item(0);
+
+
 
                 Traders trd = new Traders(rankE.getTextContent(), traderNameE.getTextContent(),
                         changeDecimal(roiE.getTextContent()), changeDecimal(networthE.getTextContent()), changeDecimal(networthChangeE.getTextContent()));
@@ -102,6 +105,11 @@ public class ReadingTopTraders {
     public static String changeDecimal(String convert){
         return Double.toString(Double.valueOf(
                 new DecimalFormat("#.##").format(Double.parseDouble(convert))));
+    }
+
+    public static void clearList(){
+        topTradersRoi.clear();
+        topTradersNetworth.clear();
     }
 
 /*    public static void main(String [] args) {

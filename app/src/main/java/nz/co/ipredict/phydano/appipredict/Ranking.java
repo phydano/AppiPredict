@@ -17,12 +17,12 @@ import java.util.List;
 
 /**
  * Created by phydano
- *
+ * This is the ranking activities which show the users the top 10 traders
  * */
 public class Ranking extends AppCompatActivity {
 
-    private List<Traders> roiValues = new ArrayList<>();
-    private List<Traders> networthValues = new ArrayList<>();
+    private List<Traders> roiValues = new ArrayList<>(); // our top traders with the highest roi
+    private List<Traders> networthValues = new ArrayList<>(); // our top traders with the highest networth
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +56,6 @@ public class Ranking extends AppCompatActivity {
 
     /**
      * Internal class AysyncTask - UI thread allowing to perform the background operations
-     *
      * */
     class GetTask extends AsyncTask<Traders,Traders,List<Traders>> {
         ProgressDialog mDialog;
@@ -70,6 +69,7 @@ public class Ranking extends AppCompatActivity {
             mDialog.setIndeterminate(false); // play the loop animation
             mDialog.setCancelable(true); // allow user to cancel
             mDialog.show(); // show the dialog
+            ReadingTopTraders.clearList(); // clear the list every time we reload the page
         }
 
         @Override
