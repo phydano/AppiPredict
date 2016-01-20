@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +21,8 @@ import java.util.List;
  * */
 public class Ranking extends AppCompatActivity {
 
-    private List<Traders> browseValues = new ArrayList<>();
+    private List<Traders> roiValues = new ArrayList<>();
+    private List<Traders> networthValues = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,13 +75,12 @@ public class Ranking extends AppCompatActivity {
         @Override
         protected List<Traders> doInBackground(Traders... args){
             try {
-                MyJSONReader.EstablishedWebConnection(); // establish connection to the web server and store the result
-                MyJSONReader.JSONReader("All"); // load the result above and grab all the categories name
-                browseValues = ReadingTopTraders.getTraders(); // now store all the categories name
-            }catch(SocketTimeoutException | SocketException e) {
+                roiValues = ReadingTopTraders.getTraders("roi"); // now store all the categories name
+                networthValues = ReadingTopTraders.getTraders("networth");
+            }catch(Exception e) {
                 //optionalAlertBox("No Internet Connection");
             }
-            return browseValues;
+            return roiValues;
         }
 
         @Override
@@ -120,13 +121,13 @@ public class Ranking extends AppCompatActivity {
 
         test.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                loadView(browseValues, false);
+                loadView(roiValues, false);
             }
         });
 
         test2.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                loadView(browseValues, true);
+                loadView(networthValues, true);
             }
         });
     }

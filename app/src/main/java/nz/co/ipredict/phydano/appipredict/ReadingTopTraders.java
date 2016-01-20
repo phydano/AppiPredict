@@ -7,6 +7,7 @@ import org.w3c.dom.NodeList;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -19,19 +20,20 @@ import javax.xml.parsers.DocumentBuilderFactory;
  */
 public class ReadingTopTraders {
 
-    private static List<Traders> topTraders = new ArrayList<Traders>(); // list of traders
+    private static List<Traders> topTradersRoi = new ArrayList<Traders>(); // list of traders
+    private static List<Traders> topTradersNetworth = new ArrayList<Traders>(); // list of traders
 
     /**
      * Read the order book which contains sell and buy of the stock
      * */
-    public static void readRankingInfo(String date, String numRow){
+    public static void readRankingInfo(String date, String numRow, String type){
 
         NodeList rankN, traderNameN, roiN, networthN, networthChangeN;
         Element rankE, traderNameE, roiE, networthE, networthChangeE;
 
         try{
             /** Open the connection to the XML online */
-            URL url = new URL("https://www.ipredict.co.nz/ipapi/?action=rankings&numRows="+numRow+"&date="+date+"&type=ROI");
+            URL url = new URL("https://www.ipredict.co.nz/ipapi/?action=rankings&numRows="+numRow+"&date="+date+"&type=" + type);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             System.out.println("TAG: Reaches here? ");
 
@@ -40,14 +42,8 @@ public class ReadingTopTraders {
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document doc = builder.parse(conn.getInputStream());
 
-            System.out.println("TAG: Reaches here?? ");
-
             /** Read the XML by the tag name and read each of the items and create an object */
             NodeList rankingNode = doc.getElementsByTagName("rankedTrader");
-
-            System.out.println("TAG: Reaches here??? ");
-
-            System.out.println("TAG: The size is: " + rankingNode.getLength());
 
             /** loop through all the elements */
             for(int i=0; i<rankingNode.getLength(); i++){
@@ -66,9 +62,9 @@ public class ReadingTopTraders {
                 networthChangeE = (Element) networthChangeN.item(0);
 
                 Traders trd = new Traders(rankE.getTextContent(), traderNameE.getTextContent(),
-                        roiE.getTextContent(), networthE.getTextContent(), networthChangeE.getTextContent());
-                topTraders.add(trd);
-                System.out.println("TAG: " + topTraders.get(i).getTraderName());
+                        changeDecimal(roiE.getTextContent()), changeDecimal(networthE.getTextContent()), changeDecimal(networthChangeE.getTextContent()));
+                if(type.equals("roi")) topTradersRoi.add(trd);
+                else if(type.equals("networth")) topTradersNetworth.add(trd);
             }
         }catch(Exception e){
             e.printStackTrace();
@@ -79,9 +75,10 @@ public class ReadingTopTraders {
      * Get the list of all traders that is added when reading from the XML on the web.
      * @return the list of traders
      * */
-    public static List<Traders> getTraders(){
-        readRankingInfo(dateTime(), "5");
-        return topTraders;
+    public static List<Traders> getTraders(String type){
+        readRankingInfo(dateTime(), "10", type);
+        if(type.equals("roi")) return topTradersRoi;
+        else return topTradersNetworth;
     }
 
     /**
@@ -98,9 +95,18 @@ public class ReadingTopTraders {
                 String.valueOf(month) + "-" + String.valueOf(day));
     }
 
-    public static void main(String [] args) {
+    /**
+     * Limits the decimal to 4 decimal place.
+     * @param convert the number we want to convert
+     * */
+    public static String changeDecimal(String convert){
+        return Double.toString(Double.valueOf(
+                new DecimalFormat("#.##").format(Double.parseDouble(convert))));
+    }
+
+/*    public static void main(String [] args) {
         readRankingInfo(dateTime(), "5");
 
-    }
+    }*/
 
 }
