@@ -3,6 +3,8 @@ package nz.co.ipredict.phydano.appipredict;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -17,7 +19,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
  */
 public class ReadingTopTraders {
 
-    static List<Traders> topTraders = new ArrayList<>(); // list of traders
+    private static List<Traders> topTraders = new ArrayList<Traders>(); // list of traders
 
     /**
      * Read the order book which contains sell and buy of the stock
@@ -30,15 +32,22 @@ public class ReadingTopTraders {
         try{
             /** Open the connection to the XML online */
             URL url = new URL("https://www.ipredict.co.nz/ipapi/?action=rankings&numRows="+numRow+"&date="+date+"&type=ROI");
-            URLConnection conn = url.openConnection();
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            System.out.println("TAG: Reaches here? ");
 
             /** Build the document */
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document doc = builder.parse(conn.getInputStream());
 
+            System.out.println("TAG: Reaches here?? ");
+
             /** Read the XML by the tag name and read each of the items and create an object */
             NodeList rankingNode = doc.getElementsByTagName("rankedTrader");
+
+            System.out.println("TAG: Reaches here??? ");
+
+            System.out.println("TAG: The size is: " + rankingNode.getLength());
 
             /** loop through all the elements */
             for(int i=0; i<rankingNode.getLength(); i++){
@@ -59,6 +68,7 @@ public class ReadingTopTraders {
                 Traders trd = new Traders(rankE.getTextContent(), traderNameE.getTextContent(),
                         roiE.getTextContent(), networthE.getTextContent(), networthChangeE.getTextContent());
                 topTraders.add(trd);
+                System.out.println("TAG: " + topTraders.get(i).getTraderName());
             }
         }catch(Exception e){
             e.printStackTrace();
@@ -69,7 +79,7 @@ public class ReadingTopTraders {
      * Get the list of all traders that is added when reading from the XML on the web.
      * @return the list of traders
      * */
-    public List<Traders> getTraders(){
+    public static List<Traders> getTraders(){
         readRankingInfo(dateTime(), "5");
         return topTraders;
     }
@@ -88,8 +98,9 @@ public class ReadingTopTraders {
                 String.valueOf(month) + "-" + String.valueOf(day));
     }
 
-    /** To run the file by itself for testing purpose */
-    public static void main(String[] args) throws Exception {
+    public static void main(String [] args) {
         readRankingInfo(dateTime(), "5");
+
     }
+
 }

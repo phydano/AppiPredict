@@ -12,7 +12,7 @@ public class Traders {
     private String networth; // the trader networth
     private String networthChange; // the change in the networth
 
-    Traders (String rank, String traderName, String roi, String networth, String networthChange){
+    public Traders (String rank, String traderName, String roi, String networth, String networthChange){
         this.rank = rank;
         this.traderName = traderName;
         this.roi = roi;

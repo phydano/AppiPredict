@@ -163,6 +163,8 @@ public class MainActivity extends AppCompatActivity {
             // Registration page for user who wants to sign up
             case R.id.action_register:
                 return signup();
+            case R.id.action_rankings:
+                return ranking();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -199,6 +201,12 @@ public class MainActivity extends AppCompatActivity {
      * */
     public boolean signup(){
         Intent intent = new Intent(this, SignUp.class);
+        startActivity(intent);
+        return true;
+    }
+
+    public boolean ranking(){
+        Intent intent = new Intent(this, Ranking.class);
         startActivity(intent);
         return true;
     }
