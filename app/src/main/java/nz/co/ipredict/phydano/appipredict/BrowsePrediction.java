@@ -20,6 +20,7 @@ import android.widget.SearchView;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * Created by phydano
@@ -29,10 +30,10 @@ public class BrowsePrediction extends AppCompatActivity {
 
     private ListView lv; // the list of items to display under the search field with checkbox
     private Model[] modelItems; // our model in each of the row showing the text and checkbox
-    private ArrayList<String> browseValues = new ArrayList<String>(); // Item to be listed under the first button (Browse)
-    private ArrayList<String> sortByValues = new ArrayList<String>(); // Item to be listed under the second button (Sort)
+    private ArrayList<String> browseValues = new ArrayList<>(); // Item to be listed under the first button (Browse)
+    private ArrayList<String> sortByValues = new ArrayList<>(); // Item to be listed under the second button (Sort)
     private CustomAdapter adapter; // created custom adapter
-    private ArrayList<String> selectedCategoriesContract = new ArrayList<String>(); // listed of selected categories
+    private ArrayList<String> selectedCategoriesContract = new ArrayList<>(); // listed of selected categories
     private long mLastClickTime = 0;
 
     @Override
@@ -42,7 +43,15 @@ public class BrowsePrediction extends AppCompatActivity {
         // Check whether the network is available and list of browse items
         if(!isNetworkAvailable(this) && browseValues.isEmpty()) optionalAlertBox("No Internet Connection");
         else if (isNetworkAvailable(this) && MyJSONReader.getCategories()==null) new GetTask().execute();
-        else browseValues = MyJSONReader.getName();
+        // This is when the Categories are not empty, meaning we already have the info
+        else if (MyJSONReader.getCategories() != null){
+            browseValues = MyJSONReader.getName();
+            ArrayList<String> newList = new ArrayList<>(new HashSet<>(browseValues));
+            browseValues.clear();
+            for(String e : newList){
+                browseValues.add(e);
+            }
+        }
         searchView(); // load the search view
         buttonIsClicked(); // load all the buttons in this activity
     }
@@ -91,12 +100,16 @@ public class BrowsePrediction extends AppCompatActivity {
         }
     }
 
+    /**
+     * Check to see if there is any Internet Connection
+     * @param ctx the context
+     * @return true if there is any Internet connection
+     * */
     public static boolean isNetworkAvailable(Context ctx){
         ConnectivityManager cm = (ConnectivityManager)ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if(netInfo != null && netInfo.isConnectedOrConnecting()
-                && cm.getActiveNetworkInfo().isAvailable() && cm.getActiveNetworkInfo().isConnected()) return true;
-        else return false;
+        return (netInfo != null && netInfo.isConnectedOrConnecting()
+                && cm.getActiveNetworkInfo().isAvailable() && cm.getActiveNetworkInfo().isConnected());
     }
 
     /**

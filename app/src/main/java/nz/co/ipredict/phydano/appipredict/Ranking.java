@@ -9,9 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-import java.net.SocketException;
-import java.net.SocketTimeoutException;
-import java.text.DecimalFormat;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +26,7 @@ public class Ranking extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ranking);
-        new GetTask().execute();
+        new GetRanking().execute();
     }
 
     @Override
@@ -57,7 +55,7 @@ public class Ranking extends AppCompatActivity {
     /**
      * Internal class AysyncTask - UI thread allowing to perform the background operations
      * */
-    class GetTask extends AsyncTask<Traders,Traders,List<Traders>> {
+    class GetRanking extends AsyncTask<Traders,Traders,List<Traders>> {
         ProgressDialog mDialog;
 
         @Override
@@ -86,7 +84,7 @@ public class Ranking extends AppCompatActivity {
         @Override
         protected void onPostExecute(List<Traders> info){
             mDialog.dismiss();
-            //searchView(); // load the search view in this acitvity
+            loadView(roiValues, false);
             clicked(); // load all the buttons in this activity
         }
     }
@@ -106,26 +104,29 @@ public class Ranking extends AppCompatActivity {
         }
 
         if(toogle) {
-            NetworthCustomAdapter Networthadapter = new NetworthCustomAdapter(this, modelItems);
-            lv.setAdapter(Networthadapter);
+            NetworthCustomAdapter networthAdapter = new NetworthCustomAdapter(this, modelItems);
+            lv.setAdapter(networthAdapter);
         }
         else{
-            ROICustomAdapter ROIadapter = new ROICustomAdapter(this, modelItems);
-            lv.setAdapter(ROIadapter);
+            ROICustomAdapter roiAdapter = new ROICustomAdapter(this, modelItems);
+            lv.setAdapter(roiAdapter);
         }
     }
 
+    /**
+     * Depends on which button is clicked, the results show accordingly
+     * */
     public void clicked (){
-        final Button test = (Button) findViewById(R.id.testbutton);
-        final Button test2 = (Button) findViewById(R.id.testbutton2);
+        final Button roiButton = (Button) findViewById(R.id.roiTraders);
+        final Button networthButton = (Button) findViewById(R.id.networthTraders);
 
-        test.setOnClickListener(new View.OnClickListener(){
+        roiButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 loadView(roiValues, false);
             }
         });
 
-        test2.setOnClickListener(new View.OnClickListener(){
+        networthButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 loadView(networthValues, true);
             }

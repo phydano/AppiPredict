@@ -65,7 +65,8 @@ public class ReadingTopTraders {
 
 
                 Traders trd = new Traders(rankE.getTextContent(), traderNameE.getTextContent(),
-                        changeDecimal(roiE.getTextContent()), changeDecimal(networthE.getTextContent()), changeDecimal(networthChangeE.getTextContent()));
+                        amount(changeDecimal(roiE.getTextContent())), changeDecimal(networthE.getTextContent()),
+                        changeDecimal(networthChangeE.getTextContent()));
                 if(type.equals("roi")) topTradersRoi.add(trd);
                 else if(type.equals("networth")) topTradersNetworth.add(trd);
             }
@@ -105,6 +106,10 @@ public class ReadingTopTraders {
     public static String changeDecimal(String convert){
         return Double.toString(Double.valueOf(
                 new DecimalFormat("#.##").format(Double.parseDouble(convert))));
+    }
+
+    public static String amount(String text){
+        return (text + "%");
     }
 
     public static void clearList(){

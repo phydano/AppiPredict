@@ -10,18 +10,30 @@ import android.widget.TextView;
 
 /**
  * Created by phydano on 20/01/2016.
+ * This allows multiple views to display in the same row (It has the Net Worth info that require
+ * to display in the row)
  */
 public class NetworthCustomAdapter extends ArrayAdapter<Traders>{
 
-    private Context context;
-    Traders[] data = null;
+    private Context context; // hold reference to the activity which is using the custom adapter
+    Traders[] data = null; // to hold the array of data items
 
+    /**
+     * Constructor helps to initialise the data items and the context
+     * */
     public NetworthCustomAdapter(Context context, Traders[] data){
         super(context, R.layout.traders_networth, data);
         this.context = context;
         this.data = data;
     }
 
+    /**
+     * Get a view that displays the data at the specified position in the data set.
+     * @param position the position of the item
+     * @param convertView Create a new view if no view can reuse. Otherwise reuse.
+     * @param parent The parent of which this view will attached to.
+     * @return This method returns a view item which is placed as a row inside the list view.
+     * */
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
         View row = convertView;
@@ -51,6 +63,9 @@ public class NetworthCustomAdapter extends ArrayAdapter<Traders>{
         return row;
     }
 
+    /**
+     * Inner class that contains the categories name (title) and the checkbox.
+     * */
     static class AppInfoHolder{
         TextView number;
         TextView tradeName;

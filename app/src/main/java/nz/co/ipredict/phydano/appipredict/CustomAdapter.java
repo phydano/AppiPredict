@@ -14,6 +14,7 @@ import android.widget.TextView;
 /**
  * Created by phydano on 17/11/2015.
  * Create subclass for array adapter
+ * This allows multiple views to display in the same row (It has the category name together with the checkbox)
  * Code tutorial: http://stackoverflow.com/questions/18162931/get-selected-item-using-checkbox-in-listview
  */
 public class CustomAdapter extends ArrayAdapter<Model> implements CompoundButton.OnCheckedChangeListener{
