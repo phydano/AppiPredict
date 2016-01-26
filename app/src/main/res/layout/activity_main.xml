@@ -171,9 +171,9 @@
                 android:layout_gravity="center"
                 android:orientation="horizontal"
                 android:contentDescription="@string/desc" />
-
         </LinearLayout>
 
+        <!-- text description -->
         <LinearLayout
             android:id="@+id/three"
             android:layout_width="match_parent"
@@ -182,6 +182,7 @@
             android:weightSum="2"
             android:orientation="horizontal">
 
+            <!-- description on 'Test your knowledge' -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_weight="1"
@@ -192,9 +193,9 @@
                 android:layout_marginRight="12dp"
                 android:textSize="12sp"
                 android:text="@string/test_your_knowledge"
-                android:orientation="horizontal">
-            </TextView>
+                android:orientation="horizontal"/>
 
+            <!-- description on 'Earn real money' -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_weight="1"
@@ -205,10 +206,10 @@
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
                 android:text="@string/earn_real_money"
-                android:orientation="horizontal">
-            </TextView>
+                android:orientation="horizontal"/>
         </LinearLayout>
 
+        <!-- heading of the text description -->
         <LinearLayout
             android:id="@+id/five"
             android:layout_width="match_parent"
@@ -217,6 +218,7 @@
             android:weightSum="2"
             android:orientation="horizontal">
 
+            <!-- 'Over 100 predictions' heading -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_weight="1"
@@ -225,9 +227,9 @@
                 android:textColor="#000000"
                 android:textStyle="bold"
                 android:text="@string/predictions"
-                android:orientation="horizontal">
-            </TextView>
+                android:orientation="horizontal"/>
 
+            <!-- 'Trade anywhere' heading -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_weight="1"
@@ -236,10 +238,10 @@
                 android:textColor="#000000"
                 android:textStyle="bold"
                 android:text="@string/trade"
-                android:orientation="horizontal">
-            </TextView>
+                android:orientation="horizontal"/>
         </LinearLayout>
 
+        <!-- text description -->
         <LinearLayout
             android:id="@+id/six"
             android:layout_width="match_parent"
@@ -248,6 +250,7 @@
             android:weightSum="2"
             android:orientation="horizontal">
 
+            <!-- description for the 'over 100 predictions' -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_weight="1"
@@ -258,9 +261,9 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:text="@string/over_100_predictions"
-                android:orientation="horizontal">
-            </TextView>
+                android:orientation="horizontal"/>
 
+            <!-- description for the 'trade anywhere' -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_weight="1"
@@ -271,10 +274,10 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:text="@string/trade_anywhere"
-                android:orientation="horizontal">
-            </TextView>
+                android:orientation="horizontal"/>
         </LinearLayout>
 
+        <!-- heading for the text descriptions -->
         <LinearLayout
             android:id="@+id/two"
             android:layout_width="match_parent"
@@ -283,6 +286,7 @@
             android:weightSum="2"
             android:orientation="horizontal">
 
+            <!-- 'Test your knowledge' heading -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_weight="1"
@@ -291,9 +295,9 @@
                 android:textColor="#000000"
                 android:textStyle="bold"
                 android:text="@string/knowledge"
-                android:orientation="horizontal">
-            </TextView>
+                android:orientation="horizontal"/>
 
+            <!-- 'Earn real money' heading -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_weight="1"
@@ -302,10 +306,10 @@
                 android:textColor="#000000"
                 android:textStyle="bold"
                 android:text="@string/realmoney"
-                android:orientation="horizontal">
-            </TextView>
+                android:orientation="horizontal"/>
         </LinearLayout>
 
+        <!-- draw another small line -->
         <View
             android:id="@+id/aLine2"
             android:layout_below="@+id/six"
@@ -313,6 +317,7 @@
             android:layout_height="1dp"
             android:background="#C8C8C8"/>
 
+        <!-- Heading -->
         <TextView
             android:id="@+id/whatDoOurUserThinks"
             android:layout_width="wrap_content"
@@ -326,6 +331,7 @@
             android:textSize="25sp"
             android:textStyle="bold" />
 
+        <!-- first user image and comment -->
         <LinearLayout
             android:id="@+id/seven"
             android:layout_width="match_parent"
@@ -334,15 +340,16 @@
             android:weightSum="2"
             android:orientation="horizontal">
 
+            <!-- image of the first user -->
             <ImageView
                 android:id="@+id/usertwo"
                 android:layout_width="match_parent"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                android:contentDescription="@string/desc">
-            </ImageView>
+                android:contentDescription="@string/desc"/>
 
+            <!-- comment of the first user -->
             <TextView
                 android:id="@+id/user1"
                 android:layout_width="match_parent"
@@ -354,10 +361,10 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="20dp"
-                android:orientation="horizontal">
-            </TextView>
+                android:orientation="horizontal"/>
         </LinearLayout>
 
+        <!-- second user image and comment -->
         <LinearLayout
             android:id="@+id/eight"
             android:layout_width="match_parent"
@@ -366,6 +373,7 @@
             android:weightSum="2"
             android:orientation="horizontal">
 
+            <!-- comment on the second user -->
             <TextView
                 android:id="@+id/user2"
                 android:layout_width="match_parent"
@@ -377,9 +385,9 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="20dp"
-                android:orientation="horizontal">
-            </TextView>
+                android:orientation="horizontal"/>
 
+            <!-- image on the second user -->
             <ImageView
                 android:id="@+id/userone"
                 android:layout_width="match_parent"
@@ -389,6 +397,7 @@
                 android:contentDescription="@string/desc" />
         </LinearLayout>
 
+        <!-- layout with dark gray background -->
         <RelativeLayout
             android:id="@+id/start"
             android:layout_width="match_parent"
@@ -397,6 +406,7 @@
             android:stretchColumns="1"
             android:layout_below="@+id/eight">
 
+            <!-- text description -->
             <TextView
                 android:id="@+id/startToday"
                 android:layout_width="wrap_content"
@@ -409,6 +419,7 @@
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
+            <!-- redirects users to the browse prediction -->
             <Button
                 android:layout_below="@+id/startToday"
                 android:layout_width="wrap_content"
@@ -425,6 +436,7 @@
                 android:onClick="gotoBrowsePrediction" />
         </RelativeLayout>
 
+        <!-- Load Victoria logo -->
         <RelativeLayout
             android:id="@+id/supportbyVic"
             android:layout_width="match_parent"
@@ -432,6 +444,7 @@
             android:stretchColumns="1"
             android:layout_below="@+id/start">
 
+            <!-- on screen text -->
             <TextView
                 android:id="@+id/proudlysupport"
                 android:layout_width="wrap_content"
@@ -444,6 +457,7 @@
                 android:textSize="12sp"
                 android:textStyle="italic" />
 
+            <!-- Victoria logo -->
             <ImageView
                 android:id="@+id/viclogo"
                 android:layout_below="@+id/proudlysupport"
@@ -452,12 +466,14 @@
                 android:contentDescription="@string/desc" />
         </RelativeLayout>
 
+        <!-- last layout for term policy -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:stretchColumns="1"
             android:layout_below="@+id/supportbyVic">
 
+            <!-- terms and privacy -->
             <LinearLayout
                 android:id="@+id/nine"
                 android:layout_width="match_parent"
@@ -465,6 +481,7 @@
                 android:weightSum="2"
                 android:orientation="horizontal">
 
+                <!-- on screen text -->
                 <TextView
                     android:id="@+id/termprivacy"
                     android:layout_width="match_parent"
@@ -479,9 +496,9 @@
                     android:text="@string/privacy"
                     android:textStyle="bold"
                     android:clickable="true"
-                    android:orientation="horizontal">
-                </TextView>
+                    android:orientation="horizontal"/>
 
+                <!-- a small twitter logo -->
                 <ImageView
                     android:id="@+id/twitterlogo"
                     android:layout_width="80dp"
@@ -492,10 +509,10 @@
                     android:layout_weight="1"
                     android:layout_height="30dp"
                     android:orientation="horizontal"
-                    android:contentDescription="@string/desc">
-                </ImageView>
+                    android:contentDescription="@string/desc"/>
             </LinearLayout>
 
+            <!-- copyright text -->
             <TextView
                 android:layout_below="@+id/nine"
                 android:layout_width="match_parent"
@@ -505,8 +522,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:text="@string/copyright">
-            </TextView>
+                android:text="@string/copyright"/>
 
         </RelativeLayout>
     </RelativeLayout>

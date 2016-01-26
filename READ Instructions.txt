@@ -1,12 +1,23 @@
-Name of the Project: App iPredict
+Name of the Project: iPredict Android App
+Developer: Dano Phy (Victoria University of Wellington)
+Company: iPredict Ltd.
 
-This document explains the Activities and Classes used in the project plus how to install/run the program. 
-It constructs as follows:
+This document provides an intro and explains the Activities and Classes used in the project plus how to install/run the program. 
+The breakdown is as follows:
 
+	0. Intro 
 	1. Activities
 	2. Classes
 	3. Layout
 	4. Install/Run Instruction
+
+0. Intro:
+--------
+
+I have developed this application by myself with only a small background in Android and learnt as I go. Therefore there could be some 
+major bugs and memory leaked here and there. I have tried to fix as much as I can but since iPredict currently winded down its 
+operation and my contract almost comes to an end, I would like to pass on what I have done so far (I have added alot of comments
+and structured my code as clean as I can, and I hope that it would be easy to read =D). 
 
 
 ---------------------------------------------------------------------------------------------------------
@@ -26,6 +37,7 @@ It constructs as follows:
 
 
 ---------------------------------------------------------------------------------------------------------
+Here are the breakdown of Activities I have created:
 
 1.1 AboutUs:
 -----------
@@ -132,6 +144,7 @@ the list display to either the top traders with highest ROI or highest Net Worth
 
 
 ---------------------------------------------------------------------------------------------------------
+Here are the breakdown of classes I have created:
 
 2.1 BookAndStock:
 ----------------
@@ -208,6 +221,7 @@ This class store the stock info of the selected categories. It contains the info
 
 
 ---------------------------------------------------------------------------------------------------------
+Here are the breakdown of Layout I have created:
 
 3.1 activity_about_us:
 ---------------------
