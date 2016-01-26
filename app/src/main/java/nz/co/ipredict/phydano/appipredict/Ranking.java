@@ -118,6 +118,9 @@ public class Ranking extends AppCompatActivity {
         }
     }
 
+    /**
+     * 
+     * */
     public void loadROIlayout(){
         LinearLayout layout = (LinearLayout) findViewById(R.id.tradingheadings);
         layout.removeAllViews();
