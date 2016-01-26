@@ -3,6 +3,7 @@
     android:layout_height="match_parent"
     tools:context="nz.co.ipredict.phydano.appipredict.searchPrediction">
 
+    <!-- list of selected category -->
     <ExpandableListView
         android:id="@+id/lvExp"
         android:layout_width="match_parent"

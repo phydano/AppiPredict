@@ -1,6 +1,7 @@
 package nz.co.ipredict.phydano.appipredict;
 
 import android.app.ProgressDialog;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +9,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,13 +107,71 @@ public class Ranking extends AppCompatActivity {
         }
 
         if(toogle) {
+            loadNetlayout();
             NetworthCustomAdapter networthAdapter = new NetworthCustomAdapter(this, modelItems);
             lv.setAdapter(networthAdapter);
         }
         else{
+            loadROIlayout();
             ROICustomAdapter roiAdapter = new ROICustomAdapter(this, modelItems);
             lv.setAdapter(roiAdapter);
         }
+    }
+
+    public void loadROIlayout(){
+        LinearLayout layout = (LinearLayout) findViewById(R.id.tradingheadings);
+        layout.removeAllViews();
+        TextView number = new TextView(this);
+        TextView traderName = new TextView(this);
+        TextView amount = new TextView(this);
+
+        number.setText("#");
+        number.setTypeface(null, Typeface.BOLD);
+        number.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+        number.setPadding(15,0,0,0);
+
+        traderName.setText("Trader Name");
+        traderName.setTypeface(null, Typeface.BOLD);
+        traderName.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 2));
+
+        amount.setText("Amount");
+        amount.setTypeface(null, Typeface.BOLD);
+        amount.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+
+        layout.addView(number);
+        layout.addView(traderName);
+        layout.addView(amount);
+    }
+
+    public void loadNetlayout(){
+        LinearLayout layout = (LinearLayout) findViewById(R.id.tradingheadings);
+        layout.removeAllViews();
+        TextView number = new TextView(this);
+        TextView traderName = new TextView(this);
+        TextView change = new TextView(this);
+        TextView amount = new TextView(this);
+
+        number.setText("#");
+        number.setTypeface(null, Typeface.BOLD);
+        number.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 0.6f));
+        number.setPadding(10,0,0,0);
+
+        traderName.setText("Trader Name");
+        traderName.setTypeface(null, Typeface.BOLD);
+        traderName.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1.4f));
+
+        change.setText("Change");
+        change.setTypeface(null, Typeface.BOLD);
+        change.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+
+        amount.setText("Amount");
+        amount.setTypeface(null, Typeface.BOLD);
+        amount.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+
+        layout.addView(number);
+        layout.addView(traderName);
+        layout.addView(change);
+        layout.addView(amount);
     }
 
     /**

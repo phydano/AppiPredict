@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- This is for the ROICustomAdapter -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/LinearLayout2"
-    android:layout_below="@+id/LinearLayout"
+    android:id="@+id/roi_traders"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:weightSum="4"
     android:orientation="horizontal">
 
+    <!-- Number -->
     <TextView
         android:id="@+id/number"
         android:layout_width="0dp"
@@ -20,9 +21,9 @@
         android:textSize="12sp"
         android:textStyle="bold"
         android:text="num"
-        android:orientation="horizontal">
-    </TextView>
+        android:orientation="horizontal" />
 
+    <!-- name of the trader -->
     <TextView
         android:id="@+id/tradername"
         android:layout_width="0dp"
@@ -33,9 +34,9 @@
         android:textSize="12sp"
         android:textStyle="bold"
         android:text="tradername"
-        android:orientation="horizontal">
-    </TextView>
+        android:orientation="horizontal"/>
 
+    <!-- amount of ROI earn -->
     <TextView
         android:id="@+id/amount"
         android:layout_width="0dp"
@@ -45,6 +46,6 @@
         android:textSize="12sp"
         android:textStyle="bold"
         android:text="amount"
-        android:orientation="horizontal">
-    </TextView>
+        android:orientation="horizontal"/>
+
 </LinearLayout>

@@ -2,6 +2,8 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
     android:layout_width="match_parent">
+
+    <!-- when the button is presed -->
     <item android:state_pressed="true" >
         <shape android:shape="rectangle"  >
             <corners android:radius="10dip" />
@@ -9,6 +11,8 @@
             <gradient android:angle="-90" android:startColor="#4862F7" android:endColor="#4862F7"  />
         </shape>
     </item>
+
+    <!-- when button is in focus state -->
     <item android:state_focused="true">
         <shape android:shape="rectangle"  >
             <corners android:radius="10dip" />
@@ -16,6 +20,8 @@
             <solid android:color="#4862F7"/>
         </shape>
     </item>
+
+    <!-- button in no state -->
     <item >
         <shape android:shape="rectangle"  >
             <corners android:radius="10dip" />

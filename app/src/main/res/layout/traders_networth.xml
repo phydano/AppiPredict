@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- This is for the NetworthCustomAdapter -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/LinearLayout2"
     android:layout_below="@+id/LinearLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:weightSum="2"
+    android:weightSum="4"
     android:orientation="horizontal">
 
+    <!-- ranking of the trader -->
     <TextView
         android:id="@+id/number"
-        android:layout_width="wrap_content"
-        android:layout_weight="0.5"
+        android:layout_width="0dp"
+        android:layout_weight="0.6"
         android:layout_height="wrap_content"
         android:gravity="start"
         android:paddingLeft="5dp"
@@ -20,52 +22,46 @@
         android:textSize="12sp"
         android:textStyle="bold"
         android:text="num"
-        android:orientation="horizontal">
-    </TextView>
+        android:orientation="horizontal"/>
 
+    <!-- name of the trader -->
     <TextView
         android:id="@+id/tradername"
-        android:layout_width="wrap_content"
-        android:layout_weight="0.5"
+        android:layout_width="0dp"
+        android:layout_weight="1.4"
         android:layout_height="wrap_content"
         android:gravity="start"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingEnd="20dp"
+        android:layout_gravity="start"
         android:textSize="12sp"
         android:textStyle="bold"
         android:text="tradername"
-        android:orientation="horizontal">
-    </TextView>
+        android:orientation="horizontal"/>
 
+    <!-- change in networth -->
     <TextView
         android:id="@+id/change"
-        android:layout_width="wrap_content"
-        android:layout_weight="0.5"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
         android:gravity="start"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:paddingEnd="5dp"
+        android:layout_gravity="start"
         android:textSize="12sp"
         android:textStyle="bold"
         android:text="change"
-        android:orientation="horizontal">
-    </TextView>
+        android:orientation="horizontal"/>
 
+    <!-- the trader networth amount -->
     <TextView
         android:id="@+id/amount"
-        android:layout_width="wrap_content"
-        android:layout_weight="0.5"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
         android:gravity="start"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:paddingEnd="5dp"
+        android:layout_gravity="start"
         android:textSize="12sp"
         android:textStyle="bold"
         android:text="amount"
-        android:orientation="horizontal">
-    </TextView>
+        android:orientation="horizontal"/>
+
 </LinearLayout>
 

@@ -225,18 +225,21 @@ Here are the breakdown of Layout I have created:
 
 3.1 activity_about_us:
 ---------------------
+
 This is the layout for the about us activity. The images are loaded programatically as it first need to resize using Bitmap.
 This layout has no warning or error. 
 
 
 3.2 activity_browse_prediction:
 ------------------------------
+
 This is the layout for the browse prediction activity. There is one warning in this layout as nested weights are bad for performance.
 Fixing this would be something to do next. 
 
 
 3.3 activity_login:
 ------------------
+
 This is the layout for the login activity. The place where users can login to their account. This loads directly from the login activity 
 chosen when first created the activity, so most code here are originally generated with little change such as changing display text.
 There are no error or warning in this layout.   
@@ -244,17 +247,20 @@ There are no error or warning in this layout.
 
 3.4 activity_main:
 -----------------
+
 This is the layout for the main activity. All the images are loaded programatically as it first need to rezie using Bitmap.
 This layout has no error or warning. 
 
 
 3.5 activity_my_portfolio:
 -------------------------
+
 This is the layout for my portfolio activity. At the current stage there is nothing in this page.  
 
 
 3.6 activity_search_prediction:
 ------------------------------
+
 This is the layout for the search predicion activity. It is a simple layout that only has the expanable list view.
 The improvement here require to add a picture next to each of the list item according to the design.  
 There are no error or warning in this layout. 
@@ -262,6 +268,7 @@ There are no error or warning in this layout.
 
 3.7 activity_show_result:
 ------------------------
+
 This is the layout for the show result activity. All the information are loaded programatically. There are three things that
 needed to fix in this layout. One is the correct image of the share buttons (Twitter and Facebook) as I am currently just use
 a random Twitter image. The other thing to look at is the stock history graph. This is a graph that shows the history price 
@@ -273,11 +280,13 @@ There are quite a number of warnings in this page but all are the hard code text
 
 3.8 activity_sign_up:
 --------------------
+
 This is the layout for the sign up activity. At the current stage there is nothing in this page. 
 
 
 3.9 border:
 ----------
+
 This is a custom drawing which is a border that is use to wrap around text in the 'About Us' page. This is practically just  
 shape which use to draw a border. 
 
@@ -300,17 +309,20 @@ shape which use to draw a border.
 
 3.14 mybutton4:
 --------------
+
 This is just a custom button design which use throughout the app. 
 
 
 3.15 result_prediction_row:
 --------------------------
+
 This is a text view of stock name together with its price and change. This is needed to put
 under the list view which require the use of the expandable list adapter. 
 
 
 3.16 row:
 ---------
+
 This is a texgt view together with a text box. This is needed to put under the list view 
 which require the use of the custom adapter. 
 

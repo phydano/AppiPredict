@@ -8,10 +8,14 @@
         android:layout_above="@+id/threeButtons"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <!-- Overall layout -->
         <RelativeLayout
             android:id="@+id/verticalScrollView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
+            <!-- name of the stock -->
             <TextView
                 android:id="@+id/resultTileDisplay"
                 android:layout_width="match_parent"
@@ -21,6 +25,7 @@
                 android:textSize="18sp"
                 android:paddingBottom="10dp" />
 
+            <!-- short description on the stock -->
             <TextView
                 android:id="@+id/shortDescription"
                 android:layout_below="@+id/resultTileDisplay"
@@ -29,6 +34,7 @@
                 android:gravity="center"
                 android:paddingBottom="10dp" />
 
+            <!-- contains 'contract info' and 'long description' -->
             <LinearLayout
                 android:id="@+id/contractDetatails"
                 android:layout_width="match_parent"
@@ -37,6 +43,7 @@
                 android:orientation="vertical"
                 android:background="#d9d9d9">
 
+                <!-- on screen text 'contract info' -->
                 <TextView
                     android:id="@+id/contractInfo"
                     android:layout_width="match_parent"
@@ -47,6 +54,7 @@
                     android:paddingBottom="10dp"
                     android:text="@string/contractinfo"/>
 
+                <!-- first row of info -->
                 <LinearLayout
                     android:id="@+id/firstline"
                     android:layout_width="match_parent"
@@ -54,6 +62,7 @@
                     android:paddingTop="16dp"
                     android:weightSum="2">
 
+                    <!-- last trade price -->
                     <TextView
                         android:id="@+id/lastTradePrice"
                         android:layout_weight="1"
@@ -68,6 +77,7 @@
                         android:layout_height="wrap_content"
                         android:background="#FFFFFF" />
 
+                    <!-- last trade time -->
                     <TextView
                         android:id="@+id/lastTradeTime"
                         android:layout_weight="1"
@@ -84,6 +94,7 @@
 
                 </LinearLayout>
 
+                <!-- second row of info -->
                 <LinearLayout
                     android:id="@+id/secondline"
                     android:layout_width="match_parent"
@@ -91,6 +102,7 @@
                     android:paddingTop="16dp"
                     android:weightSum="2">
 
+                    <!-- today's volume -->
                     <TextView
                         android:id="@+id/todaysVol"
                         android:layout_weight="1"
@@ -105,6 +117,7 @@
                         android:layout_height="wrap_content"
                         android:background="#FFFFFF" />
 
+                    <!-- average volume -->
                     <TextView
                         android:id="@+id/avgVolume"
                         android:layout_weight="1"
@@ -121,6 +134,7 @@
 
                 </LinearLayout>
 
+                <!-- thrid row of info -->
                 <LinearLayout
                     android:id="@+id/thirdline"
                     android:layout_width="match_parent"
@@ -128,6 +142,7 @@
                     android:paddingTop="16dp"
                     android:weightSum="2">
 
+                    <!-- today's change -->
                     <TextView
                         android:id="@+id/todaysChange"
                         android:layout_weight="1"
@@ -142,6 +157,7 @@
                         android:layout_height="wrap_content"
                         android:background="#FFFFFF" />
 
+                    <!-- stock status -->
                     <TextView
                         android:id="@+id/status"
                         android:layout_weight="1"
@@ -158,6 +174,7 @@
 
                 </LinearLayout>
 
+                <!-- fourth row of info -->
                 <LinearLayout
                     android:id="@+id/fourthline"
                     android:layout_width="match_parent"
@@ -165,6 +182,7 @@
                     android:paddingTop="16dp"
                     android:weightSum="2">
 
+                    <!-- start date of stock -->
                     <TextView
                         android:id="@+id/startDate"
                         android:layout_weight="1"
@@ -179,6 +197,7 @@
                         android:layout_height="wrap_content"
                         android:background="#FFFFFF" />
 
+                    <!-- stock end date -->
                     <TextView
                         android:id="@+id/endDate"
                         android:layout_weight="1"
@@ -195,6 +214,7 @@
 
                 </LinearLayout>
 
+                <!-- on screen text -->
                 <TextView
                     android:id="@+id/longDescription"
                     android:layout_width="match_parent"
@@ -205,6 +225,7 @@
                     android:textStyle="bold"
                     android:text="@string/longdes" />
 
+                <!-- long description of stock -->
                 <TextView
                     android:id="@+id/longDescriptionText"
                     android:layout_width="match_parent"
@@ -222,6 +243,7 @@
 
             </LinearLayout>
 
+            <!-- on screen text -->
             <TextView
                 android:id="@+id/stockHistory"
                 android:layout_below="@+id/contractDetatails"
@@ -232,6 +254,7 @@
                 android:textStyle="bold"
                 android:text="@string/stockhistory"/>
 
+            <!-- image need to replace later -->
             <ImageView
                 android:layout_below="@id/stockHistory"
                 android:id="@+id/stockflashgraph"
@@ -240,6 +263,7 @@
                 android:background="@drawable/blank_image"
                 android:contentDescription="@string/desc" />
 
+            <!-- on screen text -->
             <TextView
                 android:id="@+id/currentOrders"
                 android:layout_below="@+id/stockflashgraph"
@@ -251,6 +275,7 @@
                 android:textStyle="bold"
                 android:text="@string/currentorders"/>
 
+            <!-- layout for table current orders -->
             <LinearLayout
                 android:layout_below="@id/currentOrders"
                 android:baselineAligned="false"
@@ -260,6 +285,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal" >
+
+                <!-- top 10 buy orders table -->
                 <TableLayout
                     android:id="@+id/buyOrdersTable"
                     android:layout_width="0dp"
@@ -269,11 +296,13 @@
                     android:layout_weight="0.5"
                     android:stretchColumns="*">
 
+                    <!-- first row of the table -->
                     <TableRow
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5">
 
+                        <!-- heading for the table -->
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -284,11 +313,13 @@
 
                     </TableRow>
 
+                    <!-- second row of the table -->
                     <TableRow
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5">
 
+                        <!-- on screen text 'Stocks' -->
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -297,6 +328,7 @@
                             android:gravity="center"
                             android:text="@string/stocks" />
 
+                        <!-- on screen text 'Price(ea)' -->
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -308,6 +340,7 @@
                     </TableRow>
                 </TableLayout>
 
+                <!-- top 10 sell orders table -->
                 <TableLayout
                     android:id="@+id/sellOrdersTable"
                     android:layout_width="0dp"
@@ -317,48 +350,52 @@
                     android:layout_marginEnd="10dp"
                     android:stretchColumns="*">
 
+                    <!-- first row of the table -->
                     <TableRow
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5">
 
+                        <!-- heading for the table -->
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.5"
                             android:gravity="center"
                             android:background="#b3c6ff"
-                            android:text="Current top 10 sell orders"
-                            />
+                            android:text="Current top 10 sell orders" />
 
                     </TableRow>
 
+                    <!-- second row of the table -->
                     <TableRow
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5">
 
+                        <!-- on screen text 'Stocks' -->
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.25"
                             android:background="#a6a6a6"
                             android:gravity="center"
-                            android:text="Stocks"
-                            />
+                            android:text="Stocks" />
 
+                        <!-- on screen text 'Price(ea)' -->
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.25"
                             android:background="#a6a6a6"
                             android:gravity="center"
-                            android:text="Price(ea)"
-                            />
+                            android:text="Price(ea)" />
+
                     </TableRow>
                 </TableLayout>
             </LinearLayout>
 
+            <!-- on screen text 'judging criteria' -->
             <TextView
                 android:id="@+id/judgingCriteria"
                 android:layout_below="@+id/mytable"
@@ -369,6 +406,7 @@
                 android:textStyle="bold"
                 android:text="JUDING CRITERIA"/>
 
+            <!-- stock judging criteria -->
             <TextView
                 android:id="@+id/judgingCriteriaText"
                 android:layout_below="@+id/judgingCriteria"
@@ -385,6 +423,7 @@
                 android:background="#FFFFFF"
                 android:paddingBottom="10dp" />
 
+            <!-- on screen text 'SHARE' -->
             <TextView
                 android:id="@+id/share"
                 android:layout_below="@+id/judgingCriteriaText"
@@ -395,6 +434,7 @@
                 android:textStyle="bold"
                 android:text="SHARE"/>
 
+            <!-- layout for Twitter and Facebook -->
             <LinearLayout
                 android:id="@+id/socialNetworkLinks"
                 android:layout_below="@id/share"
@@ -405,12 +445,14 @@
                 android:weightSum="4"
                 android:orientation="horizontal">
 
+                <!-- empty layout for balancing the weight -->
                 <ImageView
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/desc"/>
 
+                <!-- Twitter logo -->
                 <ImageView
                     android:layout_weight="1"
                     android:layout_width="0dp"
@@ -418,6 +460,7 @@
                     android:background="@drawable/twitter_logo"
                     android:contentDescription="@string/desc"/>
 
+                <!-- Need to change to Facebook icon -->
                 <ImageView
                     android:layout_weight="1"
                     android:layout_width="0dp"
@@ -425,6 +468,7 @@
                     android:contentDescription="@string/desc"
                     android:background="@drawable/twitter_logo"/>
 
+                <!-- empty layout for balancing the weight -->
                 <ImageView
                     android:layout_weight="1"
                     android:layout_width="0dp"
@@ -433,6 +477,8 @@
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>
+
+    <!-- the three buttons at the bottom of the screen -->
     <LinearLayout
         android:id="@+id/threeButtons"
         android:layout_width="match_parent"
@@ -441,6 +487,7 @@
         android:orientation="horizontal"
         android:layout_alignParentBottom="true">
 
+        <!-- Watch button -->
         <Button
             android:layout_weight="0.75"
             android:layout_width="0dp"
@@ -449,6 +496,8 @@
             android:background="@layout/mybutton4"
             android:textColor="#FFFFFF"
             android:text="WATCH"/>
+
+        <!-- Buy as bundle button -->
         <Button
             android:layout_weight="1.5"
             android:layout_width="0dp"
@@ -458,6 +507,8 @@
             android:background="@layout/mybutton4"
             android:textColor="#FFFFFF"
             android:singleLine="true"/>
+
+        <!-- trade button -->
         <Button
             android:layout_weight="0.75"
             android:layout_width="0dp"

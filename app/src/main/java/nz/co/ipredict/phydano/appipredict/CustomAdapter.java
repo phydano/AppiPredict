@@ -50,8 +50,8 @@ public class CustomAdapter extends ArrayAdapter<Model> implements CompoundButton
             row = inflater.inflate(R.layout.row, parent, false);
             holder = new AppInfoHolder();
 
-            holder.txtTitle = (TextView) row.findViewById(R.id.textView1);
-            holder.chkSelect = (CheckBox) row.findViewById(R.id.checkBox1);
+            holder.txtTitle = (TextView) row.findViewById(R.id.categoryName);
+            holder.chkSelect = (CheckBox) row.findViewById(R.id.selectedCheckbox);
             row.setTag(holder);
         }
         else{
