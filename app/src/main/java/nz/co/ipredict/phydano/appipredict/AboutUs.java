@@ -53,9 +53,9 @@ public class AboutUs extends AppCompatActivity {
         ImageView v;
 
         switch(image){
-            case "don_w300px_h350px.png":
+            case "donald_w300px_h350px.png":
                 v = (ImageView) findViewById(R.id.don);
-                bmp = BitmapFactory.decodeResource(getResources(), R.drawable.don_w300px_h350px);
+                bmp = BitmapFactory.decodeResource(getResources(), R.drawable.donald_w300px_h350px);
                 bMapScaled = Bitmap.createScaledBitmap(bmp, 330, 350, true);
                 v.setImageBitmap(bMapScaled);
                 return;
@@ -89,7 +89,7 @@ public class AboutUs extends AppCompatActivity {
      * Given set of images and use that to reduce the image size
      * */
     public void resizeImagesUsingBitMap(){
-        String images [] = {"don_w300px_h350px.png", "emily_w300px_h350px.png",
+        String images [] = {"donald_w300px_h350px.png", "emily_w300px_h350px.png",
                 "ian_w300px_h350px.png", "kate_w300px_h350px.png", "lewis_w300px_h350px.png"};
         for(String image : images) reduceImageSize(image);
         setBackgroundImage();

@@ -38,7 +38,6 @@ public class searchPrediction extends AppCompatActivity {
         else{
             selectedContract = savedInstanceState.getParcelableArrayList("Test");
             ExpandableListView();
-            System.out.println("Test: Application reloaded here !!!");
         }
     }
 
@@ -49,7 +48,6 @@ public class searchPrediction extends AppCompatActivity {
     public void onSaveInstanceState(Bundle savedInstanceState) {
         // Always call the superclass so it can save the view hierarchy state
         super.onSaveInstanceState(savedInstanceState);
-        System.out.println("Test: Anything saved at all?");
         savedInstanceState.putParcelableArrayList("Test", selectedContract);
     }
 
@@ -62,7 +60,6 @@ public class searchPrediction extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
         // Restore UI state from the savedInstanceState.
         // This bundle has also been passed to onCreate.
-        System.out.println("Test: Is someone loading something?");
         selectedContract = savedInstanceState.getParcelableArrayList("Test");
         ExpandableListView();
     }
@@ -143,14 +140,12 @@ public class searchPrediction extends AppCompatActivity {
     public void loadBundle() {
         for (int i = 0; i < list.size(); i++) {
             MyJSONReader.JSONReader(list.get(i)); // search for the selected checked box
-            System.out.println("TAG: Bundled Size " + MyJSONReader.getWantedBundle().size());
         }
         if(MyJSONReader.getWantedBundle().size() > 0) {
             for (ContractInfo e : MyJSONReader.getWantedBundle()) {
                 selectedContract.add(e);
             }
         }
-        System.out.println("TAG: " + selectedContract.size());
     }
 
     public void ExpandableListView() {
@@ -193,7 +188,6 @@ public class searchPrediction extends AppCompatActivity {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 StockItem temp = listAdapter.getChild(groupPosition, childPosition);
-                /*System.out.println("Stock Name: " + temp.getStockName());*/
                 goToResultPage(temp.getStockName());
                 return false;
             }

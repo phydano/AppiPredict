@@ -253,6 +253,7 @@
 
             <LinearLayout
                 android:layout_below="@id/currentOrders"
+                android:baselineAligned="false"
                 android:id="@+id/mytable"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"

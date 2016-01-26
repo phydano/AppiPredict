@@ -38,10 +38,8 @@ public class LoginActivity extends AppCompatActivity {
     public void logIn(View view) {
         AutoCompleteTextView emailAddr = (AutoCompleteTextView) findViewById(R.id.email);
         String email = emailAddr.getText().toString();
-        System.out.println("TAG: " + email);
         EditText myPassword = (EditText) findViewById(R.id.password);
         String password = myPassword.getText().toString();
-        System.out.println("TAG: " + password);
 
         Intent intent = new Intent(this, myPortfolio.class);
         startActivity(intent);

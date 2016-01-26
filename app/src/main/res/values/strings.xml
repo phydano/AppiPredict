@@ -91,7 +91,6 @@
     <string name="stocks">Stocks</string>
     <string name="prices">Price(ea)</string>
     <string name="title_activity_my_portfolio">myPortfolio</string>
-
-    <string name="hello_world">Hello world!</string>
     <string name="title_activity_ranking">Ranking</string>
+    <string name="under_construction">This page is currently under construction</string>
 </resources>

@@ -1,186 +1,319 @@
-This document explains the Activities and Classes used in the project plus how to install/run the program. 
-
 Name of the Project: App iPredict
 
+This document explains the Activities and Classes used in the project plus how to install/run the program. 
+It constructs as follows:
 
-Activities:
-----------
- 
-- AboutUs
-- BrowsePrediction
-- LoginActivity [Not complete implementation]
-- MainActivity
-- myPortfolio 
-- searchPrediction
-- ShowResult 
-- SignUp [Not complete implementation]
+	1. Activities
+	2. Classes
+	3. Layout
+	4. Install/Run Instruction
 
 
 ---------------------------------------------------------------------------------------------------------
 
+1. Activities:
+-------------
+ 
+	1.1 AboutUs 
+	1.2 BrowsePrediction
+	1.3 LoginActivity [incomplete implementation]
+	1.4 MainActivity
+	1.5 myPortfolio [incomplete implementation]
+	1.6 searchPrediction
+	1.7 ShowResult 
+	1.8 SignUp [incomplete implementation]
+	1.9 Ranking
 
-AboutUs:
+
+---------------------------------------------------------------------------------------------------------
+
+1.1 AboutUs:
+-----------
+
 This is an activity which shows the about us page of iPredict in which contains the info of the company.
-This page is almost completed but there are few bugs visible there. The bugs I have found so far is that
-it is not good in landscape mode, text goes out of the box. If the cusor is visible in the textbox then
-we cannot scroll to anywhere. User can send feedback but this will loads a mail app, further improvement
-is to have just a click and the text is sent. 
+This page is almost completed but there are few bugs that need to be fix. 
 
-BrowsePrediction:
-This is an activity that display the info from the JSON file. These info are read from the web under 'MyJSONReader'. 
-The Json only gets from the web once which means there are no updates. This need to fix as we need to get the update
-every 5 minutes. Other boxes such as 'Sort' and 'All' is not done yet. The search by text at the moment only does a 
+The bugs I have found so far:
+- It is not good in landscape mode or larger scren, text goes out of the box.
+- If the cusor is visible in the textbox then we cannot scroll to anywhere if we try to scroll in that textbox. 
+
+Other than that, there could be an improvement here such as allowing User to send feedback with one click without calling
+other intent to load an email app. 
+
+ 
+1.2 BrowsePrediction:
+--------------------
+
+This is an activity that display the info from the JSON file. These info are read from the web under 'MyJSONReader'class. 
+The 'MyJSONReader' class only gets the JSON information from the web once which means there are no updates. 
+This need to fix as we need to get the update every 5 minutes because the iPredict stock info is being update in every 5 minutes.
+Synchronise the time of the update with the web is also important otherwise there will be inconsistency in the results show on the web and
+the mobile app.  
+
+Other boxes such as 'Sort' and 'All' have not been implemented yet. The search by text at the moment only does a 
 simple search such as name of the stock but not complicated search. At the moment reading from web is really slow
-because of the large JSON file. Sometimes the app crash when the Internet Connection lost half way, this is important
-and need to investigate. 
+because of the large JSON file (As of 26/01/2016 reading is faster now because the JSON file is really small due to less stocks available). 
+The major problem here is that sometimes the app crash when the Internet Connection lost half way while retrieving the info from the web 
+but this case is really rare as now I have checked the socket timeout connection and its exception. 
 
-LoginActivity:
+
+1.3 LoginActivity:
+-----------------
+
 This is an activity that takes in the login info so that it can directs the user to their own portfolio page.
-This is however incomplete as I have no database to read the users info from as iPredict is winding down. 
+It is however incomplete as I have no database to read the users info from because iPredict is currently winding down. 
 Temporary this page just directs the user to the portfolio page. 
 
-MainActivity:
 
-This is the home page of the app. The tweet button currently does nothing and the phone image may need to
-replace to something else. 
+1.4 MainActivity:
+----------------
 
-myPortfolio:
+This is the home page of the app. This page is almost completed except with one thing, the tweet button.
+Currently the tweet button does nothing. 
 
-This is the porfolio page of the user where all info of the user are displayed here. 
+This home page loads upon start of the app. Users can choose 'Start Trading' in order to direct to the 'Browse Prediction' page,
+or they can choose to scroll down and read briefly on what iPredict is about and the 'Trade now' button also directs the users
+to the 'Browse Prediction' page. Alternatively, there is a menu which allow users to choose many other different actions such as Login,
+Signup etc.  
 
-searchPrediction:
-This is an activity that loads and display the predictions that users selected from the 'BrowsePrediction' page.
-Need to add picture next to the stock name according to the design. 
 
-ShowResult:
-This page shows the result of the stock selected previously at the 'searchPrediction' page. All the info here are
-displayed properly except the graph. 
+1.5 myPortfolio:
+---------------
+This is the porfolio page of the user where all info of the user are displayed here. This page is incomplete. 
 
-Signup: 
-This page is for the user to sign up.
+
+1.6 searchPrediction:
+--------------------
+This page loads and display the predictions that users selected from the 'BrowsePrediction' page. It currently show the list of the stocks
+where users can expanded or contracted. There are two majors info showing here, one is the Category name and the other is the Subcategories
+that shows under the Category of the stock. Changing from portrait to landscape and vice versa is ok as the info is saved and reload. 
+
+One thing that need further improvement here is that we need to add picture next to category name of the stock according to the design. 
+
+
+1.7 ShowResult:
+--------------
+This page shows the result of the stock selected previously at the 'searchPrediction' page. Info on this page shows things such as the title of the stock, its description, last trade time, last trade price, today's
+volume, average daily volume, change, status, start date, end date, long description, stock history, current orders (top 10 sellers and buyers),
+juding criteria as well as Facebook and Twitter buttons for sharing.  
+
+There are two things that need to change here, one is the Stock history graph and the other is the share buttons. Both of these are currently
+do nothing. The stock history graph must show the diagram for that stock similar to the one shown in the Design of the app. The share buttons
+allows the users to share the info to either Twitter or Facebook which has not been implemented yet in this application. 
+
+
+1.8 Signup: 
+----------
+This page is for the user to sign up. This page is currently under developement. 
+
+
+1.9 Ranking:
+-----------
+This is the ranking page showing the list of ranking. This page shows the users two things, one is the traders ranking info under most ROI and 
+the other one is the traders ranking info on the most Net Worth. 
+
+There is a few things left to do in this page, one is the ability to expand the list and contract, second is saved the state of the app so we
+reloaded back the info. The heading for the top traders under the Net Worth is incorrect and need to change accordingly if we were to changed
+the list display to either the top traders with highest ROI or highest Net Worth. 
 
 
 ---------------------------------------------------------------------------------------------------------
 
+2. Classes:
+----------
 
-Classes:
--------
-
-- BookAndStock
-- ContractInfo
-- CustomAdapter
-- ExpanableListAdapter 
-- Model
-- MyJSONReader
-- StockItem
+	2.1 BookAndStock
+	2.2 ContractInfo
+	2.3 CustomAdapter
+	2.4 ExpanableListAdapter 
+	2.5 Model
+	2.6 MyJSONReader
+	2.7 StockItem
 
 
 ---------------------------------------------------------------------------------------------------------
 
+2.1 BookAndStock:
+----------------
+ 
+This class constructs object which is the stock that is to buy or sell. It contains the type of the order, quantity and the price.
+We can also parse the object to the other activity as parcelable for this class is implemented in there.   
 
-BookAndStock: 
-This class constructs object which is the stock that is to buy or sell. 
 
-ContractInfo:
-This class constructs the contract object where it contains all the info of the contract that got from JSON online.
+2.2 ContractInfo:
+----------------
 
-CustomAdapter:
-This is a custom adapter use in the listview to display the text together with the checkbox.
+This class constructs the contract object where it contains all the info of the contract that got from JSON online. There info are things
+such as the name of the stock, the category it belongs to, its description, price of the stock, last trade price, change today, volume, average
+daily volume, status, start date of the stock, end date, the last trade time, short description, long description, and judege statement as well as the 
+list of top 10 buy orders and sell orders. This object is also parcelable to the other activities. 
 
-ExpandableListAdapter:
+
+2.3 CustomAdapter:
+-----------------
+
+This is a custom adapter use in the listview to display the text together with the checkbox in the 'Browse Prediction' page.
+
+
+2.4 ExpandableListAdapter:
+-------------------------
+
 This is another custom adapter which is use to display the items in the list view in which we want them to be expandable. 
 
-Model:
-This model class can contructs the object which has the name and its value. This value tells us whether the checkbox
+
+2.5 Model:
+---------
+
+This model class contructs the object which has the name and its value. This value tells us whether the checkbox
 is selected or not. 
 
-MyJSONReader:
-This is a class that reads the info from the JSON file in the web. 
 
-StockItem:
-This class store the stock info of the selected categories. 
+2.6 MyJSONReader:
+----------------
+
+This is a class that reads the info from the JSON file in the web. By using the Json parser we can get all the info from the web and parse
+that to an object which we can  then manipulate later to get the information. All the read info are stored in the arraylist containing all
+contract information where we can then use it to display the results.  
 
 
----------------------------------------------------------------------------------------------------------
 
 
-Layout:
--------
+2.7 StockItem:
+-------------
 
-- activity_about_us
-- activity_browse_prediction
-- activity_login
-- activity_main
-- activity_my_portfolio
-- activity_search_prediction
-- activity_show_result
-- activity_sign_up
-- border
-- grouplist
-- mybutton
-- mybutton2
-- mybutton3
-- mybutton4 
-- result_prediction_row
-- row
+This class store the stock info of the selected categories. It contains the info such as the name of the stock, its price and the changes. 
 
 
 ---------------------------------------------------------------------------------------------------------
 
+3. Layout:
+---------
 
-activity_about_us:
-This is the layout for the about us activity. 
+	3.1 activity_about_us
+	3.2 activity_browse_prediction
+	3.3 activity_login
+	3.4 activity_main
+	3.5 activity_my_portfolio
+	3.6 activity_search_prediction
+	3.7 activity_show_result
+	3.8 activity_sign_up
+	3.9 border
+	3.10 grouplist
+	3.11 mybutton
+	3.12 mybutton2
+	3.13 mybutton3
+	3.14 mybutton4 
+	3.15 result_prediction_row
+	3.16 row
 
-activity_browse_prediction:
-This is the layout for the browse prediction activity.
 
-activity_login:
-This is the layout for the login activity.
+---------------------------------------------------------------------------------------------------------
 
-activity_main:
-This is the layout for the main activity. 
+3.1 activity_about_us:
+---------------------
+This is the layout for the about us activity. The images are loaded programatically as it first need to resize using Bitmap.
+This layout has no warning or error. 
 
-activity_my_portfolio:
-This is the layout for my portfolio activity. 
 
-activity_search_prediction:
-This is the layout for the search predicion activity. 
+3.2 activity_browse_prediction:
+------------------------------
+This is the layout for the browse prediction activity. There is one warning in this layout as nested weights are bad for performance.
+Fixing this would be something to do next. 
 
-activity_show_result:
-This is the layout for the show result activity. 
 
-activity_sign_up:
-This is the layout for the sign up activity. 
+3.3 activity_login:
+------------------
+This is the layout for the login activity. The place where users can login to their account. This loads directly from the login activity 
+chosen when first created the activity, so most code here are originally generated with little change such as changing display text.
+There are no error or warning in this layout.   
 
-border:
-This is a custom drawing which is a border that is use to wrap around text in the 'About Us' page. 
 
-mybutton / mybutton2 / mybutton3 / mybutton4:
+3.4 activity_main:
+-----------------
+This is the layout for the main activity. All the images are loaded programatically as it first need to rezie using Bitmap.
+This layout has no error or warning. 
+
+
+3.5 activity_my_portfolio:
+-------------------------
+This is the layout for my portfolio activity. At the current stage there is nothing in this page.  
+
+
+3.6 activity_search_prediction:
+------------------------------
+This is the layout for the search predicion activity. It is a simple layout that only has the expanable list view.
+The improvement here require to add a picture next to each of the list item according to the design.  
+There are no error or warning in this layout. 
+
+
+3.7 activity_show_result:
+------------------------
+This is the layout for the show result activity. All the information are loaded programatically. There are three things that
+needed to fix in this layout. One is the correct image of the share buttons (Twitter and Facebook) as I am currently just use
+a random Twitter image. The other thing to look at is the stock history graph. This is a graph that shows the history price 
+of the stock we are currently viewing. Last but not least, the 3 buttons at the bottom of the screen, 'Watch', 'buy as bundle',
+and 'trade'. These three buttons are currently does nothing. Other than that, all other info are loaded and display correct.  
+
+There are quite a number of warnings in this page but all are the hard code text for display, but there are no any error.  
+
+
+3.8 activity_sign_up:
+--------------------
+This is the layout for the sign up activity. At the current stage there is nothing in this page. 
+
+
+3.9 border:
+----------
+This is a custom drawing which is a border that is use to wrap around text in the 'About Us' page. This is practically just  
+shape which use to draw a border. 
+
+
+3.10 grouplist:
+--------------
+
+
+3.11 mybutton: 
+-------------
+
+
+3.12 mybutton2: 
+--------------
+
+
+3.13 mybutton3:
+--------------
+
+
+3.14 mybutton4:
+--------------
 This is just a custom button design which use throughout the app. 
 
-result_prediction_row:
+
+3.15 result_prediction_row:
+--------------------------
 This is a text view of stock name together with its price and change. This is needed to put
 under the list view which require the use of the expandable list adapter. 
 
-row:
+
+3.16 row:
+---------
 This is a texgt view together with a text box. This is needed to put under the list view 
 which require the use of the custom adapter. 
 
 
 ---------------------------------------------------------------------------------------------------------
 
-
-Install/Run Instruction:
------------------------
+4. Install/Run Instruction:
+--------------------------
 
 I have wrote the code under the Android Studio. There are three ways that I knew how to run the program:
 
 
-1. Run the program via the emulator within the app. 
+	1. Run the program via the emulator within the app. 
 
-2. Connect the Android phone via USB and ran the program via the connected device. 
+	2. Connect the Android phone via USB and ran the program via the connected device. 
 
-3. Run the program by export the APK file and test under the Android phone.
+	3. Run the program by export the APK file and test under the Android phone.
 
 
 For 1)
@@ -198,3 +331,6 @@ For 3)
 - Export the release version of the app and put it to the phone.
 - On the Android phone, just click on the app to proceed the installation process. The app do not require any authentication
 nor does it collect any info. The permission it asked is just the Interntet Connection. 
+
+
+---------------------------------------------------------------------------------------------------------

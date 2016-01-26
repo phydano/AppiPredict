@@ -3,14 +3,7 @@
     android:layout_height="match_parent"
     tools:context="nz.co.ipredict.phydano.appipredict.searchPrediction">
 
-    <ListView
-        android:id="@+id/listOfStocks"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </ListView>
-
     <ExpandableListView
-        android:layout_below="@+id/listOfStocks"
         android:id="@+id/lvExp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

@@ -36,7 +36,6 @@ public class ReadingTopTraders {
             /** Open the connection to the XML online */
             URL url = new URL("https://www.ipredict.co.nz/ipapi/?action=rankings&numRows="+numRow+"&date="+date+"&type=" + type);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            System.out.println("TAG: Reaches here? ");
 
             /** Build the document */
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();

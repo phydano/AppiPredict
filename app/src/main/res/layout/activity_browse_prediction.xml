@@ -5,14 +5,15 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="nz.co.ipredict.phydano.appipredict.MainActivity2">
 
+    <!-- The search field -->
     <SearchView
         android:id="@+id/searchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:singleLine="true">
-    </SearchView>
+        android:singleLine="true"/>
 
+    <!-- Layout for the 'browse' and 'sort' buttons -->
     <LinearLayout
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
@@ -21,6 +22,8 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:weightSum="2">
+
+        <!-- Browse button -->
         <Button
             android:id="@+id/browseButton"
             android:layout_width="0dp"
@@ -31,6 +34,7 @@
             android:clickable="true"
             android:text="@string/browse"/>
 
+        <!-- Sort By Button -->
         <Button
             android:id="@+id/sortByButton"
             android:layout_width="0dp"
@@ -40,9 +44,9 @@
             android:layout_weight="1"
             android:clickable="true"
             android:text="@string/sortby" />
-
     </LinearLayout>
 
+    <!-- Layout for the list of item -->
     <LinearLayout
         android:id="@+id/LinearLayout2"
         android:layout_below="@+id/LinearLayout"
@@ -50,22 +54,28 @@
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:weightSum="1">
+
+        <!-- The list of item -->
         <ListView
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:id="@+id/listView1"
             android:layout_weight="0.999"
             android:layout_width="match_parent"
-            android:layout_height="0dp">
-        </ListView>
+            android:layout_height="0dp"/>
 
+        <!-- Nested layout which is not good but
+         need for the two buttons side by side -->
         <LinearLayout
             android:id="@+id/LinearLayout3"
+            android:baselineAligned="false"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_weight="0.001">
+
+            <!-- The clear button -->
             <Button
                 android:id="@+id/clearButton"
                 android:layout_width="0dp"
@@ -78,6 +88,7 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:background="@layout/mybutton4"/>
 
+            <!-- The search button -->
             <Button
                 android:id="@+id/searchButton"
                 android:layout_width="0dp"
