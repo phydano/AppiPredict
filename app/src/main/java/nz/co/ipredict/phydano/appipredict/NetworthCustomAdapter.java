@@ -2,6 +2,8 @@ package nz.co.ipredict.phydano.appipredict;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,9 +60,21 @@ public class NetworthCustomAdapter extends ArrayAdapter<Traders>{
         Traders appinfo = data[position];
         holder.number.setText(appinfo.getRank());
         holder.tradeName.setText(appinfo.getTraderName());
-        holder.change.setText(appinfo.getNetworthChange());
+        holder.change.setText(coloringText(appinfo.getNetworthChange()));
         holder.amount.setText(appinfo.getNetworth());
         return row;
+    }
+
+    /**
+     * Color the text for the change in the Networth
+     * Green for positive change
+     * Red for negative change
+     * @param text the networth change that needs to check and change the color
+     * @return text in which is in color code
+     * */
+    public Spanned coloringText(String text){
+        if(text.contains("-")) return Html.fromHtml("<font color='#D80000'>" + text + "</font>");
+        else return Html.fromHtml("<font color='#24A400'>" + text + "</font>");
     }
 
     /**

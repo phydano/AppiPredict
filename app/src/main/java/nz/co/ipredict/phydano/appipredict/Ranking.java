@@ -1,6 +1,8 @@
 package nz.co.ipredict.phydano.appipredict;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -25,8 +27,8 @@ import java.util.List;
  * */
 public class Ranking extends AppCompatActivity {
 
-    private List<Traders> roiValues = new ArrayList<>(); // our top traders with the highest roi
-    private List<Traders> networthValues = new ArrayList<>(); // our top traders with the highest networth
+    private ArrayList<Traders> roiValues = new ArrayList<>(); // our top traders with the highest roi
+    private ArrayList<Traders> networthValues = new ArrayList<>(); // our top traders with the highest networth
     private ArrayList<Traders> roiGrowingList = new ArrayList<>(); // start with 10 and keep growing
     private ArrayList<Traders> netGrowingList = new ArrayList<>(); // start with 10 and keep growing
     private boolean toogleSwitch; // switch to track whether we on ROI (false) or Networth (true) tab
@@ -35,7 +37,10 @@ public class Ranking extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ranking);
-        new GetRanking().execute();
+        // If there is no Internet connection then pop a dialog
+        if(!BrowsePrediction.isNetworkAvailable(this)) optionalAlertBox("No Internet Connection");
+        // If the network is available and the traders list is totally empty then we execute an AsynTask
+        else if(BrowsePrediction.isNetworkAvailable(this) && ReadingTopTraders.getTraders("roi").isEmpty()) new GetRanking().execute();
     }
 
     /**
@@ -45,6 +50,8 @@ public class Ranking extends AppCompatActivity {
     public void onSaveInstanceState(Bundle savedInstanceState) {
         // Always call the superclass so it can save the view hierarchy state
         super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putParcelableArrayList("roiValue", roiValues);
+        savedInstanceState.putParcelableArrayList("netValue", networthValues);
         savedInstanceState.putParcelableArrayList("roiList", roiGrowingList);
         savedInstanceState.putParcelableArrayList("netList", netGrowingList);
         if(toogleSwitch) savedInstanceState.putBoolean("toogle",true);
@@ -60,9 +67,21 @@ public class Ranking extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
         // Restore UI state from the savedInstanceState.
         // This bundle has also been passed to onCreate.
+        roiValues = savedInstanceState.getParcelableArrayList("roiValue");
+        networthValues = savedInstanceState.getParcelableArrayList("netValue");
         roiGrowingList = savedInstanceState.getParcelableArrayList("roiList");
         netGrowingList = savedInstanceState.getParcelableArrayList("netList");
         toogleSwitch = savedInstanceState.getBoolean("toogle");
+        // Restore back the list
+        if(toogleSwitch) {
+            loadView(netGrowingList, true);
+            toogleSwitch = true;
+        }
+        else {
+            loadView(roiGrowingList, false);
+            toogleSwitch = false;
+        }
+        clicked(); // load all the buttons in this activity
     }
 
     @Override
@@ -109,10 +128,11 @@ public class Ranking extends AppCompatActivity {
         @Override
         protected List<Traders> doInBackground(Traders... args){
             try {
-                roiValues = ReadingTopTraders.getTraders("roi"); // now store all the categories name
-                networthValues = ReadingTopTraders.getTraders("networth");
+                for(Traders roiTraders : ReadingTopTraders.getTraders("roi")) roiValues.add(roiTraders); // now store all the categories name
+                for(Traders netTraders : ReadingTopTraders.getTraders("networth")) networthValues.add(netTraders);
+
             }catch(Exception e) {
-                //optionalAlertBox("No Internet Connection");
+                optionalAlertBox("No Internet Connection");
             }
             return roiValues;
         }
@@ -205,7 +225,7 @@ public class Ranking extends AppCompatActivity {
         number.setText("#");
         number.setTypeface(null, Typeface.BOLD);
         number.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 0.6f));
-        number.setPadding(10,0,0,0);
+        number.setPadding(10, 0, 0, 0);
 
         // set text, format and layout for the trader name text view
         traderName.setText("Trader Name");
@@ -312,5 +332,37 @@ public class Ranking extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    /**
+     * This is slightly different from the normal alert box
+     * have 2 buttons where one is the same but the other can allow users to retry
+     * the Internet Connection
+     * @param message the text to display on the alert box
+     * */
+    public void optionalAlertBox(String message){
+        AlertDialog.Builder builder = new AlertDialog.Builder(Ranking.this);
+        builder.setMessage(message)
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                        onBackPressed();
+                    }
+                })
+                .setNegativeButton("Retry", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (BrowsePrediction.isNetworkAvailable(Ranking.this) && MyJSONReader.getCategories() == null) {
+                            new GetRanking().execute();
+                            dialog.cancel();
+                        } else {
+                            optionalAlertBox("No Internet Connection");
+                        }
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 }

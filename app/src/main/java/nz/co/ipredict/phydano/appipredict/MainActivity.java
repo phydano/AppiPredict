@@ -3,6 +3,7 @@ package nz.co.ipredict.phydano.appipredict;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -132,6 +133,14 @@ public class MainActivity extends AppCompatActivity {
     public void gotoBrowsePrediction(View view) {
         Intent intent = new Intent(this, BrowsePrediction.class);
         startActivity(intent);
+    }
+
+    /**
+     * Go to iPredict Twitter page by loading a browser
+     * */
+    public void twitterPage(View view){
+        Intent openBrowser = new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/ipredictnz"));
+        startActivity(openBrowser);
     }
 
     /**

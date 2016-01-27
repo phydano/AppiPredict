@@ -499,7 +499,7 @@
                     android:orientation="horizontal"/>
 
                 <!-- a small twitter logo -->
-                <ImageView
+                <ImageButton
                     android:id="@+id/twitterlogo"
                     android:layout_width="80dp"
                     android:layout_marginStart="10dp"
@@ -509,6 +509,7 @@
                     android:layout_weight="1"
                     android:layout_height="30dp"
                     android:orientation="horizontal"
+                    android:onClick="twitterPage"
                     android:contentDescription="@string/desc"/>
             </LinearLayout>
 
