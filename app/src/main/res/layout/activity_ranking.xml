@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/roiAndNetButtons"
         android:weightSum="2"
-        android:paddingBottom="20dp">
+        android:paddingBottom="10dp">
 
         <!-- ROI button -->
         <Button
@@ -57,25 +57,57 @@
         android:paddingBottom="10dp"
         android:orientation="horizontal">
 
-        <!-- number -->
-        <TextView
-            android:id="@+id/numberheading"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:paddingRight="30dp"
-            android:paddingEnd="30dp"
-            android:paddingLeft="10dp"
-            android:text="#"/>
-
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_below="@+id/tradingheadings"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:weightSum="1">
 
     <!-- list of traders -->
     <ListView
-        android:layout_below="@+id/tradingheadings"
+        android:layout_weight="0.999"
         android:id="@+id/rankingList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="0dp"/>
 
-</RelativeLayout>
+    <LinearLayout
+        android:id="@+id/moretraders"
+        android:baselineAligned="false"
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_weight="0.001">
+
+        <!-- The more button -->
+        <Button
+            android:id="@+id/moreButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:text="More"
+            android:layout_gravity="bottom"
+            android:textColor="#FFFFFF"
+            style="?android:attr/borderlessButtonStyle"
+            android:background="@layout/mybutton4"/>
+
+        <!-- The less button -->
+        <Button
+            android:id="@+id/lessButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:text="Less"
+            android:layout_gravity="bottom"
+            android:textColor="#FFFFFF"
+            style="?android:attr/borderlessButtonStyle"
+            android:background="@layout/mybutton4"/>
+    </LinearLayout>
+    </LinearLayout>
+    </RelativeLayout>

@@ -1,5 +1,7 @@
 package nz.co.ipredict.phydano.appipredict;
 
+import android.text.Html;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -62,10 +64,10 @@ public class ReadingTopTraders {
                 networthChangeE = (Element) networthChangeN.item(0);
 
 
-
                 Traders trd = new Traders(rankE.getTextContent(), traderNameE.getTextContent(),
-                        amount(changeDecimal(roiE.getTextContent())), changeDecimal(networthE.getTextContent()),
-                        changeDecimal(networthChangeE.getTextContent()));
+                        amount(changeDecimal(roiE.getTextContent())),
+                        formatString(changeDecimal(networthE.getTextContent())),
+                        formatString(changeDecimal(networthChangeE.getTextContent())));
                 if(type.equals("roi")) topTradersRoi.add(trd);
                 else if(type.equals("networth")) topTradersNetworth.add(trd);
             }
@@ -74,12 +76,20 @@ public class ReadingTopTraders {
         }
     }
 
+    public static String formatString(String temp){
+        // If there is a minus in there replace it with -$, otherwise just return back $
+        if(temp.contains("-")){
+            return temp.replace("-", "-$");
+        }
+        return ("$"+temp);
+    }
+
     /**
      * Get the list of all traders that is added when reading from the XML on the web.
      * @return the list of traders
      * */
     public static List<Traders> getTraders(String type){
-        readRankingInfo(dateTime(), "10", type);
+        readRankingInfo(dateTime(), "500", type); // read 500 traders ranking
         if(type.equals("roi")) return topTradersRoi;
         else return topTradersNetworth;
     }

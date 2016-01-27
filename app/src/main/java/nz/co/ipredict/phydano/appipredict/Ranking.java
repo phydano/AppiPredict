@@ -24,6 +24,9 @@ public class Ranking extends AppCompatActivity {
 
     private List<Traders> roiValues = new ArrayList<>(); // our top traders with the highest roi
     private List<Traders> networthValues = new ArrayList<>(); // our top traders with the highest networth
+    private List<Traders> roiGrowingList = new ArrayList<>(); // start with 10 and keep growing
+    private List<Traders> netGrowingList = new ArrayList<>(); // start with 10 and keep growing
+    private boolean toogleSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +90,13 @@ public class Ranking extends AppCompatActivity {
         @Override
         protected void onPostExecute(List<Traders> info){
             mDialog.dismiss();
-            loadView(roiValues, false);
+            // load only 10 values first upon first execute
+            for(int i=0; i<10; i++){
+                roiGrowingList.add(roiValues.get(i));
+                netGrowingList.add(networthValues.get(i));
+            }
+            loadView(roiGrowingList, false);
+            toogleSwitch = false; // switch is on roi side
             clicked(); // load all the buttons in this activity
         }
     }
@@ -119,7 +128,7 @@ public class Ranking extends AppCompatActivity {
     }
 
     /**
-     * 
+     *
      * */
     public void loadROIlayout(){
         LinearLayout layout = (LinearLayout) findViewById(R.id.tradingheadings);
@@ -184,15 +193,71 @@ public class Ranking extends AppCompatActivity {
         final Button roiButton = (Button) findViewById(R.id.roiTraders);
         final Button networthButton = (Button) findViewById(R.id.networthTraders);
 
+        final Button moreButton = (Button) findViewById(R.id.moreButton);
+        final Button lessButton = (Button) findViewById(R.id.lessButton);
+
         roiButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                loadView(roiValues, false);
+                loadView(roiGrowingList, false);
+                toogleSwitch = false;
             }
         });
 
         networthButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                loadView(networthValues, true);
+                loadView(netGrowingList, true);
+                toogleSwitch = true;
+            }
+        });
+
+        moreButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                int temp;
+                if(toogleSwitch) {
+                    temp = netGrowingList.size();
+                    if(temp < 1000) {
+                        for (int i = temp; i < temp + 10; i++) { // always 10 more than the size of the list
+                            netGrowingList.add(networthValues.get(i));
+                        }
+                        loadView(netGrowingList, true);
+                        toogleSwitch = true;
+                    }
+                }
+                else {
+                    temp = roiGrowingList.size(); // get the size of the list
+                    if(temp < 1000) {
+                        for (int i = temp; i < temp + 10; i++) { // always 10 more than the size of the list
+                            roiGrowingList.add(roiValues.get(i));
+                        }
+                        loadView(roiGrowingList, false);
+                        toogleSwitch = false;
+                    }
+                }
+            }
+        });
+
+        lessButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                int temp;
+
+                if(toogleSwitch){
+                    temp = netGrowingList.size();
+                    if(temp > 10){
+                        for(int i=temp; i>=temp-10; i--)
+                            netGrowingList.remove(networthValues.get(i));
+                        loadView(netGrowingList, true);
+                        toogleSwitch = true;
+                    }
+                }
+                else {
+                    temp = roiGrowingList.size();
+                    if(temp > 10){
+                        for(int i=temp; i >= temp-10;i--)
+                            roiGrowingList.remove(roiValues.get(i));
+                        loadView(roiGrowingList, false);
+                        toogleSwitch = false;
+                    }
+                }
             }
         });
     }
