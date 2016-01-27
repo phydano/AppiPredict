@@ -24,8 +24,8 @@ public class Ranking extends AppCompatActivity {
 
     private List<Traders> roiValues = new ArrayList<>(); // our top traders with the highest roi
     private List<Traders> networthValues = new ArrayList<>(); // our top traders with the highest networth
-    private List<Traders> roiGrowingList = new ArrayList<>(); // start with 10 and keep growing
-    private List<Traders> netGrowingList = new ArrayList<>(); // start with 10 and keep growing
+    private ArrayList<Traders> roiGrowingList = new ArrayList<>(); // start with 10 and keep growing
+    private ArrayList<Traders> netGrowingList = new ArrayList<>(); // start with 10 and keep growing
     private boolean toogleSwitch;
 
     @Override
@@ -33,6 +33,34 @@ public class Ranking extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ranking);
         new GetRanking().execute();
+    }
+
+    /**
+     * Saved the activity state to restore when screen orientation changes
+     * */
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putParcelableArrayList("roiList", roiGrowingList);
+        savedInstanceState.putParcelableArrayList("netList", netGrowingList);
+        if(toogleSwitch) savedInstanceState.putBoolean("toogle",true);
+        else savedInstanceState.putBoolean("toogle",false);
+    }
+
+    /**
+     * Restore the activity state back when the screen orientation changes
+     * but not when we moved to the other activity and came back....
+     * */
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        // Restore UI state from the savedInstanceState.
+        // This bundle has also been passed to onCreate.
+        roiGrowingList = savedInstanceState.getParcelableArrayList("roiList");
+        netGrowingList = savedInstanceState.getParcelableArrayList("netList");
+        toogleSwitch = savedInstanceState.getBoolean("toogle");
+
     }
 
     @Override
