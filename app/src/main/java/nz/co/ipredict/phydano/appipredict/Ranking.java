@@ -19,6 +19,9 @@ import java.util.List;
 /**
  * Created by phydano
  * This is the ranking activities which show the users the top 10 traders
+ * The display traders can be shown ranging between 10 - 500. When either
+ * increase or decrease the amount display, it increase/decrease by 10
+ * per click with 10 being the minimum and 500 being the max.
  * */
 public class Ranking extends AppCompatActivity {
 
@@ -26,7 +29,7 @@ public class Ranking extends AppCompatActivity {
     private List<Traders> networthValues = new ArrayList<>(); // our top traders with the highest networth
     private ArrayList<Traders> roiGrowingList = new ArrayList<>(); // start with 10 and keep growing
     private ArrayList<Traders> netGrowingList = new ArrayList<>(); // start with 10 and keep growing
-    private boolean toogleSwitch;
+    private boolean toogleSwitch; // switch to track whether we on ROI (false) or Networth (true) tab
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +63,6 @@ public class Ranking extends AppCompatActivity {
         roiGrowingList = savedInstanceState.getParcelableArrayList("roiList");
         netGrowingList = savedInstanceState.getParcelableArrayList("netList");
         toogleSwitch = savedInstanceState.getBoolean("toogle");
-
     }
 
     @Override
@@ -156,7 +158,7 @@ public class Ranking extends AppCompatActivity {
     }
 
     /**
-     *
+     * load the ROI layout to display in the linear layout under the activity_ranking
      * */
     public void loadROIlayout(){
         LinearLayout layout = (LinearLayout) findViewById(R.id.tradingheadings);
@@ -165,49 +167,62 @@ public class Ranking extends AppCompatActivity {
         TextView traderName = new TextView(this);
         TextView amount = new TextView(this);
 
+        // set text, format and layout for the number text view
         number.setText("#");
         number.setTypeface(null, Typeface.BOLD);
         number.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
         number.setPadding(15,0,0,0);
 
+        // set text, format and layout for the trader name text view
         traderName.setText("Trader Name");
         traderName.setTypeface(null, Typeface.BOLD);
         traderName.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 2));
 
+        // set text, format and layout for the amount text view
         amount.setText("Amount");
         amount.setTypeface(null, Typeface.BOLD);
         amount.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
 
+        // Add the three views to the layout
         layout.addView(number);
         layout.addView(traderName);
         layout.addView(amount);
     }
 
+    /**
+     * load the Networth layout to display in the linear layout under the activity_ranking
+     * */
     public void loadNetlayout(){
         LinearLayout layout = (LinearLayout) findViewById(R.id.tradingheadings);
-        layout.removeAllViews();
+        layout.removeAllViews(); // should remove all the views before add in
+
         TextView number = new TextView(this);
         TextView traderName = new TextView(this);
         TextView change = new TextView(this);
         TextView amount = new TextView(this);
 
+        // set text, format and layout for the number text view
         number.setText("#");
         number.setTypeface(null, Typeface.BOLD);
         number.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 0.6f));
         number.setPadding(10,0,0,0);
 
+        // set text, format and layout for the trader name text view
         traderName.setText("Trader Name");
         traderName.setTypeface(null, Typeface.BOLD);
         traderName.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1.4f));
 
+        // set text, format and layout for the change text view
         change.setText("Change");
         change.setTypeface(null, Typeface.BOLD);
         change.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
 
+        // set text, format and layout for the amount text view
         amount.setText("Amount");
         amount.setTypeface(null, Typeface.BOLD);
         amount.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
 
+        // Add the four views to the layout
         layout.addView(number);
         layout.addView(traderName);
         layout.addView(change);
@@ -218,12 +233,15 @@ public class Ranking extends AppCompatActivity {
      * Depends on which button is clicked, the results show accordingly
      * */
     public void clicked (){
+        // The ROI and the Networth buttons
         final Button roiButton = (Button) findViewById(R.id.roiTraders);
         final Button networthButton = (Button) findViewById(R.id.networthTraders);
 
+        // The more and less buttons to show more or less traders
         final Button moreButton = (Button) findViewById(R.id.moreButton);
         final Button lessButton = (Button) findViewById(R.id.lessButton);
 
+        // ROI button on click listener
         roiButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 loadView(roiGrowingList, false);
@@ -231,6 +249,7 @@ public class Ranking extends AppCompatActivity {
             }
         });
 
+        // Networth on click listener
         networthButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 loadView(netGrowingList, true);
@@ -238,25 +257,28 @@ public class Ranking extends AppCompatActivity {
             }
         });
 
+        // More button on click listener
         moreButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 int temp;
                 if(toogleSwitch) {
-                    temp = netGrowingList.size();
+                    temp = netGrowingList.size(); // temp list to store current size of the top traders on Networth
                     if(temp < 1000) {
                         for (int i = temp; i < temp + 10; i++) { // always 10 more than the size of the list
                             netGrowingList.add(networthValues.get(i));
                         }
+                        // reload the view
                         loadView(netGrowingList, true);
                         toogleSwitch = true;
                     }
                 }
                 else {
-                    temp = roiGrowingList.size(); // get the size of the list
+                    temp = roiGrowingList.size(); // temp list to store current size of the top traders on ROI
                     if(temp < 1000) {
                         for (int i = temp; i < temp + 10; i++) { // always 10 more than the size of the list
                             roiGrowingList.add(roiValues.get(i));
                         }
+                        // reload the view
                         loadView(roiGrowingList, false);
                         toogleSwitch = false;
                     }
@@ -264,24 +286,26 @@ public class Ranking extends AppCompatActivity {
             }
         });
 
+        // less button on click listener
         lessButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 int temp;
-
                 if(toogleSwitch){
-                    temp = netGrowingList.size();
-                    if(temp > 10){
+                    temp = netGrowingList.size(); // temp list to store current size of the top traders on Networth
+                    if(temp > 10){ // 10 traders are the minimum
                         for(int i=temp; i>=temp-10; i--)
                             netGrowingList.remove(networthValues.get(i));
+                        // reload the view
                         loadView(netGrowingList, true);
                         toogleSwitch = true;
                     }
                 }
                 else {
-                    temp = roiGrowingList.size();
-                    if(temp > 10){
+                    temp = roiGrowingList.size(); // temp list to store current size of the top traders on ROI
+                    if(temp > 10){ // 10 traders are the minimum
                         for(int i=temp; i >= temp-10;i--)
                             roiGrowingList.remove(roiValues.get(i));
+                        // reload the view
                         loadView(roiGrowingList, false);
                         toogleSwitch = false;
                     }

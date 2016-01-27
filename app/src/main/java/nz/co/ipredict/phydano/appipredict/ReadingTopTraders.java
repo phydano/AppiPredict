@@ -86,6 +86,7 @@ public class ReadingTopTraders {
 
     /**
      * Get the list of all traders that is added when reading from the XML on the web.
+     * The current max traders to display is 500, can increase / decrease the max here
      * @return the list of traders
      * */
     public static List<Traders> getTraders(String type){
