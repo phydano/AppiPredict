@@ -3,6 +3,8 @@ package nz.co.ipredict.phydano.appipredict;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by phydano
@@ -156,9 +159,9 @@ public class Ranking extends AppCompatActivity {
                 roiGrowingList.add(roiValues.get(i));
                 netGrowingList.add(networthValues.get(i));
             }
+            clicked(); // load all the buttons in this activity
             loadView(roiGrowingList, false);
             toogleSwitch = false; // switch is on roi side
-            clicked(); // load all the buttons in this activity
         }
     }
 
@@ -168,6 +171,8 @@ public class Ranking extends AppCompatActivity {
      * @param toogle whether we want to show the ROI or Networth
      * */
     public void loadView(List<Traders> values, boolean toogle){
+
+        // Find the view for the list and display them
         ListView lv = (ListView) findViewById(R.id.rankingList);
         Traders[] modelItems = new Traders[values.size()];
 
@@ -176,6 +181,7 @@ public class Ranking extends AppCompatActivity {
                     values.get(i).getRoi(), values.get(i).getNetworth(), values.get(i).getNetworthChange());
         }
 
+        // depends on what button the users click, we handle the case differently
         if(toogle) {
             loadNetlayout();
             NetworthCustomAdapter networthAdapter = new NetworthCustomAdapter(this, modelItems);
@@ -201,17 +207,20 @@ public class Ranking extends AppCompatActivity {
         // set text, format and layout for the number text view
         number.setText("#");
         number.setTypeface(null, Typeface.BOLD);
+        number.setTextColor(Color.BLACK);
         number.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
-        number.setPadding(15,0,0,0);
+        number.setPadding(15, 0, 0, 0);
 
         // set text, format and layout for the trader name text view
         traderName.setText("Trader Name");
         traderName.setTypeface(null, Typeface.BOLD);
+        traderName.setTextColor(Color.BLACK);
         traderName.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 2));
 
         // set text, format and layout for the amount text view
         amount.setText("Amount");
         amount.setTypeface(null, Typeface.BOLD);
+        amount.setTextColor(Color.BLACK);
         amount.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
 
         // Add the three views to the layout
@@ -235,22 +244,26 @@ public class Ranking extends AppCompatActivity {
         // set text, format and layout for the number text view
         number.setText("#");
         number.setTypeface(null, Typeface.BOLD);
+        number.setTextColor(Color.BLACK);
         number.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 0.6f));
         number.setPadding(10, 0, 0, 0);
 
         // set text, format and layout for the trader name text view
         traderName.setText("Trader Name");
         traderName.setTypeface(null, Typeface.BOLD);
+        traderName.setTextColor(Color.BLACK);
         traderName.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1.4f));
 
         // set text, format and layout for the change text view
         change.setText("Change");
         change.setTypeface(null, Typeface.BOLD);
+        change.setTextColor(Color.BLACK);
         change.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
 
         // set text, format and layout for the amount text view
         amount.setText("Amount");
         amount.setTypeface(null, Typeface.BOLD);
+        amount.setTextColor(Color.BLACK);
         amount.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
 
         // Add the four views to the layout
@@ -272,9 +285,15 @@ public class Ranking extends AppCompatActivity {
         final Button moreButton = (Button) findViewById(R.id.moreButton);
         final Button lessButton = (Button) findViewById(R.id.lessButton);
 
+        roiButton.getBackground().setColorFilter(Color.parseColor("#084EE4"), PorterDuff.Mode.MULTIPLY);
+        roiButton.setTextColor(Color.WHITE);
         // ROI button on click listener
         roiButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
+                roiButton.getBackground().setColorFilter(Color.parseColor("#084EE4"), PorterDuff.Mode.MULTIPLY);
+                roiButton.setTextColor(Color.WHITE);
+                networthButton.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+                networthButton.setTextColor(Color.BLACK);
                 loadView(roiGrowingList, false);
                 toogleSwitch = false;
             }
@@ -283,6 +302,10 @@ public class Ranking extends AppCompatActivity {
         // Networth on click listener
         networthButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
+                roiButton.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+                roiButton.setTextColor(Color.BLACK);
+                networthButton.setTextColor(Color.WHITE);
+                networthButton.getBackground().setColorFilter(Color.parseColor("#084EE4"), PorterDuff.Mode.MULTIPLY);
                 loadView(netGrowingList, true);
                 toogleSwitch = true;
             }

@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -21,6 +23,7 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by phydano
@@ -46,11 +49,9 @@ public class BrowsePrediction extends AppCompatActivity {
         // This is when the Categories are not empty, meaning we already have the info
         else if (MyJSONReader.getCategories() != null){
             browseValues = MyJSONReader.getName();
-            ArrayList<String> newList = new ArrayList<>(new HashSet<>(browseValues));
+            Set<String> newList = new HashSet<>(browseValues);
             browseValues.clear();
-            for(String e : newList){
-                browseValues.add(e);
-            }
+            browseValues.addAll(newList);
         }
         searchView(); // load the search view
         buttonIsClicked(); // load all the buttons in this activity
@@ -178,14 +179,24 @@ public class BrowsePrediction extends AppCompatActivity {
         final Button searchButton = (Button) findViewById(R.id.searchButton);
 
         loadView(browseValues); // by default load this list
+        browseButton.getBackground().setColorFilter(Color.parseColor("#084EE4"), PorterDuff.Mode.MULTIPLY);
+        browseButton.setTextColor(Color.WHITE);
         // Change the list view depends on what button the user clicked
         browseButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
+                browseButton.getBackground().setColorFilter(Color.parseColor("#084EE4"), PorterDuff.Mode.MULTIPLY);
+                browseButton.setTextColor(Color.WHITE);
+                sortByButton.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+                sortByButton.setTextColor(Color.BLACK);
                 loadView(browseValues);
             }
         });
         sortByButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                sortByButton.getBackground().setColorFilter(Color.parseColor("#084EE4"), PorterDuff.Mode.MULTIPLY);
+                sortByButton.setTextColor(Color.WHITE);
+                browseButton.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+                browseButton.setTextColor(Color.BLACK);
                 if(sortByValues.isEmpty()){
                     sortByValues.add("Trades");
                     sortByValues.add("Movement");
@@ -287,6 +298,12 @@ public class BrowsePrediction extends AppCompatActivity {
      * @param values list of items we want to add to our list view
      * */
     public void loadView(ArrayList<String> values){
+
+        // check to see if there is any duplicates
+        Set<String> myset = new HashSet<>(values);
+        values.clear();
+        values.addAll(myset);
+
         lv = (ListView) findViewById(R.id.listView1);
         modelItems = new Model[values.size()];
         for(int i=0; i<values.size(); i++){

@@ -15,8 +15,6 @@
 
     <!-- Layout for the 'browse' and 'sort' buttons -->
     <LinearLayout
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
         android:id="@+id/LinearLayout"
         android:layout_below="@+id/searchView"
         android:layout_height="wrap_content"
