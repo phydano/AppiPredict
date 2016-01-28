@@ -76,6 +76,11 @@ public class ReadingTopTraders {
         }
     }
 
+    /**
+     * Format to add the '$' sign to the Networth Change and Networth
+     * @param temp the string we need to replace
+     * @return the formatted string
+     * */
     public static String formatString(String temp){
         // If there is a minus in there replace it with -$, otherwise just return back $
         if(temp.contains("-")){
@@ -90,7 +95,13 @@ public class ReadingTopTraders {
      * @return the list of traders
      * */
     public static List<Traders> getTraders(String type){
-        readRankingInfo(dateTime(), "500", type); // read 500 traders ranking
+        // first of all check whether the Roi list is empty or not
+        if(topTradersRoi.isEmpty() && type.equals("roi"))
+            readRankingInfo(dateTime(), "500", type); // read 500 traders ranking
+        // Second check if the networth list is empty or not
+        else if (topTradersNetworth.isEmpty() && type.equals("networth"))
+            readRankingInfo(dateTime(), "500", type); // read 500 traders ranking
+        // If none of the lists are empty then grab info and then return the list
         if(type.equals("roi")) return topTradersRoi;
         else return topTradersNetworth;
     }
@@ -120,11 +131,6 @@ public class ReadingTopTraders {
 
     public static String amount(String text){
         return (text + "%");
-    }
-
-    public static void clearList(){
-        topTradersRoi.clear();
-        topTradersNetworth.clear();
     }
 
 /*    public static void main(String [] args) {

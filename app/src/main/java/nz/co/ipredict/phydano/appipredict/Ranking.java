@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -38,9 +39,19 @@ public class Ranking extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ranking);
         // If there is no Internet connection then pop a dialog
-        if(!BrowsePrediction.isNetworkAvailable(this)) optionalAlertBox("No Internet Connection");
+        if(!BrowsePrediction.isNetworkAvailable(this) && ReadingTopTraders.getTraders("roi").isEmpty()) optionalAlertBox("No Internet Connection");
         // If the network is available and the traders list is totally empty then we execute an AsynTask
         else if(BrowsePrediction.isNetworkAvailable(this) && ReadingTopTraders.getTraders("roi").isEmpty()) new GetRanking().execute();
+        // Case where we jump back and forth between activity
+        else{
+            System.out.println("TAG: Roi value: " + roiValues.size());
+            System.out.println("TAG: Networth value: " + networthValues.size());
+            System.out.println("TAG: Roi Growing List: " + roiGrowingList.size());
+            System.out.println("TAG: Networth Growing List: " + netGrowingList.size());
+            System.out.println("TAG: Traders Roi size" + ReadingTopTraders.getTraders("roi").size());
+            System.out.println("TAG: Traders Net size" + ReadingTopTraders.getTraders("networth").size());
+            new GetRanking().execute();
+        }
     }
 
     /**
@@ -54,7 +65,7 @@ public class Ranking extends AppCompatActivity {
         savedInstanceState.putParcelableArrayList("netValue", networthValues);
         savedInstanceState.putParcelableArrayList("roiList", roiGrowingList);
         savedInstanceState.putParcelableArrayList("netList", netGrowingList);
-        if(toogleSwitch) savedInstanceState.putBoolean("toogle",true);
+        if(toogleSwitch) savedInstanceState.putBoolean("toogle", true);
         else savedInstanceState.putBoolean("toogle",false);
     }
 
@@ -82,6 +93,12 @@ public class Ranking extends AppCompatActivity {
             toogleSwitch = false;
         }
         clicked(); // load all the buttons in this activity
+        System.out.println("TAG: Load Roi value: " + roiValues.size());
+        System.out.println("TAG: Load Networth value: " + networthValues.size());
+        System.out.println("TAG: Load Roi Growing List: " + roiGrowingList.size());
+        System.out.println("TAG: Load Networth Growing List: " + netGrowingList.size());
+        System.out.println("TAG: Load Traders Roi size" + ReadingTopTraders.getTraders("roi").size());
+        System.out.println("TAG: Load Traders Net size" + ReadingTopTraders.getTraders("networth").size());
     }
 
     @Override
@@ -122,7 +139,6 @@ public class Ranking extends AppCompatActivity {
             mDialog.setIndeterminate(false); // play the loop animation
             mDialog.setCancelable(true); // allow user to cancel
             mDialog.show(); // show the dialog
-            ReadingTopTraders.clearList(); // clear the list every time we reload the page
         }
 
         @Override
