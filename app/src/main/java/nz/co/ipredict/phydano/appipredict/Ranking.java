@@ -41,15 +41,7 @@ public class Ranking extends AppCompatActivity {
         // If there is no Internet connection then pop a dialog
         if(!BrowsePrediction.isNetworkAvailable(this) && ReadingTopTraders.getTraders("roi").isEmpty()) optionalAlertBox("No Internet Connection");
         // If the network is available and the traders list is totally empty then we execute an AsynTask
-        else if(BrowsePrediction.isNetworkAvailable(this) && ReadingTopTraders.getTraders("roi").isEmpty()) new GetRanking().execute();
-        // Case where we jump back and forth between activity
-        else{
-            System.out.println("TAG: Roi value: " + roiValues.size());
-            System.out.println("TAG: Networth value: " + networthValues.size());
-            System.out.println("TAG: Roi Growing List: " + roiGrowingList.size());
-            System.out.println("TAG: Networth Growing List: " + netGrowingList.size());
-            System.out.println("TAG: Traders Roi size" + ReadingTopTraders.getTraders("roi").size());
-            System.out.println("TAG: Traders Net size" + ReadingTopTraders.getTraders("networth").size());
+        else if(BrowsePrediction.isNetworkAvailable(this) && ReadingTopTraders.getTraders("roi").isEmpty()) {
             new GetRanking().execute();
         }
     }
@@ -71,7 +63,6 @@ public class Ranking extends AppCompatActivity {
 
     /**
      * Restore the activity state back when the screen orientation changes
-     * but not when we moved to the other activity and came back....
      * */
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
@@ -93,12 +84,6 @@ public class Ranking extends AppCompatActivity {
             toogleSwitch = false;
         }
         clicked(); // load all the buttons in this activity
-        System.out.println("TAG: Load Roi value: " + roiValues.size());
-        System.out.println("TAG: Load Networth value: " + networthValues.size());
-        System.out.println("TAG: Load Roi Growing List: " + roiGrowingList.size());
-        System.out.println("TAG: Load Networth Growing List: " + netGrowingList.size());
-        System.out.println("TAG: Load Traders Roi size" + ReadingTopTraders.getTraders("roi").size());
-        System.out.println("TAG: Load Traders Net size" + ReadingTopTraders.getTraders("networth").size());
     }
 
     @Override
@@ -118,10 +103,20 @@ public class Ranking extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
+                // clear the list when goes back
+                ReadingTopTraders.getTraders("roi").clear();
+                ReadingTopTraders.getTraders("networth").clear();
                 this.onBackPressed();
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        ReadingTopTraders.getTraders("roi").clear();
+        ReadingTopTraders.getTraders("networth").clear();
     }
 
     /**
