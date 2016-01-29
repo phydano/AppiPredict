@@ -114,7 +114,7 @@ public class ShowResult extends AppCompatActivity {
 
             // the buy order quantity text field
             TextView buyOrderQuantity = new TextView(this);
-            buyOrderQuantity.setText(buyOrder.get(i).getQuantiity());
+            buyOrderQuantity.setText(buyOrder.get(i).getQuantity());
             buyOrderQuantity.setGravity(Gravity.CENTER);
 
             // the buy order price text field
@@ -147,7 +147,7 @@ public class ShowResult extends AppCompatActivity {
 
             // the sell order quantity text field
             TextView sellOrderQuantity = new TextView(this);
-            sellOrderQuantity.setText(sellOrder.get(i).getQuantiity());
+            sellOrderQuantity.setText(sellOrder.get(i).getQuantity());
             sellOrderQuantity.setGravity(Gravity.CENTER);
 
             // the sell order price text field

@@ -1,7 +1,5 @@
 package nz.co.ipredict.phydano.appipredict;
 
-import android.text.Html;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -20,8 +18,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
  */
 public class ReadingTopTraders {
 
-    private static List<Traders> topTradersRoi = new ArrayList<Traders>(); // list the top roi traders
-    private static List<Traders> topTradersNetworth = new ArrayList<Traders>(); // list the top networth traders
+    private static List<Traders> topTradersRoi = new ArrayList<>(); // list the top roi traders
+    private static List<Traders> topTradersNetworth = new ArrayList<>(); // list the top networth traders
 
     /**
      * Read the ranking information from the web URL which is in XML form
@@ -29,7 +27,7 @@ public class ReadingTopTraders {
      * @param numRow is the number of row we want to show the users
      * @param type is either the Roi or networth
      * */
-    public static void readRankingInfo(String date, String numRow, String type){
+    public static void readRankingInfo(String date, String numRow, String type) {
 
         NodeList rankN, traderNameN, roiN, networthN, networthChangeN;
         Element rankE, traderNameE, roiE, networthE, networthChangeE;
@@ -92,6 +90,7 @@ public class ReadingTopTraders {
     /**
      * Get the list of all traders that is added when reading from the XML on the web.
      * The current max traders to display is 500, can increase / decrease the max here
+     * @param type the type of whether it is ROI or NETWORTH
      * @return the list of traders
      * */
     public static List<Traders> getTraders(String type){
@@ -123,19 +122,19 @@ public class ReadingTopTraders {
     /**
      * Limits the decimal to 4 decimal place.
      * @param convert the number we want to convert
+     * @return the new string with shorter decimal place
      * */
     public static String changeDecimal(String convert){
         return Double.toString(Double.valueOf(
                 new DecimalFormat("#.##").format(Double.parseDouble(convert))));
     }
 
+    /**
+     * A small method adding percentage sign
+     * @param text we want to add percentage sign to
+     * @return the new text with percentage sign
+     * */
     public static String amount(String text){
         return (text + "%");
     }
-
-/*    public static void main(String [] args) {
-        readRankingInfo(dateTime(), "5");
-
-    }*/
-
 }

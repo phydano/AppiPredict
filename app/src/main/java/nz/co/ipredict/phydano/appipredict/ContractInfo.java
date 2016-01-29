@@ -178,8 +178,8 @@ public class ContractInfo implements Parcelable {
         this.shortDescription = in.readString();
         this.longDescription = in.readString();
         this.judgeStatement = in.readString();
-        this.buyOrders = new ArrayList<BookAndStock>();
-        this.sellOrders = new ArrayList<BookAndStock>();
+        this.buyOrders = new ArrayList<>();
+        this.sellOrders = new ArrayList<>();
         in.readTypedList(this.buyOrders, BookAndStock.CREATOR);
         in.readTypedList(this.sellOrders, BookAndStock.CREATOR);
     }

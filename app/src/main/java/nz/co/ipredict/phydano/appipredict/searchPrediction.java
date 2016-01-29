@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,8 +21,8 @@ import java.util.HashMap;
  */
 public class searchPrediction extends AppCompatActivity {
 
-    private ArrayList<String> list = new ArrayList<String>(); // list of contracts
-    private ArrayList<ContractInfo> selectedContract = new ArrayList<ContractInfo>();
+    private ArrayList<String> list = new ArrayList<>(); // list of contracts
+    private ArrayList<ContractInfo> selectedContract = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +57,7 @@ public class searchPrediction extends AppCompatActivity {
      * but not when we moved to the other activity and came back....
      * */
     @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
+    public void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         // Restore UI state from the savedInstanceState.
         // This bundle has also been passed to onCreate.
@@ -150,8 +151,8 @@ public class searchPrediction extends AppCompatActivity {
 
     public void ExpandableListView() {
         final ExpandableListView expListView = (ExpandableListView) findViewById(R.id.lvExp);
-        final ArrayList<String> listDataHeader = new ArrayList<String>();
-        final HashMap<String, ArrayList<StockItem>> listDataChild = new HashMap<String, ArrayList<StockItem>>();
+        final ArrayList<String> listDataHeader = new ArrayList<>();
+        final HashMap<String, ArrayList<StockItem>> listDataChild = new HashMap<>();
         String title = "";
 
         if(selectedContract.size() == 0) alertBox("Sorry no results found");
@@ -161,7 +162,7 @@ public class searchPrediction extends AppCompatActivity {
             String price = "Price: $" + selectedContract.get(i).getPrice().replace("\"", "");
             String change = "Change: " + selectedContract.get(i).getTodaysChange().replace("\"", "");
             StockItem temp = new StockItem(stock, price, change);
-            ArrayList<StockItem> myTempList = new ArrayList<StockItem>();
+            ArrayList<StockItem> myTempList = new ArrayList<>();
 
             // check if the title is the same or not
             // If the title is not the same then add the stock to the list
@@ -203,7 +204,7 @@ public class searchPrediction extends AppCompatActivity {
     public void goToResultPage(String subcategory){
         ContractInfo subcategoryItem = null;
         for(int i=0; i< selectedContract.size(); i++) {
-            String temp = selectedContract.get(i).getStockName().replace("\"", "");;
+            String temp = selectedContract.get(i).getStockName().replace("\"", "");
             if( temp.equals(subcategory)){
                 subcategoryItem = selectedContract.get(i);
             }

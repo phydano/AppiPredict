@@ -10,10 +10,6 @@
         android:title="@string/action_register"
         app:showAsAction="ifRoom" />
 
-    <item android:id="@+id/action_home"
-        android:title="@string/action_home"
-        app:showAsAction="ifRoom" />
-
     <item android:id="@+id/action_browse"
         android:title="@string/action_browse"
         app:showAsAction="ifRoom" />

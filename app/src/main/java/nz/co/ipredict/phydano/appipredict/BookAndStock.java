@@ -11,13 +11,13 @@ import android.os.Parcelable;
 public class BookAndStock implements Parcelable {
 
     private String orderType; // sell or buy
-    private String quantiity; // the amount of stocks
+    private String quantity; // the amount of stocks
     private String price; // stock price
 
     /** Constructor to constructs the book and stock object */
     public BookAndStock (String orderType, String quantity, String price){
         this.orderType = orderType;
-        this.quantiity = quantity;
+        this.quantity = quantity;
         this.price = price;
     }
 
@@ -31,7 +31,7 @@ public class BookAndStock implements Parcelable {
      * Get the quantity of the stocks either buy or sell
      * @return the quantity of the stock
      * */
-    public String getQuantiity() {return quantiity;}
+    public String getQuantity() {return quantity;}
 
     /**
      * Get the price of the stock
@@ -44,7 +44,7 @@ public class BookAndStock implements Parcelable {
      * */
     public BookAndStock(Parcel in){
         this.orderType = in.readString();
-        this.quantiity = in.readString();
+        this.quantity = in.readString();
         this.price = in.readString();
     }
 
@@ -65,7 +65,7 @@ public class BookAndStock implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.orderType);
-        dest.writeString(this.quantiity);
+        dest.writeString(this.quantity);
         dest.writeString(this.price);
     }
 

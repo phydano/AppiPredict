@@ -1,5 +1,5 @@
 Name of the Project: iPredict Android App
-Developer: Dano Phy (Victoria University of Wellington)
+Developer: Dano Phy - Intern (Victoria University of Wellington)
 Company: iPredict Ltd.
 
 This document provides an intro and explains the Activities and Classes used in the project plus how to install/run the program. 
@@ -10,6 +10,7 @@ The breakdown is as follows:
 	2. Classes
 	3. Layout
 	4. Install/Run Instruction
+	5. Activity Flow
 
 0. Intro:
 --------
@@ -141,6 +142,9 @@ the list display to either the top traders with highest ROI or highest Net Worth
 	2.5 Model
 	2.6 MyJSONReader
 	2.7 StockItem
+	2.8 Traders
+	2.9 NetworthCustomAdapter
+	2.10 ROICustomAdapter
 
 
 ---------------------------------------------------------------------------------------------------------
@@ -218,6 +222,9 @@ This class store the stock info of the selected categories. It contains the info
 	3.14 mybutton4 
 	3.15 result_prediction_row
 	3.16 row
+	3.17 traders_roi
+	3.18 traders_networth
+	3.19 activity_ranking 
 
 
 ---------------------------------------------------------------------------------------------------------
@@ -360,3 +367,38 @@ nor does it collect any info. The permission it asked is just the Interntet Conn
 
 
 ---------------------------------------------------------------------------------------------------------
+
+5. Activity Flow:
+----------------
+
+
+		       __________________
+		      |		         |
+		  |-->|   LoginActivity  |
+		  |   |__________________|
+		  |   
+		  |
+		  |    __________________
+		  |   |		         |
+		  |-->|      SignUp      |
+		  |   |__________________|
+		  |
+		  |
+ ______________   |    __________________	 __________________        ____________
+|	       |  |   |	                 |	|                  |	  |            |
+| MainActivity |----->| BrowsePrediction |----->| searchPrediction |----->| ShowResult |
+|______________|  |   |__________________|      |__________________|      |____________|
+		  |
+		  |
+		  |    __________________
+		  |   |			 |
+		  |-->|      AboutUs     |
+		  |   |__________________|
+		  |   
+		  |
+		  |    __________________
+		  |   |                  |
+		  |-->|      Ranking     |
+		      |__________________|
+		  
+

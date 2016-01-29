@@ -26,7 +26,6 @@
             android:id="@+id/browseButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            style="?android:attr/borderlessButtonStyle"
             android:background="@layout/mybutton3"
             android:layout_weight="1"
             android:clickable="true"
@@ -37,7 +36,6 @@
             android:id="@+id/sortByButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            style="?android:attr/borderlessButtonStyle"
             android:background="@layout/mybutton3"
             android:layout_weight="1"
             android:clickable="true"
@@ -83,7 +81,6 @@
                 android:text="@string/clear"
                 android:layout_gravity="bottom"
                 android:textColor="#FFFFFF"
-                style="?android:attr/borderlessButtonStyle"
                 android:background="@layout/mybutton4"/>
 
             <!-- The search button -->
@@ -96,7 +93,6 @@
                 android:text="@string/search"
                 android:layout_gravity="bottom"
                 android:textColor="#FFFFFF"
-                style="?android:attr/borderlessButtonStyle"
                 android:background="@layout/mybutton4"/>
         </LinearLayout>
     </LinearLayout>

@@ -3,8 +3,6 @@ package nz.co.ipredict.phydano.appipredict;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
-
 /**
  * Created by phydano on 19/01/2016.
  * This class constructs a trader

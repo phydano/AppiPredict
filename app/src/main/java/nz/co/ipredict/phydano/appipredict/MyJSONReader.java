@@ -5,7 +5,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.SocketException;
@@ -22,10 +21,10 @@ import java.util.regex.Pattern;
  */
 public class MyJSONReader {
 
-    private static ArrayList<ContractInfo> browsePrediction = new ArrayList<ContractInfo>(); // list of all subcategories
-    private static ArrayList<ContractInfo> listOfwantedBundle = new ArrayList<ContractInfo>(); // list of items user selected
+    private static ArrayList<ContractInfo> browsePrediction = new ArrayList<>(); // list of all subcategories
+    private static ArrayList<ContractInfo> listOfwantedBundle = new ArrayList<>(); // list of items user selected
     private static JsonObject categories = null; // our json object that contains every info
-    private static ArrayList<String> allCategoriesName = new ArrayList<String>(); // list of categories name
+    private static ArrayList<String> allCategoriesName = new ArrayList<>(); // list of categories name
 
     /**
      * Establish a connection to the web server
@@ -173,7 +172,7 @@ public class MyJSONReader {
      * @param book the jsonarray for the booking
      **/
     public static List<BookAndStock> turnOrdersToList(JsonArray book){
-        List<BookAndStock> myTempListOfBuyandSell = new ArrayList<BookAndStock>();
+        List<BookAndStock> myTempListOfBuyandSell = new ArrayList<>();
         for(int i=0; i<book.size(); i++){
             JsonObject temp = book.get(i).getAsJsonObject();
             String price = temp.get("price").toString().replace("\"", "");
