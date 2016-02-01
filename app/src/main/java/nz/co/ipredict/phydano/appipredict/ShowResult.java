@@ -1,10 +1,12 @@
 package nz.co.ipredict.phydano.appipredict;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -24,6 +26,7 @@ import java.util.List;
 public class ShowResult extends AppCompatActivity {
 
     private ContractInfo selectedContract; // this is the object that contains the contract info we want
+    private ScrollView mScrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,34 @@ public class ShowResult extends AppCompatActivity {
             sellOrdersTable(selectedContract.getSellOrders()); // dealing with sell order table
             buyOrdersTable(selectedContract.getBuyOrders()); // dealing with buy order table
         }
+        mScrollView = (ScrollView) findViewById(R.id.resultPageScrollView);
+    }
+
+    /**
+     * Save the activity state
+     * Code from: http://stackoverflow.com/questions/29208086/save-the-position-of-scrollview-when-the-orientation-changes
+     * */
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putIntArray("scroll",
+                new int[]{mScrollView.getScrollX(), mScrollView.getScrollY()});
+    }
+
+    /**
+     * Restore the activity state assuming there is no null
+     * Code from: http://stackoverflow.com/questions/29208086/save-the-position-of-scrollview-when-the-orientation-changes
+     * */
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        final int[] position = savedInstanceState.getIntArray("scroll");
+        if(position != null)
+            mScrollView.post(new Runnable() {
+                public void run() {
+                    mScrollView.scrollTo(position[0], position[1]);
+                }
+            });
     }
 
     /**

@@ -5,25 +5,56 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 
 /**
  * Created by phydano
  * This is the about us page which is the iPredict info page on the company
  **/
 public class AboutUs extends AppCompatActivity {
+    ScrollView mScrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_us);
         resizeImagesUsingBitMap(); // Scaled the images
-        scrollTextEdit(); // make text scrollable in text field when its overflow
+        scrollTextEdit(); // make text scrollable in text field when the text is overflow
+        mScrollView = (ScrollView) findViewById(R.id.aboutUsScrollView);
+    }
+
+    /**
+     * Save the activity state
+     * Code from: http://stackoverflow.com/questions/29208086/save-the-position-of-scrollview-when-the-orientation-changes
+     * */
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putIntArray("scroll",
+                new int[]{mScrollView.getScrollX(), mScrollView.getScrollY()});
+    }
+
+    /**
+     * Restore the activity state assuming there is no null
+     * Code from: http://stackoverflow.com/questions/29208086/save-the-position-of-scrollview-when-the-orientation-changes
+     * */
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        final int[] position = savedInstanceState.getIntArray("scroll");
+        if(position != null)
+            mScrollView.post(new Runnable() {
+                public void run() {
+                    mScrollView.scrollTo(position[0], position[1]);
+                }
+            });
     }
 
     /**

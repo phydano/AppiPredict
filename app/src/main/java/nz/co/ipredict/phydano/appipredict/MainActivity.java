@@ -6,12 +6,14 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,7 +22,8 @@ import android.widget.Toast;
  * This is the main activity in which is the Home Page of iPredict.
  * */
 public class MainActivity extends AppCompatActivity {
-    boolean doubleBackToExitPressedOnce = false;
+    private boolean doubleBackToExitPressedOnce = false;
+    private ScrollView mScrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +31,34 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         resizeImagesUsingBitMap(); // resize the image with Bitmap
         usersComment(); // load the users comments
+        mScrollView = (ScrollView) findViewById(R.id.homePageScrollView);
+    }
+
+    /**
+     * Save the activity state
+     * Code from: http://stackoverflow.com/questions/29208086/save-the-position-of-scrollview-when-the-orientation-changes
+     * */
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putIntArray("scroll",
+                new int[]{mScrollView.getScrollX(), mScrollView.getScrollY()});
+    }
+
+    /**
+     * Restore the activity state assuming there is no null
+     * Code from: http://stackoverflow.com/questions/29208086/save-the-position-of-scrollview-when-the-orientation-changes
+     * */
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        final int[] position = savedInstanceState.getIntArray("scroll");
+        if(position != null)
+            mScrollView.post(new Runnable() {
+                public void run() {
+                    mScrollView.scrollTo(position[0], position[1]);
+                }
+            });
     }
 
     /**
@@ -201,6 +232,7 @@ public class MainActivity extends AppCompatActivity {
      * */
     public boolean openAboutUs() {
         Intent intent = new Intent(this, AboutUs.class);
+        System.out.println("TAG: Set the scroll Pos ;D");
         startActivity(intent);
         return true;
     }

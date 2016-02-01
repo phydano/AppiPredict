@@ -58,9 +58,9 @@
         FUTURE POLITICAL &amp;
         ECONOMIC EVENTS
     </string>
-    <string name="title_activity_search_prediction">searchPrediction</string>
-    <string name="title_activity_show_result">ShowResult</string>
-    <string name="title_activity_sign_up">SignUp</string>
+    <string name="title_activity_search_prediction">List of Stocks</string>
+    <string name="title_activity_show_result">Results</string>
+    <string name="title_activity_sign_up">Sign up</string>
     <string name="desc">Some text to represent the image</string>
     <string name="contactus">CONTACT US</string>
     <string name="team">TEAM</string>

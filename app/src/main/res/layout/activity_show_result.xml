@@ -5,6 +5,7 @@
     tools:context="nz.co.ipredict.phydano.appipredict.ShowResult">
 
     <ScrollView
+        android:id="@+id/resultPageScrollView"
         android:layout_above="@+id/threeButtons"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
