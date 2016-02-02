@@ -55,10 +55,10 @@
         <ListView
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
-            android:id="@+id/listView1"
+            android:id="@+id/browsePredictionListView"
             android:layout_weight="0.999"
             android:layout_width="match_parent"
-            android:layout_height="0dp"/>
+            android:layout_height="0dp" />
 
         <!-- Nested layout which is not good but
          need for the two buttons side by side -->

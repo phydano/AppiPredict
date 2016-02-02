@@ -85,14 +85,6 @@ public class CustomAdapter extends ArrayAdapter<Model> implements CompoundButton
     }
 
     /**
-     * Toggle the button checked state
-     * @param position where we want to toggle
-     * */
-    public void toggle(int position){
-        setChecked(position, !isChecked(position));
-    }
-
-    /**
      * Change the state of the button
      * @param buttonView the button of two states - checked or unchecked
      * @param isChecked the state of the buttons

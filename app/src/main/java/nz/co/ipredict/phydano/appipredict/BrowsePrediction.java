@@ -12,6 +12,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,26 +36,49 @@ public class BrowsePrediction extends AppCompatActivity {
     private Model[] modelItems; // our model in each of the row showing the text and checkbox
     private ArrayList<String> browseValues = new ArrayList<>(); // Item to be listed under the first button (Browse)
     private ArrayList<String> sortByValues = new ArrayList<>(); // Item to be listed under the second button (Sort)
+    public ArrayList<Model> checkedBox = new ArrayList<>(); // need to restore the state of checkbox when orientation changes
     private CustomAdapter adapter; // created custom adapter
     private ArrayList<String> selectedCategoriesContract = new ArrayList<>(); // listed of selected categories
-    private long mLastClickTime = 0;
+    private long mLastClickTime = 0; // the last time click
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browse_prediction);
-        // Check whether the network is available and list of browse items
+        // If there is no network connection and the list is empty then pop a message
         if(!isNetworkAvailable(this) && browseValues.isEmpty()) optionalAlertBox("No Internet Connection");
+            // If there is a network connection and our categories is empty
         else if (isNetworkAvailable(this) && MyJSONReader.getCategories()==null) new GetTask().execute();
-        // This is when the Categories are not empty, meaning we already have the info
+            // This is when the Categories are not empty, meaning we already have the info
         else if (MyJSONReader.getCategories() != null){
-            browseValues = MyJSONReader.getName();
-            Set<String> newList = new HashSet<>(browseValues);
-            browseValues.clear();
-            browseValues.addAll(newList);
+            browseValues = MyJSONReader.getName(); // get the list of categories name
+            Set<String> newList = new HashSet<>(browseValues); // define new set
+            browseValues.clear(); // clear old list if there is one
+            browseValues.addAll(newList); // then add the new set in
         }
         searchView(); // load the search view
         buttonIsClicked(); // load all the buttons in this activity
+    }
+
+    /**
+     * Saved the activity state to restore when screen orientation changes
+     * */
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putParcelableArrayList("boxState", checkedBox);
+    }
+
+    /**
+     * Restore the activity state back when the screen orientation changes
+     * */
+    @Override
+    public void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        // Restore UI state from the savedInstanceState.
+        // This bundle has also been passed to onCreate.
+        checkedBox = savedInstanceState.getParcelableArrayList("boxState");
     }
 
     @Override
@@ -298,13 +322,12 @@ public class BrowsePrediction extends AppCompatActivity {
      * @param values list of items we want to add to our list view
      * */
     public void loadView(ArrayList<String> values){
-
         // check to see if there is any duplicates
         Set<String> myset = new HashSet<>(values);
         values.clear();
         values.addAll(myset);
 
-        lv = (ListView) findViewById(R.id.listView1);
+        lv = (ListView) findViewById(R.id.browsePredictionListView);
         modelItems = new Model[values.size()];
         for(int i=0; i<values.size(); i++){
             modelItems[i] = new Model(values.get(i),0);

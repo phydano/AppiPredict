@@ -28,8 +28,6 @@ import java.util.List;
  * */
 public class Ranking extends AppCompatActivity {
 
-    private ArrayList<Traders> roiValues = new ArrayList<>(); // our top traders with the highest roi
-    private ArrayList<Traders> networthValues = new ArrayList<>(); // our top traders with the highest networth
     private ArrayList<Traders> roiGrowingList = new ArrayList<>(); // start with 10 and keep growing
     private ArrayList<Traders> netGrowingList = new ArrayList<>(); // start with 10 and keep growing
     private boolean toogleSwitch; // switch to track whether we on ROI (false) or Networth (true) tab
@@ -56,8 +54,6 @@ public class Ranking extends AppCompatActivity {
     public void onSaveInstanceState(Bundle savedInstanceState) {
         // Always call the superclass so it can save the view hierarchy state
         super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putParcelableArrayList("roiValue", roiValues);
-        savedInstanceState.putParcelableArrayList("netValue", networthValues);
         savedInstanceState.putParcelableArrayList("roiList", roiGrowingList);
         savedInstanceState.putParcelableArrayList("netList", netGrowingList);
         if(toogleSwitch) savedInstanceState.putBoolean("toogle", true);
@@ -72,8 +68,6 @@ public class Ranking extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
         // Restore UI state from the savedInstanceState.
         // This bundle has also been passed to onCreate.
-        roiValues = savedInstanceState.getParcelableArrayList("roiValue");
-        networthValues = savedInstanceState.getParcelableArrayList("netValue");
         roiGrowingList = savedInstanceState.getParcelableArrayList("roiList");
         netGrowingList = savedInstanceState.getParcelableArrayList("netList");
         toogleSwitch = savedInstanceState.getBoolean("toogle");
@@ -135,23 +129,21 @@ public class Ranking extends AppCompatActivity {
         @Override
         protected List<Traders> doInBackground(Traders... args){
             try {
-                for(Traders roiTraders : ReadingTopTraders.getTraders("roi")) roiValues.add(roiTraders); // now store all the categories name
-                for(Traders netTraders : ReadingTopTraders.getTraders("networth")) networthValues.add(netTraders);
+                for(int i=0; i<10; i++){
+                    roiGrowingList.add(ReadingTopTraders.getTraders("roi").get(i));
+                    netGrowingList.add(ReadingTopTraders.getTraders("networth").get(i));
+                }
 
             }catch(Exception e) {
                 optionalAlertBox("No Internet Connection");
             }
-            return roiValues;
+            return roiGrowingList;
         }
 
         @Override
         protected void onPostExecute(List<Traders> info){
             mDialog.dismiss();
             // load only 10 values first upon first execute
-            for(int i=0; i<10; i++){
-                roiGrowingList.add(roiValues.get(i));
-                netGrowingList.add(networthValues.get(i));
-            }
             clicked(); // load all the buttons in this activity
             loadView(roiGrowingList, false);
             toogleSwitch = false; // switch is on roi side
@@ -322,7 +314,7 @@ public class Ranking extends AppCompatActivity {
                     temp = netGrowingList.size(); // temp list to store current size of the top traders on Networth
                     if(temp < 1000) {
                         for (int i = temp; i < temp + 10; i++) { // always 10 more than the size of the list
-                            netGrowingList.add(networthValues.get(i));
+                            netGrowingList.add(ReadingTopTraders.getTraders("networth").get(i));
                         }
                         // reload the view
                         loadView(netGrowingList, true);
@@ -334,7 +326,7 @@ public class Ranking extends AppCompatActivity {
                     temp = roiGrowingList.size(); // temp list to store current size of the top traders on ROI
                     if(temp < 1000) {
                         for (int i = temp; i < temp + 10; i++) { // always 10 more than the size of the list
-                            roiGrowingList.add(roiValues.get(i));
+                            roiGrowingList.add(ReadingTopTraders.getTraders("roi").get(i));
                         }
                         // reload the view
                         loadView(roiGrowingList, false);
@@ -353,7 +345,7 @@ public class Ranking extends AppCompatActivity {
                     temp = netGrowingList.size(); // temp list to store current size of the top traders on Networth
                     if(temp > 10){ // 10 traders are the minimum
                         for(int i=temp; i>=temp-10; i--)
-                            netGrowingList.remove(networthValues.get(i));
+                            netGrowingList.remove(ReadingTopTraders.getTraders("networth").get(i));
                         // reload the view
                         loadView(netGrowingList, true);
                         toogleSwitch = true;
@@ -364,7 +356,7 @@ public class Ranking extends AppCompatActivity {
                     temp = roiGrowingList.size(); // temp list to store current size of the top traders on ROI
                     if(temp > 10){ // 10 traders are the minimum
                         for(int i=temp; i >= temp-10;i--)
-                            roiGrowingList.remove(roiValues.get(i));
+                            roiGrowingList.remove(ReadingTopTraders.getTraders("roi").get(i));
 
                         // reload the view
                         loadView(roiGrowingList, false);
