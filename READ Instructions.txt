@@ -1,5 +1,5 @@
 Name of the Project: iPredict Android App
-Developer: Dano Phy - Intern (Victoria University of Wellington)
+Developer: Dano Phy (Intern) - Victoria University of Wellington
 Company: iPredict Ltd.
 
 This document provides an intro and explains the Activities and Classes used in the project plus how to install/run the program. 
@@ -11,6 +11,7 @@ The breakdown is as follows:
 	3. Layout
 	4. Install/Run Instruction
 	5. Activity Flow
+	6. Future Work
 
 0. Intro:
 --------
@@ -106,7 +107,8 @@ One thing that need further improvement here is that we need to add picture next
 
 1.7 ShowResult:
 --------------
-This page shows the result of the stock selected previously at the 'searchPrediction' page. Info on this page shows things such as the title of the stock, its description, last trade time, last trade price, today's
+This page shows the result of the stock selected previously at the 'searchPrediction' page. 
+Info on this page shows things such as the title of the stock, its description, last trade time, last trade price, today's
 volume, average daily volume, change, status, start date, end date, long description, stock history, current orders (top 10 sellers and buyers),
 juding criteria as well as Facebook and Twitter buttons for sharing.  
 
@@ -366,10 +368,23 @@ For 3)
 nor does it collect any info. The permission it asked is just the Interntet Connection. 
 
 
+[-----Extra Note-----]
+
+I have generated a simple UML diagram. The UML diagram can be viewed in Android Studio if you have the SimpleUML plugin installed.
+You can install the Simple UML plugin by:
+
+On Windows: Preferences -> Plugins -> Browse Reposities 
+
+Then search for the SimpleUMLCE. Install the plugin and restart the application. You can open the generated UML diagram now. 
+
+
 ---------------------------------------------------------------------------------------------------------
 
 5. Activity Flow:
 ----------------
+
+The diagram below shows how my Android app structures. This is only showing the Activity not Classes. At the current stage
+of the development, only the home page has the ability to go to the other pages, where as other pages can only go back or forth. 
 
 
 		       __________________
@@ -402,3 +417,23 @@ nor does it collect any info. The permission it asked is just the Interntet Conn
 		      |__________________|
 		  
 
+---------------------------------------------------------------------------------------------------------
+
+6. Future Work:
+--------------
+
+At the current stage of the development, only about 50% of work is completed. The other 50% is on the implementation about the users. 
+These things are like grabbing users info from database when they login and register them to the database if they are looking for sign up. 
+Once the users are login, they would have their own portfolio page as well as the deposit / withdraw / trade page. 
+
+Apart from the above, we also need to implement pages such as the help page and forum page. The trade page would be the most easiest one here 
+as it only contains the Q&A. Below is the list of activities that need to develop:
+
+	1. Signup Page
+	2. Portfolio page
+	3. Deposit page
+	4. Withdraw page
+	5. Trade page
+	6. Bundle page
+	7. Help page
+	8. Forum page
