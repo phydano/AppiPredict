@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 /**
  * Created by phydano on 20/01/2016.
  * This allows multiple views to display in the same row (It has the Net Worth info that require
@@ -18,12 +20,12 @@ import android.widget.TextView;
 public class NetworthCustomAdapter extends ArrayAdapter<Traders>{
 
     private Context context; // hold reference to the activity which is using the custom adapter
-    Traders[] data = null; // to hold the array of data items
+    ArrayList<Traders> data = new ArrayList<>(); // to hold the array of data items
 
     /**
      * Constructor helps to initialise the data items and the context
      * */
-    public NetworthCustomAdapter(Context context, Traders[] data){
+    public NetworthCustomAdapter(Context context, ArrayList<Traders> data){
         super(context, R.layout.traders_networth, data);
         this.context = context;
         this.data = data;
@@ -57,7 +59,7 @@ public class NetworthCustomAdapter extends ArrayAdapter<Traders>{
             holder = (AppInfoHolder) row.getTag();
         }
 
-        Traders appinfo = data[position];
+        Traders appinfo = data.get(position);
         holder.number.setText(appinfo.getRank());
         holder.tradeName.setText(appinfo.getTraderName());
         holder.change.setText(coloringText(appinfo.getNetworthChange()));

@@ -33,6 +33,9 @@ public class Ranking extends AppCompatActivity {
     private ArrayList<Traders> roiGrowingList = new ArrayList<>(); // start with 10 and keep growing
     private ArrayList<Traders> netGrowingList = new ArrayList<>(); // start with 10 and keep growing
     private boolean toogleSwitch; // switch to track whether we on ROI (false) or Networth (true) tab
+    private ListView lv; // our list view
+    private NetworthCustomAdapter networthAdapter;
+    private ROICustomAdapter roiAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,27 +163,35 @@ public class Ranking extends AppCompatActivity {
      * @param values list of items we want to add to our list view
      * @param toogle whether we want to show the ROI or Networth
      * */
-    public void loadView(List<Traders> values, boolean toogle){
+    public void loadView(ArrayList<Traders> values, boolean toogle){
 
-        // Find the view for the list and display them
-        ListView lv = (ListView) findViewById(R.id.rankingList);
+/*        // Find the view for the list and display them
+
         Traders[] modelItems = new Traders[values.size()];
 
         for(int i=0; i<values.size(); i++){
             modelItems[i] = new Traders(values.get(i).getRank(), values.get(i).getTraderName(),
                     values.get(i).getRoi(), values.get(i).getNetworth(), values.get(i).getNetworthChange());
-        }
+        }*/
+
+        lv = (ListView) findViewById(R.id.rankingList);
 
         // depends on what button the users click, we handle the case differently
         if(toogle) {
             loadNetlayout();
-            NetworthCustomAdapter networthAdapter = new NetworthCustomAdapter(this, modelItems);
-            lv.setAdapter(networthAdapter);
+            if (networthAdapter == null) {
+                networthAdapter = new NetworthCustomAdapter(this, values);
+                lv.setAdapter(networthAdapter);
+            }
+            else networthAdapter.notifyDataSetChanged();
         }
         else{
             loadROIlayout();
-            ROICustomAdapter roiAdapter = new ROICustomAdapter(this, modelItems);
-            lv.setAdapter(roiAdapter);
+            if(roiAdapter == null) {
+                roiAdapter = new ROICustomAdapter(this, values);
+                lv.setAdapter(roiAdapter);
+            }
+            else roiAdapter.notifyDataSetChanged();
         }
     }
 
@@ -284,6 +295,7 @@ public class Ranking extends AppCompatActivity {
                 roiButton.setTextColor(Color.WHITE);
                 networthButton.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
                 networthButton.setTextColor(Color.BLACK);
+                networthAdapter = null;
                 loadView(roiGrowingList, false);
                 toogleSwitch = false;
             }
@@ -296,6 +308,7 @@ public class Ranking extends AppCompatActivity {
                 roiButton.setTextColor(Color.BLACK);
                 networthButton.setTextColor(Color.WHITE);
                 networthButton.getBackground().setColorFilter(Color.parseColor("#084EE4"), PorterDuff.Mode.MULTIPLY);
+                roiAdapter = null;
                 loadView(netGrowingList, true);
                 toogleSwitch = true;
             }
@@ -314,6 +327,7 @@ public class Ranking extends AppCompatActivity {
                         // reload the view
                         loadView(netGrowingList, true);
                         toogleSwitch = true;
+                        lv.setSelection(networthAdapter.getCount()-1);
                     }
                 }
                 else {
@@ -325,6 +339,7 @@ public class Ranking extends AppCompatActivity {
                         // reload the view
                         loadView(roiGrowingList, false);
                         toogleSwitch = false;
+                        lv.setSelection(roiAdapter.getCount()-1);
                     }
                 }
             }
@@ -342,6 +357,7 @@ public class Ranking extends AppCompatActivity {
                         // reload the view
                         loadView(netGrowingList, true);
                         toogleSwitch = true;
+                        lv.setSelection(networthAdapter.getCount() - 1);
                     }
                 }
                 else {
@@ -349,9 +365,11 @@ public class Ranking extends AppCompatActivity {
                     if(temp > 10){ // 10 traders are the minimum
                         for(int i=temp; i >= temp-10;i--)
                             roiGrowingList.remove(roiValues.get(i));
+
                         // reload the view
                         loadView(roiGrowingList, false);
                         toogleSwitch = false;
+                        lv.setSelection(roiAdapter.getCount()-1);
                     }
                 }
             }
