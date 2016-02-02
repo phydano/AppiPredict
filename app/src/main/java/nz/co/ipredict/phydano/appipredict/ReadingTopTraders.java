@@ -31,11 +31,12 @@ public class ReadingTopTraders {
 
         NodeList rankN, traderNameN, roiN, networthN, networthChangeN;
         Element rankE, traderNameE, roiE, networthE, networthChangeE;
+        HttpURLConnection conn = null;
 
         try{
             /** Open the connection to the XML online */
             URL url = new URL("https://www.ipredict.co.nz/ipapi/?action=rankings&numRows="+numRow+"&date="+date+"&type=" + type);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn = (HttpURLConnection) url.openConnection();
 
             /** Build the document */
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -71,6 +72,8 @@ public class ReadingTopTraders {
             }
         }catch(Exception e){
             e.printStackTrace();
+        }finally{
+            if(conn != null) conn.disconnect();
         }
     }
 

@@ -34,8 +34,8 @@ public class Ranking extends AppCompatActivity {
     private ArrayList<Traders> netGrowingList = new ArrayList<>(); // start with 10 and keep growing
     private boolean toogleSwitch; // switch to track whether we on ROI (false) or Networth (true) tab
     private ListView lv; // our list view
-    private NetworthCustomAdapter networthAdapter;
-    private ROICustomAdapter roiAdapter;
+    private NetworthCustomAdapter networthAdapter; // the networth adapter
+    private ROICustomAdapter roiAdapter; // the roi adapter
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +77,7 @@ public class Ranking extends AppCompatActivity {
         roiGrowingList = savedInstanceState.getParcelableArrayList("roiList");
         netGrowingList = savedInstanceState.getParcelableArrayList("netList");
         toogleSwitch = savedInstanceState.getBoolean("toogle");
-        // Restore back the list
+        // Restore back the list depend on the state it was in
         if(toogleSwitch) {
             loadView(netGrowingList, true);
             toogleSwitch = true;
@@ -99,15 +99,15 @@ public class Ranking extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
-                // clear the list when goes back
-                ReadingTopTraders.getTraders("roi").clear();
-                ReadingTopTraders.getTraders("networth").clear();
                 this.onBackPressed();
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Clear the list upon exit, then when came back we can retrieve the list again
+     * */
     @Override
     public void onBackPressed(){
         super.onBackPressed();
@@ -369,7 +369,7 @@ public class Ranking extends AppCompatActivity {
                         // reload the view
                         loadView(roiGrowingList, false);
                         toogleSwitch = false;
-                        lv.setSelection(roiAdapter.getCount()-1);
+                        lv.setSelection(roiAdapter.getCount() - 1);
                     }
                 }
             }
@@ -396,7 +396,7 @@ public class Ranking extends AppCompatActivity {
                 .setNegativeButton("Retry", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (BrowsePrediction.isNetworkAvailable(Ranking.this) && MyJSONReader.getCategories() == null) {
+                        if (BrowsePrediction.isNetworkAvailable(Ranking.this) && ReadingTopTraders.getTraders("roi").isEmpty()) {
                             new GetRanking().execute();
                             dialog.cancel();
                         } else {

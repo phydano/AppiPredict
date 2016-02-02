@@ -34,13 +34,12 @@ public class MyJSONReader {
         InputStreamReader is = null;
         HttpURLConnection request = null;
         try{
-            // This URL will no longer available when iPredict is completely shut down
+            //  // the URL where we want to fetch the info
             String sURL = "http://ipredict-test.elasticbeanstalk.com/beta/ajax/Browse/Categories.php?includeContracts=true";
             // Connect to the URL using java's native library
             URL url = new URL(sURL);
             request = (HttpURLConnection) url.openConnection();
             request.setConnectTimeout(60000); //If can't connect, time out in 60 seconds
-            request.connect(); // establish connection
 
             // Convert to a JSON object to print data
             JsonParser jp = new JsonParser(); //from gson
