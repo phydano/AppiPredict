@@ -34,7 +34,7 @@ public class MyJSONReader {
         InputStreamReader is = null;
         HttpURLConnection request = null;
         try{
-            //  // the URL where we want to fetch the info
+            // the URL where we want to fetch the info
             String sURL = "http://ipredict-test.elasticbeanstalk.com/beta/ajax/Browse/Categories.php?includeContracts=true";
             // Connect to the URL using java's native library
             URL url = new URL(sURL);
@@ -69,7 +69,6 @@ public class MyJSONReader {
      */
     public static void JSONReader(String wantedBundle) {
         if(categories != null) {
-            // Export root.toString to text file will shows everything - print in console here only some are shown
             // Should loop below 1500 times as the ID range from 0-1500
             int count = 0;
             while (count < 1500) {
@@ -184,6 +183,7 @@ public class MyJSONReader {
 
     /**
      * Return the corresponding status depend on the codes
+     * There are 9 possible status but these 4 are the common one
      * @param status string in which is the code for the status name
      **/
     public static String checkStatus(String status){

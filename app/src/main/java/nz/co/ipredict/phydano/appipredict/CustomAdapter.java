@@ -44,6 +44,7 @@ public class CustomAdapter extends ArrayAdapter<Model> implements CompoundButton
         View row = convertView;
         AppInfoHolder holder;
 
+        // if there is no row
         if(row==null){
             // Get the layout inflator
             LayoutInflater inflater = ((Activity)context).getLayoutInflater();

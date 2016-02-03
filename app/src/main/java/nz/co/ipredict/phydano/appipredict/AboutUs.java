@@ -49,6 +49,7 @@ public class AboutUs extends AppCompatActivity {
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         final int[] position = savedInstanceState.getIntArray("scroll");
+        // restore the scroll view position
         if(position != null)
             mScrollView.post(new Runnable() {
                 public void run() {
@@ -78,9 +79,9 @@ public class AboutUs extends AppCompatActivity {
      * @param image the image we want to scale
      * */
     public void reduceImageSize(String image){
-        Bitmap bmp;
-        Bitmap bMapScaled;
-        ImageView v;
+        Bitmap bmp; // create bitmap
+        Bitmap bMapScaled; // scaled
+        ImageView v; // image we want to scale
 
         switch(image){
             case "donald_w300px_h350px.png":
@@ -190,6 +191,7 @@ public class AboutUs extends AppCompatActivity {
             sendIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             sendIntent.setType("plain/text");
             sendIntent.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
+            // We need to pass these info to the Gmail app.
             sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"help@ipredict.co.nz"});
             sendIntent.putExtra(Intent.EXTRA_SUBJECT, "RE: " + emailAddrValue);
             sendIntent.putExtra(Intent.EXTRA_TEXT, messageContentValue);

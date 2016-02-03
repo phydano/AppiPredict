@@ -454,20 +454,22 @@
                     android:contentDescription="@string/desc"/>
 
                 <!-- Twitter logo -->
-                <ImageView
+                <ImageButton
                     android:layout_weight="1"
                     android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:background="@drawable/twitter_logo"
+                    android:layout_height="75dp"
+                    android:onClick="twitterPage"
+                    android:background="@drawable/twitter_icon"
                     android:contentDescription="@string/desc"/>
 
                 <!-- Need to change to Facebook icon -->
-                <ImageView
+                <ImageButton
                     android:layout_weight="1"
                     android:layout_width="0dp"
-                    android:layout_height="80dp"
+                    android:layout_height="70dp"
                     android:contentDescription="@string/desc"
-                    android:background="@drawable/twitter_logo"/>
+                    android:onClick="facebookPage"
+                    android:background="@drawable/facebook_icon"/>
 
                 <!-- empty layout for balancing the weight -->
                 <ImageView

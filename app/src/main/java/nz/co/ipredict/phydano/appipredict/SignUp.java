@@ -7,6 +7,7 @@ import android.view.MenuItem;
 /**
  * Created by phydano
  * This is the signup page for the users who want to signup for iPredict.
+ * At the current stage of the development, this page is plainly a shell with no filling.
  * */
 public class SignUp extends AppCompatActivity {
 

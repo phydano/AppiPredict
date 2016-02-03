@@ -1,11 +1,14 @@
 package nz.co.ipredict.phydano.appipredict;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -83,6 +86,23 @@ public class ShowResult extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    /**
+     * Go to iPredict Twitter page by loading a browser
+     * */
+    public void twitterPage(View view){
+        Intent openBrowser = new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/ipredictnz"));
+        startActivity(openBrowser);
+    }
+
+    /**
+     * Go to iPredict Twitter page by loading a browser
+     * */
+    public void facebookPage(View view){
+        Intent openBrowser = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/iPredictNZ/"));
+        startActivity(openBrowser);
+    }
+
 
     /**
      * Loading all the info from the contract and display it according to the layout

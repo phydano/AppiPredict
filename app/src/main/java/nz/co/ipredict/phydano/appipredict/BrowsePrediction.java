@@ -36,9 +36,9 @@ public class BrowsePrediction extends AppCompatActivity {
     private Model[] modelItems; // our model in each of the row showing the text and checkbox
     private ArrayList<String> browseValues = new ArrayList<>(); // Item to be listed under the first button (Browse)
     private ArrayList<String> sortByValues = new ArrayList<>(); // Item to be listed under the second button (Sort)
+    private ArrayList<String> selectedCategoriesContract = new ArrayList<>(); // listed of selected categories
     public ArrayList<Model> checkedBox = new ArrayList<>(); // need to restore the state of checkbox when orientation changes
     private CustomAdapter adapter; // created custom adapter
-    private ArrayList<String> selectedCategoriesContract = new ArrayList<>(); // listed of selected categories
     private long mLastClickTime = 0; // the last time click
 
     @Override
@@ -76,11 +76,12 @@ public class BrowsePrediction extends AppCompatActivity {
     @Override
     public void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        // Restore UI state from the savedInstanceState.
-        // This bundle has also been passed to onCreate.
         checkedBox = savedInstanceState.getParcelableArrayList("boxState");
     }
 
+    /**
+     * List should be cleared upon restart as we want to clear out the check boxes.
+     * */
     @Override
     protected void onRestart(){
         super.onRestart();
@@ -221,6 +222,7 @@ public class BrowsePrediction extends AppCompatActivity {
                 sortByButton.setTextColor(Color.WHITE);
                 browseButton.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
                 browseButton.setTextColor(Color.BLACK);
+                // Only add once when the sort list is empty
                 if(sortByValues.isEmpty()){
                     sortByValues.add("Trades");
                     sortByValues.add("Movement");

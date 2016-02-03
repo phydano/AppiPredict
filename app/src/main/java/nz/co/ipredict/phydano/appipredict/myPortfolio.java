@@ -5,7 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-
+/**
+ * Created by phydano
+ * This is the activity displaying the user portfolio
+ * At the current stage of the development, this page is just a shell with no filling.
+ * */
 public class myPortfolio extends AppCompatActivity {
 
     @Override
@@ -36,7 +40,4 @@ public class myPortfolio extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-    //Todo: Create a token which tells us whether the user is login or not.
-
 }

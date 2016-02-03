@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         final int[] position = savedInstanceState.getIntArray("scroll");
+        // scroll to the saved position
         if(position != null)
             mScrollView.post(new Runnable() {
                 public void run() {

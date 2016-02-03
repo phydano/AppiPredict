@@ -157,15 +157,6 @@ public class Ranking extends AppCompatActivity {
      * */
     public void loadView(ArrayList<Traders> values, boolean toogle){
 
-/*        // Find the view for the list and display them
-
-        Traders[] modelItems = new Traders[values.size()];
-
-        for(int i=0; i<values.size(); i++){
-            modelItems[i] = new Traders(values.get(i).getRank(), values.get(i).getTraderName(),
-                    values.get(i).getRoi(), values.get(i).getNetworth(), values.get(i).getNetworthChange());
-        }*/
-
         lv = (ListView) findViewById(R.id.rankingList);
 
         // depends on what button the users click, we handle the case differently
@@ -191,6 +182,7 @@ public class Ranking extends AppCompatActivity {
      * load the ROI layout to display in the linear layout under the activity_ranking
      * */
     public void loadROIlayout(){
+        // Setup layout for ROI traders
         LinearLayout layout = (LinearLayout) findViewById(R.id.tradingheadings);
         layout.removeAllViews();
         TextView number = new TextView(this);
@@ -226,9 +218,10 @@ public class Ranking extends AppCompatActivity {
      * load the Networth layout to display in the linear layout under the activity_ranking
      * */
     public void loadNetlayout(){
+
+        // Setup layout for the Net Worth traders
         LinearLayout layout = (LinearLayout) findViewById(R.id.tradingheadings);
         layout.removeAllViews(); // should remove all the views before add in
-
         TextView number = new TextView(this);
         TextView traderName = new TextView(this);
         TextView change = new TextView(this);

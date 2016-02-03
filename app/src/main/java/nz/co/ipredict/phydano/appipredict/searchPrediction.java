@@ -29,7 +29,7 @@ public class searchPrediction extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_prediction);
         MyJSONReader.clearList(); // the Json File is too large, get rid of it after completed the work
-        // Activity on the first time
+        // Activity load on the first time
         if(savedInstanceState == null) {
             if (getIntent().getStringArrayListExtra("selectedContract") != null)
                 list = getIntent().getStringArrayListExtra("selectedContract");
@@ -37,7 +37,7 @@ public class searchPrediction extends AppCompatActivity {
         }
         // Activity reloaded back
         else{
-            selectedContract = savedInstanceState.getParcelableArrayList("Test");
+            selectedContract = savedInstanceState.getParcelableArrayList("stocks");
             ExpandableListView();
         }
     }
@@ -49,7 +49,7 @@ public class searchPrediction extends AppCompatActivity {
     public void onSaveInstanceState(Bundle savedInstanceState) {
         // Always call the superclass so it can save the view hierarchy state
         super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putParcelableArrayList("Test", selectedContract);
+        savedInstanceState.putParcelableArrayList("stocks", selectedContract);
     }
 
     /**
@@ -61,10 +61,11 @@ public class searchPrediction extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
         // Restore UI state from the savedInstanceState.
         // This bundle has also been passed to onCreate.
-        selectedContract = savedInstanceState.getParcelableArrayList("Test");
+        selectedContract = savedInstanceState.getParcelableArrayList("stocks");
         ExpandableListView();
     }
 
+    /** Executing the info in the background with the AsyncTask */
     class GetTask extends AsyncTask<String,String,ArrayList<ContractInfo>> {
         ProgressDialog mDialog;
 
@@ -88,7 +89,7 @@ public class searchPrediction extends AppCompatActivity {
         protected void onPostExecute(ArrayList<ContractInfo> info){
             mDialog.dismiss();
             ExpandableListView();
-            super.cancel(true); // cancel the Asyntask
+            super.cancel(true); // cancel the AsyncTask
         }
 
     }
@@ -113,16 +114,6 @@ public class searchPrediction extends AppCompatActivity {
     }
 
     /**
-     * Menu items
-     * */
-/*    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_search_prediction, menu);
-        return true;
-    }*/
-
-    /**
      * Item in the option menu. There would be varies case depend on the selection
      * The code here allow us to go back to the home page (parent activity)
      * */
@@ -145,6 +136,7 @@ public class searchPrediction extends AppCompatActivity {
         for (int i = 0; i < list.size(); i++) {
             MyJSONReader.JSONReader(list.get(i)); // search for the selected checked box
         }
+        // Find out the stocks that users selected
         if(MyJSONReader.getWantedBundle().size() > 0) {
             for (ContractInfo e : MyJSONReader.getWantedBundle()) {
                 selectedContract.add(e);
@@ -152,6 +144,11 @@ public class searchPrediction extends AppCompatActivity {
         }
     }
 
+    /**
+     * The list view that is expandable displaying the categories name as the heading and the
+     * stocks as the children of that. The number of item listed here depends on the amount
+     * of categories selected by the users or search by them in the Browse Prediction page.
+     * */
     public void ExpandableListView() {
         final ExpandableListView expListView = (ExpandableListView) findViewById(R.id.lvExp);
         final ArrayList<String> listDataHeader = new ArrayList<>();

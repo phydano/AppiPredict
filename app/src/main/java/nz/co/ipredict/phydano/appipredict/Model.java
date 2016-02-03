@@ -24,11 +24,6 @@ public class Model implements Parcelable{
     }
 
     /**
-     * Get the value of the checkbox, whether it is disable or enable
-     * */
-    public int getValue(){ return this.value; }
-
-    /**
      * Parcelling part to store and pass info from one activity to another
      * */
     public Model(Parcel in){

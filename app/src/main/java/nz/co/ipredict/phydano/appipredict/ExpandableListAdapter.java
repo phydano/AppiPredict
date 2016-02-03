@@ -63,13 +63,13 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter{
      * */
     @Override
     public View getChildView(int groupPosition, final int childPosition, boolean isLastChild,
-                              View convertView, ViewGroup parent){
+                             View convertView, ViewGroup parent){
         ViewHolder holder;
         StockItem childText = getChild(groupPosition, childPosition);
 
         // Create new view
         if(convertView == null){
-            convertView = mInflater.inflate(R.layout.result_prediction_row, null);
+            convertView = mInflater.inflate(R.layout.result_prediction_row, parent, false);
             holder = new ViewHolder();
             holder.txtName = (TextView) convertView.findViewById(R.id.stockCategories);
             holder.txtPrice = (TextView) convertView.findViewById(R.id.priceCategories);
@@ -140,7 +140,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter{
         // Create a new view
         if(convertView == null){
             LayoutInflater infalInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.grouplist, null);
+            convertView = infalInflater.inflate(R.layout.grouplist, parent, false);
         }
 
         // Setup the text view that shows the title (category name)

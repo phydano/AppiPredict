@@ -22,12 +22,6 @@ public class BookAndStock implements Parcelable {
     }
 
     /**
-     * Get the type of the order whether it is sell or buy
-     * @return what order type it is
-     * */
-    public String getOrderType() {return orderType;}
-
-    /**
      * Get the quantity of the stocks either buy or sell
      * @return the quantity of the stock
      * */
