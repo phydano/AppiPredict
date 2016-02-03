@@ -19,8 +19,7 @@
         android:textSize="12sp"
         android:textStyle="bold"
         android:text="TextView"
-        android:orientation="horizontal">
-    </TextView>
+        android:orientation="horizontal"/>
 
     <!-- checkbox associated with the category -->
     <CheckBox
@@ -30,7 +29,5 @@
         android:layout_height="wrap_content"
         android:paddingRight="30dp"
         android:paddingEnd="30dp"
-        android:paddingLeft="10dp"
-        android:text="">
-    </CheckBox>
+        android:paddingLeft="10dp" />
 </LinearLayout>

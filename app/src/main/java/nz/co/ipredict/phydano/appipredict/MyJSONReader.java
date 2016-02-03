@@ -100,7 +100,7 @@ public class MyJSONReader {
                 String title = ObjNumber.get("desc").getAsString();
                 String name = ObjNumber.get("name").getAsString();
                 allCategoriesName.add(name); // store all categories name
-                if(contracts != null && name.equals(wantedBundle)){
+                if(contracts != null && ((name.equals(wantedBundle) || wantedBundle.equals("All")))){
                     /** Now we are entering the subcategories */
                     for(int i=0; i<contracts.size(); i++){
                         JsonObject e = contracts.get(i).getAsJsonObject();
@@ -216,6 +216,8 @@ public class MyJSONReader {
             if(browsePrediction.get(i).getName().equals(wantedBundle)){ // grab list of specific contract
                 listOfwantedBundle.add(browsePrediction.get(i));
             }
+            // Add everything since we want all
+            else if(wantedBundle.equals("All")) listOfwantedBundle.add(browsePrediction.get(i));
         }
     }
 

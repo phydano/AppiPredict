@@ -134,7 +134,13 @@ public class searchPrediction extends AppCompatActivity {
      * */
     public void loadBundle() {
         for (int i = 0; i < list.size(); i++) {
-            MyJSONReader.JSONReader(list.get(i)); // search for the selected checked box
+
+            // If the list contains the Sort By keyword
+            if(list.contains("Trades") || list.contains("Movement")
+                    || list.contains("New") || list.contains("Close Date"))
+                MyJSONReader.JSONReader("All"); // read everything in the list
+            // If the list does not contain the Sort By Keyword
+            else MyJSONReader.JSONReader(list.get(i)); // search for the selected checked box
         }
         // Find out the stocks that users selected
         if(MyJSONReader.getWantedBundle().size() > 0) {
