@@ -99,10 +99,10 @@ public class ReadingTopTraders {
     public static List<Traders> getTraders(String type){
         // first of all check whether the Roi list is empty or not
         if(topTradersRoi.isEmpty() && type.equals("roi"))
-            readRankingInfo(dateTime(), "500", type); // read 500 traders ranking
+            readRankingInfo(dateTime(), "600", type); // read 500 traders ranking
         // Second check if the networth list is empty or not
         else if (topTradersNetworth.isEmpty() && type.equals("networth"))
-            readRankingInfo(dateTime(), "500", type); // read 500 traders ranking
+            readRankingInfo(dateTime(), "600", type); // read 500 traders ranking
         // If none of the lists are empty then grab info and then return the list
         if(type.equals("roi")) return topTradersRoi;
         else return topTradersNetworth;

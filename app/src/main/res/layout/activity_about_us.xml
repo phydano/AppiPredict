@@ -68,11 +68,13 @@
             android:id="@+id/firstLinear"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:adjustViewBounds="true"
             android:layout_below="@+id/textViewPeople"
             android:weightSum="2">
 
             <!-- Emily image here  -->
-            <ImageView
+            <nz.co.ipredict.phydano.appipredict.ProportionalImageView
                 android:id="@+id/emily"
                 android:layout_weight="1"
                 android:layout_width="0dp"
@@ -80,7 +82,7 @@
                 android:contentDescription="@string/desc"/>
 
             <!-- Donald image here -->
-            <ImageView
+            <nz.co.ipredict.phydano.appipredict.ProportionalImageView
                 android:id="@+id/don"
                 android:layout_weight="1"
                 android:layout_width="0dp"
@@ -94,10 +96,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/firstLinear"
+            android:layout_centerHorizontal="true"
+            android:adjustViewBounds="true"
             android:weightSum="3">
 
             <!-- Ian Board member image -->
-            <ImageView
+            <nz.co.ipredict.phydano.appipredict.ProportionalImageView
                 android:id="@+id/ian"
                 android:layout_weight="1"
                 android:layout_width="0dp"
@@ -105,7 +109,7 @@
                 android:contentDescription="@string/desc"/>
 
             <!-- Kate Board member image -->
-            <ImageView
+            <nz.co.ipredict.phydano.appipredict.ProportionalImageView
                 android:id="@+id/kate"
                 android:layout_weight="1"
                 android:layout_width="0dp"
@@ -113,7 +117,7 @@
                 android:contentDescription="@string/desc"/>
 
             <!-- Lewis Board member image -->
-            <ImageView
+            <nz.co.ipredict.phydano.appipredict.ProportionalImageView
                 android:id="@+id/lewis"
                 android:layout_weight="1"
                 android:layout_width="0dp"
