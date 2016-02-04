@@ -1,5 +1,5 @@
 Name of the Project: iPredict Android App
-Developer: Dano Phy (Intern) - Victoria University of Wellington
+Developer: Dano Phy - Victoria University of Wellington
 Company: iPredict Ltd.
 
 This document provides an intro and explains the Activities and Classes used in the project plus how to install/run the program. 
@@ -17,10 +17,11 @@ The breakdown is as follows:
 0. Intro:
 --------
 
-I have developed this application by myself with only a small background in Android and learnt as I go. Therefore there could be some 
-major bugs and memory leaked here and there. I have tried to fix as much as I can but since iPredict currently winded down its 
-operation and my contract almost comes to an end, I would like to pass on what I have done so far (I have added alot of comments
-and structured my code as clean as I can, and I hope that it would be easy to read =D). 
+As an Intern at iPredict, I have developed this application by myself with only a small background in Android and learnt as I go. 
+Therefore some major bugs, memory leaked or performance issues might represents somewhere in the code. I have tried to fix as much 
+as I can but since iPredict currently winded down its operation, I would like to pass on what I have done so far to the next development team. 
+
+I have added alot of comments and structured my code as clean as I can, and I hope that it would be easy to read =)
 
 
 ---------------------------------------------------------------------------------------------------------
@@ -46,14 +47,14 @@ Here are the breakdown of Activities I have created:
 -----------
 
 This is an activity which shows the about us page of iPredict in which contains the info of the company.
-This page is almost completed but there are few bugs that need to be fix. 
+This page is almost completed but there is one bug that I found. 
 
-The bugs I have found so far:
-- It is not good in landscape mode or larger scren, text goes out of the box.
-- If the cusor is visible in the textbox then we cannot scroll to anywhere if we try to scroll in that textbox. 
+If the cusor is visible in the textbox then we cannot scroll to anywhere if we try to scroll in that textbox. 
 
 Other than that, there could be an improvement here such as allowing User to send feedback with one click without calling
-other intent to load an email app. 
+other intent to load an email app. At the moment only users with Gmail app installed is working. 
+
+The view will remember where we are currently viewing and the orienation changes will not affect this. 
 
  
 1.2 BrowsePrediction:
@@ -66,10 +67,11 @@ Synchronise the time of the update with the web is also important otherwise ther
 the mobile app.  
 
 Other boxes such as 'Sort' and 'All' have not been implemented yet. The search by text at the moment only does a 
-simple search such as name of the stock but not complicated search. At the moment reading from web is really slow
-because of the large JSON file (As of 26/01/2016 reading is faster now because the JSON file is really small due to less stocks available). 
-The major problem here is that sometimes the app crash when the Internet Connection lost half way while retrieving the info from the web 
-but this case is really rare as now I have checked the socket timeout connection and its exception. 
+simple search such as name of the stock but not complicated search (meaning it only search if you typed the category name and nothing else, 
+and the name must be exact same too). At the moment reading from web is really slow because of the large JSON file
+(As of 26/01/2016 reading is faster now because the JSON file is really small due to less stocks available). 
+I have avoided app being crashed when there is no Internet connection halfway if it currently retrieving the information. If this happens,
+then there is nothing to shown and basically the list is empty. This need to be fix, so it can retry to retrieve the information. 
 
 
 1.3 LoginActivity:
@@ -77,14 +79,14 @@ but this case is really rare as now I have checked the socket timeout connection
 
 This is an activity that takes in the login info so that it can directs the user to their own portfolio page.
 It is however incomplete as I have no database to read the users info from because iPredict is currently winding down. 
-Temporary this page just directs the user to the portfolio page. 
+Temporary this page just directs the user to the portfolio page. There are fields for input username and password which
+you can retrieve that and checks against the database.  
 
 
 1.4 MainActivity:
 ----------------
 
-This is the home page of the app. This page is almost completed except with one thing, the tweet button.
-Currently the tweet button does nothing. 
+This is the home page of the app. This page is completed.
 
 This home page loads upon start of the app. Users can choose 'Start Trading' in order to direct to the 'Browse Prediction' page,
 or they can choose to scroll down and read briefly on what iPredict is about and the 'Trade now' button also directs the users
@@ -94,13 +96,15 @@ Signup etc.
 
 1.5 myPortfolio:
 ---------------
+
 This is the porfolio page of the user where all info of the user are displayed here. This page is incomplete. 
 
 
 1.6 searchPrediction:
 --------------------
-This page loads and display the predictions that users selected from the 'BrowsePrediction' page. It currently show the list of the stocks
-where users can expanded or contracted. There are two majors info showing here, one is the Category name and the other is the Subcategories
+
+This page display a list of available stocks under certain categories that is selected by the users under the 'Browse Prediction' page.
+The list can either be expanded or contracted. There are two majors info showing here, one is the Category name and the other is the Subcategories
 that shows under the Category of the stock. Changing from portrait to landscape and vice versa is ok as the info is saved and reload. 
 
 One thing that need further improvement here is that we need to add picture next to category name of the stock according to the design. 
@@ -108,6 +112,7 @@ One thing that need further improvement here is that we need to add picture next
 
 1.7 ShowResult:
 --------------
+
 This page shows the result of the stock selected previously at the 'searchPrediction' page. 
 Info on this page shows things such as the title of the stock, its description, last trade time, last trade price, today's
 volume, average daily volume, change, status, start date, end date, long description, stock history, current orders (top 10 sellers and buyers),
@@ -115,22 +120,33 @@ juding criteria as well as Facebook and Twitter buttons for sharing.
 
 There are two things that need to change here, one is the Stock history graph and the other is the share buttons. Both of these are currently
 do nothing. The stock history graph must show the diagram for that stock similar to the one shown in the Design of the app. The share buttons
-allows the users to share the info to either Twitter or Facebook which has not been implemented yet in this application. 
+allows the users to share the info to either Twitter or Facebook which has not been implemented yet in this application. Currently at this stage,
+upon clicking on the share image buttons, users are direct to iPredict Facebook and Twitter page.  
 
 
 1.8 Signup: 
 ----------
+
 This page is for the user to sign up. This page is currently under developement. 
 
 
 1.9 Ranking:
 -----------
-This is the ranking page showing the list of ranking. This page shows the users two things, one is the traders ranking info under most ROI and 
-the other one is the traders ranking info on the most Net Worth. 
 
-There is a few things left to do in this page, one is the ability to expand the list and contract, second is saved the state of the app so we
-reloaded back the info. The heading for the top traders under the Net Worth is incorrect and need to change accordingly if we were to changed
-the list display to either the top traders with highest ROI or highest Net Worth. 
+This is the ranking page showing the list of ranking. This page shows the users two things, one is the traders ranking info with the most ROI and 
+the other one is the traders ranking info with the most Net Worth. This page is completed. 
+
+Under this page you have two top buttons that allow users to select whether they want to see the list of traders with the most ROI or the list of 
+traders with the most Net Worth. Upon loading the page, it automatically fetch the XML from the web, read it and then display the top 10 traders 
+with the most ROI. Then users can switched between the two options. I have implemented in a way such that only top 10 users are being shown first.
+Then there are two additional buttons at the bottom of the page where the users can either view more or less. If the users decide to view more then 
+ten more traders will add to the list. Users can view more traders up tp 500 top traders with 10 increment each click.
+
+On the other hand the other button which allow the users to view less traders allow them to reduce the number of traders in the list 10 at a time. 
+The minimum traders shown in the list is 10. Users can also change the orientation of the screen if they wanted to without lossing any of the information. 
+
+There is one huge bug in this page that is when the page reads the info from the XML and if the Internet connection suddently disconnected then the app 
+will crash.
 
 
 ---------------------------------------------------------------------------------------------------------
@@ -304,23 +320,31 @@ shape which use to draw a border.
 3.10 grouplist:
 --------------
 
+Text view use as a parent heading for the 'search prediction' page. 
+
 
 3.11 mybutton: 
 -------------
+
+This is just a custom style for a button. 
 
 
 3.12 mybutton2: 
 --------------
 
+This is just a custom style for a button. 
+
 
 3.13 mybutton3:
 --------------
+
+This is just a custom style for a button. 
 
 
 3.14 mybutton4:
 --------------
 
-This is just a custom button design which use throughout the app. 
+This is just a custom style for a button. 
 
 
 3.15 result_prediction_row:
