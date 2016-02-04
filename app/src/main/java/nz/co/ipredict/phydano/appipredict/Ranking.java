@@ -34,6 +34,8 @@ public class Ranking extends AppCompatActivity {
     private ListView lv; // our list view
     private NetworthCustomAdapter networthAdapter; // the networth adapter
     private ROICustomAdapter roiAdapter; // the roi adapter
+    private Button roiButton;
+    private Button networthButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,16 +73,18 @@ public class Ranking extends AppCompatActivity {
         roiGrowingList = savedInstanceState.getParcelableArrayList("roiList");
         netGrowingList = savedInstanceState.getParcelableArrayList("netList");
         toogleSwitch = savedInstanceState.getBoolean("toogle");
+        clicked(); // load all the buttons in this activity
         // Restore back the list depend on the state it was in
         if(toogleSwitch) {
+            setNetworthButtonColor();
             loadView(netGrowingList, true);
             toogleSwitch = true;
         }
         else {
+            setRoiButtonColor();
             loadView(roiGrowingList, false);
             toogleSwitch = false;
         }
-        clicked(); // load all the buttons in this activity
     }
 
     /**
@@ -264,8 +268,8 @@ public class Ranking extends AppCompatActivity {
      * */
     public void clicked (){
         // The ROI and the Networth buttons
-        final Button roiButton = (Button) findViewById(R.id.roiTraders);
-        final Button networthButton = (Button) findViewById(R.id.networthTraders);
+        roiButton = (Button) findViewById(R.id.roiTraders);
+        networthButton = (Button) findViewById(R.id.networthTraders);
 
         // The more and less buttons to show more or less traders
         final Button moreButton = (Button) findViewById(R.id.moreButton);
@@ -276,11 +280,7 @@ public class Ranking extends AppCompatActivity {
         // ROI button on click listener
         roiButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                roiButton.getBackground().setColorFilter(Color.parseColor("#084EE4"), PorterDuff.Mode.MULTIPLY);
-                roiButton.setTextColor(Color.WHITE);
-                networthButton.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-                networthButton.setTextColor(Color.BLACK);
-                networthAdapter = null;
+                setRoiButtonColor();
                 loadView(roiGrowingList, false);
                 toogleSwitch = false;
             }
@@ -289,11 +289,7 @@ public class Ranking extends AppCompatActivity {
         // Networth on click listener
         networthButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                roiButton.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-                roiButton.setTextColor(Color.BLACK);
-                networthButton.setTextColor(Color.WHITE);
-                networthButton.getBackground().setColorFilter(Color.parseColor("#084EE4"), PorterDuff.Mode.MULTIPLY);
-                roiAdapter = null;
+                setNetworthButtonColor();
                 loadView(netGrowingList, true);
                 toogleSwitch = true;
             }
@@ -305,7 +301,7 @@ public class Ranking extends AppCompatActivity {
                 int temp;
                 if(toogleSwitch) {
                     temp = netGrowingList.size(); // temp list to store current size of the top traders on Networth
-                    if(temp < 1000) {
+                    if(temp < 500) {
                         for (int i = temp; i < temp + 10; i++) { // always 10 more than the size of the list
                             netGrowingList.add(ReadingTopTraders.getTraders("networth").get(i));
                         }
@@ -317,7 +313,7 @@ public class Ranking extends AppCompatActivity {
                 }
                 else {
                     temp = roiGrowingList.size(); // temp list to store current size of the top traders on ROI
-                    if(temp < 1000) {
+                    if(temp < 500) {
                         for (int i = temp; i < temp + 10; i++) { // always 10 more than the size of the list
                             roiGrowingList.add(ReadingTopTraders.getTraders("roi").get(i));
                         }
@@ -391,5 +387,27 @@ public class Ranking extends AppCompatActivity {
                 });
         AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    /**
+     * Set up a button color for the Roi button and reset the color on the Networth button
+     * */
+    public void setRoiButtonColor(){
+        roiButton.getBackground().setColorFilter(Color.parseColor("#084EE4"), PorterDuff.Mode.MULTIPLY);
+        roiButton.setTextColor(Color.WHITE);
+        networthButton.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        networthButton.setTextColor(Color.BLACK);
+        networthAdapter = null;
+    }
+
+    /**
+     * Set up a button color for the Networth button and reset the color on the ROI button
+     * */
+    public void setNetworthButtonColor(){
+        roiButton.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        roiButton.setTextColor(Color.BLACK);
+        networthButton.setTextColor(Color.WHITE);
+        networthButton.getBackground().setColorFilter(Color.parseColor("#084EE4"), PorterDuff.Mode.MULTIPLY);
+        roiAdapter = null;
     }
 }

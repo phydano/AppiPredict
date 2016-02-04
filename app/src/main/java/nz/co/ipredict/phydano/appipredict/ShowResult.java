@@ -165,7 +165,7 @@ public class ShowResult extends AppCompatActivity {
     public void loadImage(String contract){
         ImageView myImage = (ImageView) findViewById(R.id.stockflashgraph);
         Ion.with(this)
-                .load("http://ipredict-test.elasticbeanstalk.com/app.php?do=graph&sym="+ contract +"&size=lrg")
+                .load("http://ipredict-test.elasticbeanstalk.com/app.php?do=graph&sym="+ contract +"&size=xlg")
                 .withBitmap()
                 .intoImageView(myImage);
     }

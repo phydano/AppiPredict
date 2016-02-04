@@ -3,13 +3,17 @@ package nz.co.ipredict.phydano.appipredict;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Display;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ScrollView;
@@ -81,37 +85,37 @@ public class AboutUs extends AppCompatActivity {
     public void reduceImageSize(String image){
         Bitmap bmp; // create bitmap
         Bitmap bMapScaled; // scaled
-        ImageView v; // image we want to scale
+        ImageView v; // image we want to scale;
 
         switch(image){
             case "donald_w300px_h350px.png":
                 v = (ImageView) findViewById(R.id.don);
                 bmp = BitmapFactory.decodeResource(getResources(), R.drawable.donald_w300px_h350px);
-                bMapScaled = Bitmap.createScaledBitmap(bmp, 330, 350, true);
+                bMapScaled = Bitmap.createScaledBitmap(bmp, 350, 370, true);
                 v.setImageBitmap(bMapScaled);
                 return;
             case "emily_w300px_h350px.png":
                 v = (ImageView) findViewById(R.id.emily);
                 bmp = BitmapFactory.decodeResource(getResources(), R.drawable.emily_w300px_h350px);
-                bMapScaled = Bitmap.createScaledBitmap(bmp, 330, 350, true);
+                bMapScaled = Bitmap.createScaledBitmap(bmp, 350, 370, true);
                 v.setImageBitmap(bMapScaled);
                 return;
             case "ian_w300px_h350px.png":
                 v = (ImageView) findViewById(R.id.ian);
                 bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ian_w300px_h350px);
-                bMapScaled = Bitmap.createScaledBitmap(bmp, 180, 200, true);
+                bMapScaled = Bitmap.createScaledBitmap(bmp, 200, 220, true);
                 v.setImageBitmap(bMapScaled);
                 return;
             case "kate_w300px_h350px.png":
                 v = (ImageView) findViewById(R.id.kate);
                 bmp = BitmapFactory.decodeResource(getResources(), R.drawable.kate_w300px_h350px);
-                bMapScaled = Bitmap.createScaledBitmap(bmp, 180, 200, true);
+                bMapScaled = Bitmap.createScaledBitmap(bmp, 200, 220, true);
                 v.setImageBitmap(bMapScaled);
                 return;
             case "lewis_w300px_h350px.png":
                 v = (ImageView) findViewById(R.id.lewis);
                 bmp = BitmapFactory.decodeResource(getResources(), R.drawable.lewis_w300px_h350px);
-                bMapScaled = Bitmap.createScaledBitmap(bmp, 180, 200, true);
+                bMapScaled = Bitmap.createScaledBitmap(bmp, 200, 220, true);
                 v.setImageBitmap(bMapScaled);
         }
     }
