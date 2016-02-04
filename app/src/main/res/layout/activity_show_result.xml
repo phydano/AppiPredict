@@ -261,7 +261,6 @@
                 android:id="@+id/stockflashgraph"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/blank_image"
                 android:contentDescription="@string/desc" />
 
             <!-- on screen text -->
@@ -440,7 +439,7 @@
                 android:id="@+id/socialNetworkLinks"
                 android:layout_below="@id/share"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="100dp"
                 android:paddingTop="20dp"
                 android:paddingBottom="20dp"
                 android:weightSum="4"
@@ -450,23 +449,25 @@
                 <ImageView
                     android:layout_weight="1"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:contentDescription="@string/desc"/>
 
                 <!-- Twitter logo -->
                 <ImageButton
+                    android:id="@+id/twitterImageButton"
                     android:layout_weight="1"
                     android:layout_width="0dp"
-                    android:layout_height="75dp"
+                    android:layout_height="match_parent"
                     android:onClick="twitterPage"
-                    android:background="@drawable/twitter_icon"
-                    android:contentDescription="@string/desc"/>
+                    android:contentDescription="@string/desc"
+                    android:background="@drawable/twitter_icon"/>
 
                 <!-- Need to change to Facebook icon -->
                 <ImageButton
+                    android:id="@+id/facebookImageButton"
                     android:layout_weight="1"
                     android:layout_width="0dp"
-                    android:layout_height="70dp"
+                    android:layout_height="match_parent"
                     android:contentDescription="@string/desc"
                     android:onClick="facebookPage"
                     android:background="@drawable/facebook_icon"/>
@@ -475,7 +476,7 @@
                 <ImageView
                     android:layout_weight="1"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:contentDescription="@string/desc"/>
             </LinearLayout>
         </RelativeLayout>

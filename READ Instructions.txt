@@ -12,6 +12,7 @@ The breakdown is as follows:
 	4. Install/Run Instruction
 	5. Activity Flow
 	6. Future Work
+	7. Bugs and Other things
 
 0. Intro:
 --------
@@ -437,3 +438,15 @@ as it only contains the Q&A. Below is the list of activities that need to develo
 	6. Bundle page
 	7. Help page
 	8. Forum page
+
+
+---------------------------------------------------------------------------------------------------------
+
+7. Bugs and Other things:
+------------------------
+
+Pictures used in this app is mostly provided by iPredict. Only images such as Facebook and Twitter are used from the Internet. 
+
+These are a summary of bugs I have found in the app:
+
+- 

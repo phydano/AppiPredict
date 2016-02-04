@@ -1,6 +1,8 @@
 package nz.co.ipredict.phydano.appipredict;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,10 +11,15 @@ import android.text.Html;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
+import com.koushikdutta.ion.Ion;
+
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,7 +35,6 @@ import java.util.List;
  * */
 public class ShowResult extends AppCompatActivity {
 
-    private ContractInfo selectedContract; // this is the object that contains the contract info we want
     private ScrollView mScrollView;
 
     @Override
@@ -37,7 +43,7 @@ public class ShowResult extends AppCompatActivity {
         setContentView(R.layout.activity_show_result);
         // first of all check whether the object is null just in case
         if(getIntent().getExtras().getParcelable("myObject") != null) {
-            selectedContract = getIntent().getExtras().getParcelable("myObject"); // load it all in
+            ContractInfo selectedContract = getIntent().getExtras().getParcelable("myObject"); // load it all in
             loadContractInfo(selectedContract);
             sellOrdersTable(selectedContract.getSellOrders()); // dealing with sell order table
             buyOrdersTable(selectedContract.getBuyOrders()); // dealing with buy order table
@@ -111,7 +117,9 @@ public class ShowResult extends AppCompatActivity {
     public void loadContractInfo(ContractInfo contract){
         // name of the stock
         TextView title = (TextView) findViewById(R.id.resultTileDisplay);
-        title.setText(contract.getStockName());
+
+        loadImage(contract.getStockName()); // load the image based on the stock selected
+        title.setText(contract.getStockName()); // set the title of the stock to the text view
         // short description of the stock
         title = (TextView) findViewById(R.id.shortDescription);
         title.setText(contract.getShortDescription());
@@ -147,6 +155,19 @@ public class ShowResult extends AppCompatActivity {
         // Some of the Judge statments in the contract is empty - so it is good to say 'Empty' rather than '[]'
         if(contract.getJudgeStatement().equals("") || contract.getJudgeStatement().equals("[]")) title.setText("Empty");
         else title.setText(contract.getJudgeStatement());
+    }
+
+    /**
+     * Load the diagram from the web in large size and display on the phone using Ion
+     * More info on Ion can be found here: https://github.com/koush/ion
+     * @param contract the contract we want to fetch the image of the stock history
+     * */
+    public void loadImage(String contract){
+        ImageView myImage = (ImageView) findViewById(R.id.stockflashgraph);
+        Ion.with(this)
+                .load("http://ipredict-test.elasticbeanstalk.com/app.php?do=graph&sym="+ contract +"&size=lrg")
+                .withBitmap()
+                .intoImageView(myImage);
     }
 
     /**
