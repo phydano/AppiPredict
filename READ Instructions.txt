@@ -148,6 +148,8 @@ the list display to either the top traders with highest ROI or highest Net Worth
 	2.8 Traders
 	2.9 NetworthCustomAdapter
 	2.10 ROICustomAdapter
+	2.11 ProportionalImageView
+	2.12 ReadingTopTraders
 
 
 ---------------------------------------------------------------------------------------------------------
@@ -196,12 +198,43 @@ that to an object which we can  then manipulate later to get the information. Al
 contract information where we can then use it to display the results.  
 
 
-
-
 2.7 StockItem:
 -------------
 
 This class store the stock info of the selected categories. It contains the info such as the name of the stock, its price and the changes. 
+
+
+2.8 Traders:
+-----------
+
+This class contains the information regarding the traders such as their rank, name, ROI, Networth, and Change. 
+
+
+2.9 NetworthCustomAdapter:
+-------------------------
+
+This is another adapter which is use to deal with the Networth tab under the Ranking page.
+
+
+2.10 ROICustomAdapter:
+---------------------
+
+This is another adapter which is use to deal with the ROI tab under the Ranking page.
+
+
+2.11 ProportionalImageView:
+--------------------------
+
+This class makes the Image in the ImageView increase proportionally to the screen resoultion. Coding for this is from the Internet.
+
+
+2.12 ReadingTopTraders:
+----------------------
+
+This class reads the information from the web which is in XML and retrieve that info programatically. It retrieved two lists, one
+is the list of top traders with the most ROI while the other list is top traders with the most Networth. When retrieved the info,
+I have also formatted the String abit so that it display a proper text. The information fetched are according to the current date
+and time, so we are not outdated. It always update when we reenter the Ranking page. 
 
 
 ---------------------------------------------------------------------------------------------------------
@@ -305,17 +338,22 @@ shape which use to draw a border.
 --------------
 
 
+
+
 3.11 mybutton: 
 -------------
 
+This is just a custom button design which use throughout the app. 
 
 3.12 mybutton2: 
 --------------
 
+This is just a custom button design which use throughout the app. 
 
 3.13 mybutton3:
 --------------
 
+This is just a custom button design which use throughout the app. 
 
 3.14 mybutton4:
 --------------
@@ -449,4 +487,19 @@ Pictures used in this app is mostly provided by iPredict. Only images such as Fa
 
 These are a summary of bugs I have found in the app:
 
-- 
+- While working on the App, I have tested it through a device (ony Ericsson Xperia Arc S running Android 4.04). It worked with
+no major problems. When I tested on another phone (Sony running Android 5.1.1), the app crash when we re-enter the Ranking page.
+
+- While retrieving the information from the web, if the Internet connection suddently lost a connection then the app will crash. 
+This is also the same when you rotate the screen while retrieving the data. 
+
+- The Browse Prediction page (the page where it list all possible predictions), at the moment it does not have the ability to save
+state and reload the state back if the screen orientation changes. 
+
+- Home page may causes memory leaked as there is a sudden spiked in memeory when the orientation changes. This spike is only
+a brief moment though. 
+
+- For sorting the information of the stocks, at the moment it only list all stocks it retrieved from the test page. It does not 
+do anything fancy yet.
+
+- Other things include changing the ROI to a correct calculation amount and decimal place should include 0 at the end as well to complete a 2dp. 

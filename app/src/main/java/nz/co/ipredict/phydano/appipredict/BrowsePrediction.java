@@ -150,7 +150,8 @@ public class BrowsePrediction extends AppCompatActivity {
         // Text Focus Change Listener
         search.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {}
+            public void onFocusChange(View v, boolean hasFocus) {
+            }
         });
 
         // Search on Query Text Listener
@@ -206,6 +207,8 @@ public class BrowsePrediction extends AppCompatActivity {
         loadView(browseValues); // by default load this list
         browseButton.getBackground().setColorFilter(Color.parseColor("#084EE4"), PorterDuff.Mode.MULTIPLY);
         browseButton.setTextColor(Color.WHITE);
+        sortByButton.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        sortByButton.setTextColor(Color.BLACK);
         // Change the list view depends on what button the user clicked
         browseButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
